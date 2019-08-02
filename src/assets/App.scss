@@ -1,0 +1,613 @@
+@import "./_mixins";
+
+body,
+html {
+  padding: 0;
+  margin: 0;
+}
+
+.App {
+  background: #2b3252; /* fallback for old browsers */
+  text-align: center;
+  padding-bottom: 30px;
+
+  .App-loading {
+    display: inline-block;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 64px;
+    height: 64px;
+    div {
+      position: absolute;
+      border: 4px solid #fff;
+      opacity: 1;
+      border-radius: 50%;
+      animation: ripple-effect 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+
+      &:nth-child(2) {
+        animation-delay: -0.5s;
+      }
+    }
+
+    @keyframes ripple-effect {
+      0% {
+        top: 28px;
+        left: 28px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+      }
+      100% {
+        top: -1px;
+        left: -1px;
+        width: 58px;
+        height: 58px;
+        opacity: 0;
+      }
+    }
+  }
+
+  .App-glass {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 99;
+    &:before {
+      content: "";
+      background: inherit;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      box-shadow: inset 0 0 0 3000px #ffffff4d;
+      filter: blur(100px);
+    }
+  }
+
+  .App-toolbar {
+    @include border-radius(33px);
+    // @include bg-tr;
+    transition: visibility 0.3s ease, opacity 0.3s ease;
+    visibility: hidden;
+    opacity: 0;
+    display: inline-block;
+    // padding: 6px;
+    position: fixed;
+    left: 15px;
+    top: 15px;
+    &.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .keypad {
+      display: inline-block;
+      margin-bottom: 6px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      .do {
+        margin: 0 0 6px !important;
+        display: block;
+        &:last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+    }
+  }
+
+  .App-notifier {
+    @include transition(right, 0.3s, ease-in-out);
+    position: fixed;
+    z-index: 999;
+    bottom: 15px;
+    right: -320px;
+
+    .keypad {
+      float: left;
+      color: #fff;
+      * {
+        color: #fff;
+      }
+      .text {
+        padding: 0 12px;
+      }
+    }
+
+    .bot {
+      @include border-radius(50%);
+      float: right;
+      margin-left: 6px;
+      &,
+      img {
+        height: 45px;
+        width: 45px;
+        line-height: 45px;
+      }
+      padding: 0 !important;
+      img {
+        margin: 0 !important;
+      }
+    }
+
+    .keypad {
+      @include box-shadow(1px, 1px, 1px, #111);
+      @include transition(background-color, 0.3s, ease);
+      // @include bg-tr;
+      background-color: #333 !important;
+      border: solid 1px #999;
+    }
+
+    &.active {
+      right: 15px;
+    }
+
+    &.error {
+      .keypad {
+        background-color: #ef5455 !important;
+      }
+    }
+
+    &.info {
+      .keypad {
+        background-color: #0d1138 !important;
+        color: #fad744;
+        * {
+          color: #fad744;
+        }
+      }
+    }
+
+    &.success {
+      .keypad {
+        background-color: #389638 !important;
+      }
+    }
+
+    &.warning {
+      .keypad {
+        background-color: #fad744 !important;
+      }
+    }
+  }
+
+  .App-header {
+    background-color: #ef5455;
+    color: #2b3252;
+    padding: 21px;
+    padding-bottom: 54px;
+    margin-bottom: 27px;
+    text-shadow: 1px 1px 1px #5e7c9771;
+  }
+
+  .App-searcher {
+    @include border-radius(9px);
+    @include box-shadow(1px, 1px, 1px, #111);
+    position: relative;
+    background-color: #444b69;
+    padding: 9px;
+    margin-top: -60px;
+    form {
+      @include transition(box-shadow, 0.3s, ease);
+      @include border-radius(9px);
+      background-color: #2b3252;
+      position: relative;
+      padding: 12px 15px !important;
+      input[type="text"] {
+        font-size: 15px;
+        background-color: #2b3252;
+        color: #fad744;
+      }
+      button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+      }
+    }
+
+    .filter-toggler {
+      transition: opacity 0.3s ease, color 0.3s ease;
+      position: absolute;
+      opacity: 0.6;
+      font-size: 15px;
+      top: 24px;
+      right: 60px;
+      width: 21px;
+      height: 21px;
+      line-height: 21px;
+      text-align: center;
+      color: #fff;
+      &:hover,
+      &.active {
+        color: #fad744;
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+
+    .order-info {
+      overflow: auto;
+      margin-top: 9px;
+      .keypad.left {
+        float: left !important;
+      }
+      .keypad.right {
+        float: right !important;
+      }
+    }
+
+    // App-searcher
+    &.active {
+      @include box-shadow(2px, 2px, 2px, #111);
+    }
+  }
+
+  .App-commander {
+    position: fixed;
+    z-index: 999;
+    top: 15px;
+    left: 15px;
+    padding: 0;
+
+    .logo {
+      @include transition(margin-left, 0.3s, ease);
+      margin: 0;
+      float: left;
+      margin-right: 9px;
+      margin-left: -300px;
+      img {
+        @include border-radius(50%);
+        width: 54px;
+        height: 54px;
+      }
+    }
+
+    .dashboard {
+      @include border-radius(21px);
+      @include bg-tr;
+
+      transition: left 0.3s ease, background-color 0.3s ease,
+        box-shadow 0.3s ease;
+      margin-top: 3px;
+      left: -300px;
+      position: absolute;
+      width: 240px;
+      padding: 9.6px;
+
+      .dashboard-top {
+        text-align: right;
+        margin-bottom: 9px !important;
+        position: relative;
+        text-align: left;
+        h5 {
+          color: #fff;
+          padding-left: 6px;
+          left: 0;
+          bottom: 0;
+          margin: 0;
+
+          &.centered {
+            text-align: center !important;
+            display: block;
+          }
+
+          small {
+            font-weight: normal;
+            margin-left: 6px;
+            position: absolute;
+            bottom: 0;
+            right: 6px;
+          }
+        }
+      }
+
+      .do {
+        display: inline-block;
+        &:last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+
+      &.confirmation {
+        @include box-shadow(1px, 1px, 1px, #333);
+        background-color: #ef5455 !important;
+        color: #fff;
+
+        .keypad {
+          margin-top: 15px;
+        }
+      }
+
+      &.saving {
+        @include box-shadow(1px, 1px, 1px, #333);
+        background-color: #2b3252 !important;
+      }
+    }
+
+    /*.App-commander*/
+    &.opened {
+      .logo {
+        margin-left: 0 !important;
+      }
+
+      .keypad {
+        display: inline-block;
+      }
+
+      .dashboard {
+        left: 0;
+        top: 60px;
+      }
+    }
+  }
+
+  .App-board {
+    width: 600px;
+    margin: 0 auto;
+    color: #fad744;
+
+    .App-board-panel {
+      .keypad.board-panel-keypad {
+        background: none !important;
+        overflow: auto;
+        padding: 3px 0;
+        margin: 12px 0;
+        text-align: left;
+        .text {
+          margin-top: 3px;
+          margin-left: 6px;
+          span {
+            font-size: 18px;
+            line-height: 24px;
+            font-weight: bold;
+          }
+          small {
+            font-size: 12px;
+            margin-left: 6px;
+          }
+        }
+
+        .do {
+          float: right;
+        }
+      }
+    }
+
+    .form {
+      margin-bottom: 15px;
+      .keypad {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+form {
+  input,
+  textarea,
+  select {
+    outline: none;
+    border: none;
+    width: 100%;
+
+    &[disabled] {
+      color: #84838f !important;
+    }
+
+    &::placeholder {
+      color: #586083;
+    }
+  }
+}
+
+.form-container {
+  text-align: center;
+}
+
+.form {
+  .field {
+    @include border-radius(9px);
+    @include transition(background-color, 0.3s, ease);
+    background-color: #586083;
+    &.error {
+      background-color: #ef5455;
+    }
+    padding: 6px;
+    margin-bottom: 6px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    input,
+    textarea,
+    select {
+      @include border-radius(6px);
+      background-color: #2b3252;
+      color: #fff;
+      padding: 6px 9px;
+      -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+      -moz-box-sizing: border-box; /* Firefox, other Gecko */
+      box-sizing: border-box;
+      font-size: 14px;
+      display: block !important;
+    }
+  }
+  .keypad {
+    margin-top: 15px;
+  }
+}
+
+.info-block {
+  @include border-radius(9px);
+  @include transition(background-color, 0.3s, ease-in-out);
+  box-shadow: inset 0px 0 12px 9px #3c436b;
+  border: none;
+  padding: 12px;
+  background-color: #586083;
+  margin-top: 30px;
+  text-align: center;
+
+  .keypad {
+    margin-top: 21px;
+    display: inline-block;
+  }
+
+  &.removing {
+    box-shadow: none;
+    background-color: #ef5455;
+    color: #fff;
+  }
+}
+
+.paginator {
+  text-align: center;
+  .keypad {
+    float: none !important;
+    display: inline-block;
+    .do-circular {
+      font-size: 12px;
+    }
+  }
+}
+
+.keypad {
+  @include border-radius(30px);
+  @include bg-tr;
+  padding: 7.2px;
+
+  .do,
+  .text {
+    margin-right: 7.2px !important;
+    &:last-child {
+      margin-right: 0 !important;
+    }
+  }
+
+  .text {
+    display: inline-block;
+    color: #fff;
+    font-size: 11px;
+    line-height: 33px;
+  }
+}
+
+.list-item {
+  @include box-shadow(1px, 1px, 1px, #111111);
+  @include border-radius(9px);
+  @include transition(background-color, 0.3s, ease);
+  text-align: left;
+  color: #fff;
+  padding: 3px;
+  background-color: #444b69;
+  position: relative;
+
+  &.removing {
+    background-color: #ef5455;
+  }
+
+  &.text-left {
+    text-align: left !important;
+    h4,
+    p {
+      text-align: left !important;
+    }
+  }
+
+  .keypad {
+    @include transition(visibility, 0.3s, ease);
+    @include transition(opacity, 0.3s, ease);
+    @include bg-tr;
+
+    &:not(.fixed) {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    display: inline-block;
+    position: absolute;
+  }
+
+  &:hover {
+    @include box-shadow(2px, 2px, 2px, #111111);
+    cursor: pointer;
+    & > .keypad {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+.do {
+  @include border-radius(33px);
+  @include transition(box-shadow, 0.09s, ease);
+  @include box-shadow(0.6px, 0.6px, 0.6px, #111);
+  outline: none;
+  border: solid 1px #cfcfcf;
+  text-decoration: none;
+  display: inline-block;
+  padding: 9px 21px;
+  font-size: 14px;
+  margin: 0 !important;
+  background-color: #444b69;
+  color: #fff;
+
+  &.do-primary {
+    background-color: #0d1138;
+    border: solid 1px #888a9e;
+    color: #fad744;
+  }
+
+  &.do-success {
+    background-color: #389638;
+    color: #fff;
+  }
+
+  &.do-secondary {
+    background-color: #222;
+    border: solid 1px #999 !important;
+    color: #fefeff;
+    border: none;
+  }
+
+  &.do-warning {
+    background-color: #fad744;
+    color: #0d1138;
+  }
+
+  &.do-danger {
+    background-color: #ef5455;
+    color: #fff;
+  }
+
+  &:hover,
+  &:active,
+  &.active {
+    @include box-shadow(2px, 2px, 2px, #111);
+    cursor: pointer;
+  }
+
+  &:disabled,
+  &[disabled],
+  &.disabled {
+    @include box-shadow(0, 0, 0, #fff);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &.do-circular {
+    @include border-radius(50%);
+    text-align: center;
+    display: inline-block;
+    height: 36px;
+    width: 36px;
+    line-height: 36px;
+    padding: 0;
+  }
+
+  &:not(.do-circular) .fas {
+    margin-left: -9px;
+    margin-right: 9px;
+  }
+}
