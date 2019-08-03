@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+import axios from "./../../connection/axios-app";
 
 class PublicationForm extends Component {
   state = {
@@ -41,8 +41,8 @@ class PublicationForm extends Component {
     let isNewPublication = !publication.id;
     let method = isNewPublication ? axios.post : axios.put;
     let url = isNewPublication
-      ? "/api/publication"
-      : "/api/publication/" + publication.id;
+      ? "/publications.json"
+      : `/publications/${publication.id}.json`;
     let loadingMessage = isNewPublication
       ? "Creating publication..."
       : "Saving publication...";
@@ -60,7 +60,6 @@ class PublicationForm extends Component {
             : "error";
           let message = response.data.message;
           this.props.onNotify(message, messageType);
-
           if (this.props.onSave) {
             this.props.onSave(publication);
           }
@@ -144,7 +143,7 @@ class PublicationForm extends Component {
               className="do do-circular"
               onClick={this.props.onCancel}
             >
-              <i className="fas fa-trash" />
+              <i className="fas fa-ban" />
             </button>
             <div className="responsive responsive-desktop">
               <button
@@ -169,7 +168,7 @@ class PublicationForm extends Component {
               </button>
               <button type="submit" className="do do-primary">
                 <i className="fas fa-seedling" />
-                Publish
+                {this.props.publication.id ? "Update" : "Publish"}
               </button>
             </div>
             <div className="responsive responsive-mobile">

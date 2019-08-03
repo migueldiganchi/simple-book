@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios from "./../../connection/axios-app";
 import { withRouter } from "react-router-dom";
 
 import Searcher from "./../Searcher";
@@ -15,7 +15,7 @@ class PublicationManager extends React.Component {
   };
 
   componentDidMount(term) {
-    // this.getPublications();
+    this.getPublications();
   }
 
   goFirstPage = e => {
@@ -38,27 +38,32 @@ class PublicationManager extends React.Component {
   };
 
   getPublications = () => {
-    this.props.onWait(true);
-    let url = "/api/publications";
-    if (this.props.author) {
-      url = "/api/author/" + this.props.author.id + "/publications";
-    }
+    this.props.onWait("Loading publications...");
     axios
-      .get(url)
+      .get("/publications.json")
       .then(response => {
         this.props.onStopWait();
-        this.setState({
-          publications: response.data.publications
-        });
+        let object = null;
+        let objects = response.data;
+        let publications = [];
+
+        for (let key in objects) {
+          object = objects[key];
+          publications.push({
+            id: key,
+            ...object
+          });
+        }
+          this.setState({
+            publications: [...publications.reverse()]
+          });
       })
       .catch(error => {
         this.props.onStopWait();
-        console.error("Application error: ", error);
       });
   };
 
   createPublication = publication => {
-    console.log("creating publication", publication);
     this.setState({
       newPublication: {
         id: null,
@@ -67,26 +72,24 @@ class PublicationManager extends React.Component {
       }
     });
     if (this.props.onCreatePublication) {
-      this.props.onCreatePublication();
+      this.props.onCreatePublication(publication);
     }
   };
 
   editPublication = publication => {
-    console.log("editing publication", publication);
     this.setState({
       editingPublication: publication
     });
   };
 
   startRemoving = publication => {
-    console.log("removing publication", publication);
     this.setState({
       removingPublication: publication
     });
   };
 
   removePublication = publication => {
-    let url = "/api/publication/" + publication.id;
+    let url = `/publications/${publication.id}.json`;
 
     this.props.onWait("Removing publication...");
     axios
@@ -96,14 +99,13 @@ class PublicationManager extends React.Component {
         this.cancelRemoving();
         this.getPublications();
         setTimeout(() => {
-          let messageType = response.data.status ? "info" : "error";
-          this.props.onNotify(response.data.message, messageType);
+          this.props.onNotify("Successfuly removed", "info");
         }, 300);
       })
       .catch(error => {
         this.props.onStopWait();
         this.cancelRemoving();
-        this.props.onNotify(error.response.data.message, "error");
+        this.props.onNotify("Oops! Something went wrong :(", "error");
       });
   };
 
@@ -114,7 +116,7 @@ class PublicationManager extends React.Component {
   };
 
   onSavePublication = publication => {
-    console.log("Saved publication", publication);
+    console.info("After save this publication", publication);
     this.getPublications();
     this.cancelPublicationForm();
   };
@@ -141,28 +143,24 @@ class PublicationManager extends React.Component {
       ? this.state.publications.length
       : 0;
 
-    if (true) {
-      searcher = (
-        <div className="mb-4">
-          <Searcher
-            onSearch={this.getPublications}
-            onOrder={this.orderPublications}
-            disabled={
-              this.state.newPublication || this.state.editingPublication
-            }
-          />
-        </div>
-      );
-      publicationListTitle = (
-        <PublicationListTitle
+    searcher = (
+      <div className="mb-2">
+        <Searcher
+          onSearch={this.getPublications}
+          onOrder={this.orderPublications}
           disabled={this.state.newPublication || this.state.editingPublication}
-          title="Publications"
-          results={publicationCount}
-          publications={this.state.publications}
-          onCreatePublication={this.createPublication}
         />
-      );
-    }
+      </div>
+    );
+    publicationListTitle = (
+      <PublicationListTitle
+        disabled={this.state.newPublication || this.state.editingPublication}
+        title="Publications"
+        results={publicationCount}
+        publications={this.state.publications}
+        onCreatePublication={this.createPublication}
+      />
+    );
 
     return (
       <div>
@@ -175,6 +173,7 @@ class PublicationManager extends React.Component {
           removingPublication={this.state.removingPublication}
           publications={this.state.publications}
           disableItems={this.state.newPublication}
+          onCreatePublication={this.createPublication}
           onNotify={this.props.onNotify}
           onFirst={this.goFirstPage}
           onPrevious={this.goPreviousPage}
