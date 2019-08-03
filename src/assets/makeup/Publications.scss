@@ -1,0 +1,84 @@
+@import "./_mixins";
+
+.App-publication {
+  padding: 0 !important;
+
+  .info-block {
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+  }
+  .publication-author {
+    color: #849cb171;
+    * {
+      color: #849cb171;
+    }
+    padding: 12px;
+    a {
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.publication-list {
+  margin-bottom: 30px;
+  .list-item {
+    // @include transition(color, 0.3s, ease);
+    transition: color 0.3s, ease, background-color 0.3s ease;
+    padding: 15px;
+    margin-bottom: 15px;
+    h3,
+    p {
+      margin: 0;
+    }
+    p {
+      padding: 6px 0 6px;
+      font-size: 15px;
+    }
+
+    .keypad:not(.confirmation) {
+      bottom: 6px;
+      right: 6px;
+    }
+
+    &.disabled {
+      @include box-shadow(0, 0, 0, #111111);
+      pointer-events: none;
+      background-color: #999;
+      * {
+        color: #444b69 !important;
+      }
+      &:hover {
+        cursor: initial !important;
+        & > .keypad {
+          opacity: 0 !important;
+          display: none !important;
+          visibility: hidden !important;
+        }
+      }
+    }
+
+    .keypad.confirmation {
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      padding: 0 12px;
+      bottom: initial;
+      margin: 0;
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
+        text-align: right;
+        font-size: 14px;
+        line-height: 27px;
+        padding: 9px 3px !important;
+        margin: 0 !important;
+        line-height: initial !important;
+      }
+    }
+  }
+}

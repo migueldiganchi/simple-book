@@ -175,10 +175,9 @@ html {
   }
 
   .App-header {
-    background-color: #ef5455;
+    background-color: #b3ef54;
     color: #2b3252;
     padding: 21px;
-    padding-bottom: 54px;
     margin-bottom: 27px;
     text-shadow: 1px 1px 1px #5e7c9771;
   }
@@ -189,7 +188,6 @@ html {
     position: relative;
     background-color: #444b69;
     padding: 9px;
-    margin-top: -60px;
     form {
       @include transition(box-shadow, 0.3s, ease);
       @include border-radius(9px);
