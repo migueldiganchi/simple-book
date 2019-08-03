@@ -15,7 +15,7 @@ class PublicationManager extends React.Component {
   };
 
   componentDidMount (term) {
-    this.getPublications();
+    // this.getPublications();
   };
 
   goFirstPage = (e) => {

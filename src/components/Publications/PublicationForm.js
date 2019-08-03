@@ -4,19 +4,14 @@ import axios from "axios";
 class PublicationForm extends Component {
   state = {
     title: "",
-    body: "",
-    date_time: ""
+    body: ""
   };
 
   componentDidMount() {
     this.setState({
       id: this.props.publication.id,
-      title: this.props.publication.title,
       body: this.props.publication.body,
-      date_time: "2012-12-12 00:00:00",
-      titleClassName: "field",
-      bodyClassName: "field",
-      dateTimeClassName: "field"
+      bodyClassName: "field"
     });
   }
 
@@ -24,7 +19,6 @@ class PublicationForm extends Component {
     e.preventDefault();
     let publication = {
       id: this.props.publication.id,
-      title: this.state.title,
       body: this.state.body
     };
     if (!this.validate(publication)) {
@@ -76,25 +70,11 @@ class PublicationForm extends Component {
   validate = publication => {
     let error = false;
 
-    if (publication.title === "") {
-      error = true;
-      this.setState({ titleClassName: "field error" });
-    } else {
-      this.setState({ titleClassName: "field" });
-    }
-
     if (publication.body === "") {
       error = true;
       this.setState({ bodyClassName: "field error" });
     } else {
       this.setState({ bodyClassName: "field" });
-    }
-
-    if (publication.date_time === "") {
-      error = true;
-      this.setState({ dateTimeClassName: "field error" });
-    } else {
-      this.setState({ dateTimeClassName: "field" });
     }
 
     if (error) {
@@ -104,16 +84,9 @@ class PublicationForm extends Component {
     return !error;
   };
 
-  typingTitle = e => {
-    this.setState({ title: e.target.value });
-  };
 
   typingBody = e => {
     this.setState({ body: e.target.value });
-  };
-
-  typingDateTime = e => {
-    this.setState({ date_time: e.target.value });
   };
 
   render() {
@@ -133,30 +106,14 @@ class PublicationForm extends Component {
           onSubmit={this.onSubmitPublication}
         >
           <div className="form-body">
-            <div className={this.state.titleClassName}>
-              <input
-                type="text"
-                autoFocus
-                onChange={this.typingTitle}
-                placeholder="Title"
-                value={this.state.title}
-              />
-            </div>
             <div className={this.state.bodyClassName}>
               <textarea
                 type="text"
                 rows="3"
+                autoFocus
                 onChange={this.typingBody}
                 placeholder="Publication body"
                 value={this.state.body}
-              />
-            </div>
-            <div className={this.state.dateTimeClassName}>
-              <input
-                type="text"
-                onChange={this.typingDateTime}
-                placeholder="Date and time of publication"
-                value={this.state.date_time}
               />
             </div>
           </div>

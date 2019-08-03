@@ -15,6 +15,16 @@ html {
   text-align: center;
   padding-bottom: 30px;
 
+  .App-title {
+    a {
+      color: #2b3252;
+      text-decoration: none;
+      &:hover {
+        color: #384169;
+      }
+    }
+  }
+
   .App-loading {
     display: inline-block;
     position: fixed;
@@ -181,9 +191,16 @@ html {
   .App-header {
     background-color: #40ee3a;
     color: #2b3252;
-    padding: 21px;
+    padding: 9px;
     margin-bottom: 27px;
     text-shadow: 1px 1px 1px #5e7c9771;
+    .App-title-text {
+      display: inline-block;
+      margin-top: 6px !important;
+    }
+    .do {
+      margin: 0 0 8.1px !important;
+    }
   }
 
   .App-searcher {
@@ -617,6 +634,10 @@ button:focus {
     width: 36px;
     line-height: 36px;
     padding: 0;
+    &.do-circular-lg {
+      height: 42px;
+      width: 42px;
+    }
   }
 
   &:not(.do-circular) .fas {

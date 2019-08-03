@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-import Auth from './components/Auth/Auth';
+import Auth from "./components/Auth/Auth";
 
 import Loading from "./components/Loading";
 import Header from "./components/Header";
@@ -70,15 +70,13 @@ class App extends React.Component {
   };
 
   auth = props => {
-    return (
-      <Auth />
-    );
+    return <Auth />;
   };
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">CrazyBook App</header>
+        <Header title="Welcome to FasoBook" {...this.props} />
         <Board>
           <BoardPanel>
             <Route path="/" exact render={this.wall} />

@@ -7,8 +7,7 @@ class Auth extends React.Component {
     email: "",
     password: "",
     emailClassName: "field",
-    passwordClassName: "field",
-    isRememberButtonActive: false
+    passwordClassName: "field"
   };
 
   isValid = () => {
@@ -53,24 +52,15 @@ class Auth extends React.Component {
     this.emailInput.focus();
   };
 
-  toggleRememberState = () => {
-    this.setState({
-      isRememberButtonActive: !this.state.isRememberButtonActive
-    });
-  };
-
   render() {
     let formTitle = (
       <h4 className="mb-4">
         <b>Authentication</b>
       </h4>
     );
-    let rememberButtonClassName = this.state.isRememberButtonActive
-      ? "do do-primary"
-      : "do do-secondary";
 
     return (
-      <div class="auth">
+      <div className="auth">
         {formTitle}
         <form
           action="/auth"
@@ -110,14 +100,6 @@ class Auth extends React.Component {
                 onClick={this.onClear}
               >
                 <i className="fas fa-eraser" />
-              </button>
-              <button
-                type="button"
-                onClick={this.toggleRememberState}
-                className={rememberButtonClassName}
-              >
-                <i className="fas fa-bookmark" />
-                Remember me
               </button>
               <button type="submit" className="do do-primary">
                 <i className="fas fa-key" />
