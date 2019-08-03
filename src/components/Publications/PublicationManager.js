@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
 import PublicationList from './PublicationList';
 import PublicationListTitle from './PublicationListTitle';
-import Searcher from './../Searcher';
 
 class PublicationManager extends React.Component {
 
@@ -133,15 +133,15 @@ class PublicationManager extends React.Component {
   };
 
   render () {
-    let searcher = null;
+    // let searcher = null;
     let publicationListTitle = null;
     let publicationCount = this.state.publications ? this.state.publications.length : 0;
     
     if (!this.state.newPublication && !this.state.editingPublication) {
-      searcher = <Searcher 
-        onSearch={this.getPublications}
-        onOrder={this.orderPublications}
-        />;
+      // searcher = <Searcher 
+      //   onSearch={this.getPublications}
+      //   onOrder={this.orderPublications}
+      //   />;
       publicationListTitle = (
         <PublicationListTitle 
           title="Publications"
@@ -153,7 +153,7 @@ class PublicationManager extends React.Component {
 
     return (
       <div>
-        {searcher}
+        {/* {searcher} */}
         {publicationListTitle}
         <PublicationList
           author={this.props.author}
@@ -181,4 +181,4 @@ class PublicationManager extends React.Component {
   }
 }
 
-export default PublicationManager;
+export default withRouter(PublicationManager);

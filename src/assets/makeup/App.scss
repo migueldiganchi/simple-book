@@ -4,6 +4,10 @@ body,
 html {
   padding: 0;
   margin: 0;
+  background-color: #2b3252;
+  * {
+    font-family: "Nunito", sans-serif;
+  }
 }
 
 .App {
@@ -154,28 +158,28 @@ html {
     &.info {
       .keypad {
         background-color: #0d1138 !important;
-        color: #fad744;
+        color: #40ee3a;
         * {
-          color: #fad744;
+          color: #40ee3a;
         }
       }
     }
 
     &.success {
       .keypad {
-        background-color: #389638 !important;
+        background-color: #40ee3a !important;
       }
     }
 
     &.warning {
       .keypad {
-        background-color: #fad744 !important;
+        background-color: #40ee3a !important;
       }
     }
   }
 
   .App-header {
-    background-color: #b3ef54;
+    background-color: #40ee3a;
     color: #2b3252;
     padding: 21px;
     margin-bottom: 27px;
@@ -197,7 +201,7 @@ html {
       input[type="text"] {
         font-size: 15px;
         background-color: #2b3252;
-        color: #fad744;
+        color: #40ee3a;
       }
       button {
         position: absolute;
@@ -220,7 +224,7 @@ html {
       color: #fff;
       &:hover,
       &.active {
-        color: #fad744;
+        color: #40ee3a;
         opacity: 1;
         cursor: pointer;
       }
@@ -345,7 +349,7 @@ html {
   .App-board {
     width: 600px;
     margin: 0 auto;
-    color: #fad744;
+    color: #40ee3a;
 
     .App-board-panel {
       .keypad.board-panel-keypad {
@@ -537,6 +541,10 @@ form {
   }
 }
 
+button:focus {
+  outline: none;
+}
+
 .do {
   @include border-radius(33px);
   @include transition(box-shadow, 0.09s, ease);
@@ -549,28 +557,35 @@ form {
   font-size: 14px;
   margin: 0 !important;
   background-color: #444b69;
-  color: #fff;
+  color: #fff !important;
 
   &.do-primary {
     background-color: #0d1138;
-    border: solid 1px #888a9e;
-    color: #fad744;
+    border: solid 1px #40ee3a;
+    color: #40ee3a !important;
   }
 
   &.do-success {
-    background-color: #389638;
-    color: #fff;
+    background-color: #40ee3a;
+    color: #2b3252 !important;
   }
 
   &.do-secondary {
-    background-color: #222;
-    border: solid 1px #999 !important;
-    color: #fefeff;
+    background-color: #c9c9c9;
+    border: solid 1px #333 !important;
+    color: #333 !important;
     border: none;
   }
 
+  // &.do-active {
+  //   background-color: #c9c9c9;
+  //   border: solid 1px #333 !important;
+  //   color: #333 !important;
+  //   border: none;
+  // }
+
   &.do-warning {
-    background-color: #fad744;
+    background-color: #40ee3a;
     color: #0d1138;
   }
 

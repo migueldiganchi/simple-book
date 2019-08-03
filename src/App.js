@@ -1,4 +1,7 @@
 import React from "react";
+import { Route } from "react-router-dom";
+
+import Auth from './components/Auth/Auth';
 
 import Loading from "./components/Loading";
 import Header from "./components/Header";
@@ -54,18 +57,32 @@ class App extends React.Component {
     });
   };
 
+  wall = props => {
+    return (
+      <PublicationManager
+        waiting={this.state.waiting}
+        onNotify={this.notify}
+        onWait={this.wait}
+        onStopWait={this.stopWait}
+        {...props}
+      />
+    );
+  };
+
+  auth = props => {
+    return (
+      <Auth />
+    );
+  };
+
   render() {
     return (
       <div className="App">
         <header className="App-header">CrazyBook App</header>
         <Board>
           <BoardPanel>
-            <PublicationManager
-              waiting={this.state.waiting}
-              onNotify={this.notify}
-              onWait={this.wait}
-              onStopWait={this.stopWait}
-            />
+            <Route path="/" exact render={this.wall} />
+            <Route path="/auth" render={this.auth} />
           </BoardPanel>
         </Board>
       </div>
