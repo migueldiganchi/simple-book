@@ -62,7 +62,6 @@ class PublicationForm extends Component {
         }, 300);
       })
       .catch(error => {
-        console.log("error.response?", error.response);
         this.props.onNotify(error.response.message, "error");
       });
   };
@@ -83,7 +82,6 @@ class PublicationForm extends Component {
 
     return !error;
   };
-
 
   typingBody = e => {
     this.setState({ body: e.target.value });
@@ -119,14 +117,54 @@ class PublicationForm extends Component {
           </div>
 
           <div className="keypad">
-            <button type="button" className="do" onClick={this.props.onCancel}>
-              <i className="fas fa-ban" />
-              Cancel
+            <button
+              type="button"
+              className="do do-circular"
+              onClick={this.props.onCancel}
+            >
+              <i className="fas fa-trash" />
             </button>
-            <button type="submit" className="do do-primary">
-              <i className="fas fa-hdd" />
-              Save
-            </button>
+            <div className="responsive responsive-desktop">
+              <button
+                type="button"
+                className="do do-secondary"
+                onClick={this.props.onCancel}
+              >
+                <i className="fas fa-user-friends" />
+                Only friends
+              </button>
+              <button
+                type="button"
+                className="do do-secondary"
+                onClick={this.props.onCancel}
+              >
+                <i className="fas fa-fire" />
+                Public
+              </button>
+              <button type="submit" className="do do-primary">
+                <i className="fas fa-seedling" />
+                Publish
+              </button>
+            </div>
+            <div className="responsive responsive-mobile">
+              <button
+                type="button"
+                className="do do-circular do-secondary"
+                onClick={this.props.onCancel}
+              >
+                <i className="fas fa-user-friends" />
+              </button>
+              <button
+                type="button"
+                className="do do-circular do-secondary"
+                onClick={this.props.onCancel}
+              >
+                <i className="fas fa-fire" />
+              </button>
+              <button type="submit" className="do do-circular do-primary">
+                <i className="fas fa-seedling" />
+              </button>
+            </div>
           </div>
         </form>
       </div>

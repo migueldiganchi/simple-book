@@ -28,8 +28,9 @@ html {
   .App-loading {
     display: inline-block;
     position: fixed;
-    top: 15px;
-    right: 15px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 64px;
     height: 64px;
     div {
@@ -483,7 +484,6 @@ form {
 .paginator {
   text-align: center;
   .keypad {
-    float: none !important;
     display: inline-block;
     .do-circular {
       font-size: 12px;
@@ -495,6 +495,20 @@ form {
   @include border-radius(30px);
   @include bg-tr;
   padding: 7.2px;
+
+  .responsive {
+    display: none;
+    @media screen and (max-width: 420px) {
+      &-mobile {
+        display: inline-block;
+      }
+    }
+    @media screen and (min-width: 421px) {
+      &-desktop {
+        display: inline-block;
+      }
+    }
+  }
 
   .do,
   .text {
@@ -630,14 +644,10 @@ button:focus {
     @include border-radius(50%);
     text-align: center;
     display: inline-block;
-    height: 36px;
-    width: 36px;
-    line-height: 36px;
+    height: 39px;
+    width: 39px;
+    line-height: 39px;
     padding: 0;
-    &.do-circular-lg {
-      height: 42px;
-      width: 42px;
-    }
   }
 
   &:not(.do-circular) .fas {

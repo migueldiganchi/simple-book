@@ -1,4 +1,7 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
+
+import axiosAuth from "./../../connection/axios-auth";
 
 class Auth extends React.Component {
   emailInput;
@@ -7,7 +10,8 @@ class Auth extends React.Component {
     email: "",
     password: "",
     emailClassName: "field",
-    passwordClassName: "field"
+    passwordClassName: "field",
+    waiting: null
   };
 
   isValid = () => {
@@ -32,8 +36,32 @@ class Auth extends React.Component {
 
   onGoAuth = e => {
     e.preventDefault();
-    console.log("going submit?");
-    alert("submition!");
+
+    this.props.onWait("Checking for credentials...");
+    setTimeout(() => {
+      axiosAuth
+        .post("/verifyPassword?key=AIzaSyAXRS3ijUJ0HhgC12cSeqe41WnDEcoN6-w", {
+          email: this.state.email,
+          password: this.state.password,
+          returnSecureToken: true
+        })
+        .then(response => {
+          this.props.onStopWait();
+          const credentials = response.data;
+          console.log("@todo:persist token", credentials);
+          this.props.onNotify("Welcome to Fasobook!");
+          this.props.history.push({
+            pathname: "/"
+          });
+        })
+        .catch(error => {
+          console.info("error", error);
+          setTimeout(() => {
+            this.props.onNotify("Oops! Something went wrong :(", "error");
+          }, 99);
+          this.props.onStopWait();
+        });
+    }, 3000);
   };
 
   typingEmail = e => {
@@ -101,9 +129,13 @@ class Auth extends React.Component {
               >
                 <i className="fas fa-eraser" />
               </button>
-              <button type="submit" className="do do-primary">
-                <i className="fas fa-key" />
-                Go
+              <button
+                type="submit"
+                className="do do-primary"
+                disabled={this.state.email === "" || this.state.password === ""}
+              >
+                <i className="fas fa-door-open" />
+                Enter
               </button>
             </div>
           </div>
@@ -113,4 +145,4 @@ class Auth extends React.Component {
   }
 }
 
-export default Auth;
+export default withRouter(Auth);

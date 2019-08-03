@@ -70,12 +70,28 @@ class App extends React.Component {
   };
 
   auth = props => {
-    return <Auth />;
+    return (
+      <Auth
+        waiting={this.state.waiting}
+        onNotify={this.notify}
+        onWait={this.wait}
+        onStopWait={this.stopWait}
+        {...props}
+      />
+    );
   };
 
   render() {
+    let glassApp =
+      this.state.isAuthorManagerVisible || this.state.waiting ? (
+        <div className="App-glass" onClick={this.toggleManager} />
+      ) : null;
+
+    let loadingApp = this.state.waiting ? <Loading /> : null;
     return (
       <div className="App">
+        {glassApp}
+        {loadingApp}
         <Header title="Welcome to FasoBook" {...this.props} />
         <Board>
           <BoardPanel>
@@ -83,6 +99,11 @@ class App extends React.Component {
             <Route path="/auth" render={this.auth} />
           </BoardPanel>
         </Board>
+
+        <Notifier
+          notification={this.state.notification}
+          waiting={this.state.waiting}
+        />
       </div>
     );
   }

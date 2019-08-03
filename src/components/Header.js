@@ -8,9 +8,6 @@ function Header(props) {
     exact: true
   });
 
-  console.log("props.location.pathname", props.location.pathname);
-  console.log("isHomeActive", isHomeActive);
-
   return (
     <header className="App-header">
       <div className="App-title m-0 pt-1 clearfix">
@@ -19,19 +16,25 @@ function Header(props) {
           activeClassName="active"
           className={
             "do do-primary do-circular float-left " +
-            (isAuthActive ? "active" : "")
+            (isAuthActive ? "disabled" : "")
           }
         >
           <i className="fas fa-key" />
         </NavLink>
         <h5 className="App-title-text mt-1">
-          <NavLink to="/" activeClassName={isHomeActive ? "" : "text-muted"}>
+          <NavLink to="/" activeClassName={isHomeActive ? "" : "text-underline"}>
             <span>{props.title}</span>
           </NavLink>
         </h5>
-        <button type="submit" className="do do-primary do-circular float-right">
-          <i className="fas fa-bars" />
-        </button>
+        <NavLink
+          to="/"
+          className={
+            "do do-primary do-circular float-right " +
+            (isHomeActive ? "disabled" : "")
+          }
+        >
+          <i className="fas fa-home" />
+        </NavLink>
       </div>
       <div>{props.children}</div>
     </header>
