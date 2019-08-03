@@ -231,21 +231,10 @@ html {
     .filter-toggler {
       transition: opacity 0.3s ease, color 0.3s ease;
       position: absolute;
-      opacity: 0.6;
+      // opacity: 1;
       font-size: 15px;
-      top: 24px;
+      top: 14px;
       right: 60px;
-      width: 21px;
-      height: 21px;
-      line-height: 21px;
-      text-align: center;
-      color: #fff;
-      &:hover,
-      &.active {
-        color: #40ee3a;
-        opacity: 1;
-        cursor: pointer;
-      }
     }
 
     .order-info {
@@ -590,6 +579,12 @@ button:focus {
   background-color: #444b69;
   color: #fff !important;
 
+  &.do-flat {
+    border: none !important;
+    @include box-shadow(0, 0, 0, #111);
+    box-shadow: none !important;
+  }
+
   &.do-primary {
     background-color: #0d1138;
     border: solid 1px #40ee3a;
@@ -608,16 +603,9 @@ button:focus {
     border: none;
   }
 
-  // &.do-active {
-  //   background-color: #c9c9c9;
-  //   border: solid 1px #333 !important;
-  //   color: #333 !important;
-  //   border: none;
-  // }
-
   &.do-warning {
     background-color: #40ee3a;
-    color: #0d1138;
+    color: #0d1138 !important;
   }
 
   &.do-danger {

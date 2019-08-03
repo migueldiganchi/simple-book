@@ -7,7 +7,7 @@ function PublicationListTitle (props) {
         <span>{props.title}</span>
         <small>{props.results} results</small>
       </div>
-      <a className="do do-primary"
+      <a className={"do do-primary " + (props.disabled ? "disabled" : "")}
         onClick={props.onCreatePublication}>
         <i className="fas fa-plus" />
         Publication

@@ -3,15 +3,20 @@ import axios from "axios";
 
 class PublicationForm extends Component {
   state = {
-    title: "",
-    body: ""
+    body: "",
+    scope: -1,
+    scopeTypes: {
+      FRIENDS: 0,
+      PUBLIC: 1
+    }
   };
 
   componentDidMount() {
     this.setState({
       id: this.props.publication.id,
       body: this.props.publication.body,
-      bodyClassName: "field"
+      bodyClassName: "field",
+      scope: this.state.scopeTypes.FRIENDS
     });
   }
 
@@ -87,12 +92,29 @@ class PublicationForm extends Component {
     this.setState({ body: e.target.value });
   };
 
+  setScope = scope => {
+    this.setState({
+      scope: scope
+    });
+  };
+
   render() {
     let formTitle = (
       <h4 className="mb-4">
         <b>{this.props.publication.id ? "Editing" : "New"} Publication</b>
       </h4>
     );
+
+    let switcherFriendsClassName =
+      "do " +
+      (this.state.scope === this.state.scopeTypes.FRIENDS
+        ? "do-warning"
+        : "do-secondary");
+    let switcherPublicClassName =
+      "do " +
+      (this.state.scope === this.state.scopeTypes.PUBLIC
+        ? "do-warning"
+        : "do-secondary");
 
     return (
       <div className="form-container">
@@ -127,16 +149,20 @@ class PublicationForm extends Component {
             <div className="responsive responsive-desktop">
               <button
                 type="button"
-                className="do do-secondary"
-                onClick={this.props.onCancel}
+                className={switcherFriendsClassName}
+                onClick={() => {
+                  this.setScope(this.state.scopeTypes.FRIENDS);
+                }}
               >
                 <i className="fas fa-user-friends" />
                 Only friends
               </button>
               <button
                 type="button"
-                className="do do-secondary"
-                onClick={this.props.onCancel}
+                className={switcherPublicClassName}
+                onClick={() => {
+                  this.setScope(this.state.scopeTypes.PUBLIC);
+                }}
               >
                 <i className="fas fa-fire" />
                 Public
@@ -149,15 +175,19 @@ class PublicationForm extends Component {
             <div className="responsive responsive-mobile">
               <button
                 type="button"
-                className="do do-circular do-secondary"
-                onClick={this.props.onCancel}
+                className={switcherFriendsClassName}
+                onClick={() => {
+                  this.setScope(this.state.scopeTypes.FRIENDS);
+                }}
               >
                 <i className="fas fa-user-friends" />
               </button>
               <button
                 type="button"
-                className="do do-circular do-secondary"
-                onClick={this.props.onCancel}
+                className={switcherPublicClassName}
+                onClick={() => {
+                  this.setScope(this.state.scopeTypes.PUBLIC);
+                }}
               >
                 <i className="fas fa-fire" />
               </button>

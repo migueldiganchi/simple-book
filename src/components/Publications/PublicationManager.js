@@ -1,12 +1,12 @@
-import React from 'react';
-import axios from 'axios';
-import { withRouter } from 'react-router-dom';
+import React from "react";
+import axios from "axios";
+import { withRouter } from "react-router-dom";
 
-import PublicationList from './PublicationList';
-import PublicationListTitle from './PublicationListTitle';
+import Searcher from "./../Searcher";
+import PublicationList from "./PublicationList";
+import PublicationListTitle from "./PublicationListTitle";
 
 class PublicationManager extends React.Component {
-
   state = {
     newPublication: null,
     publication: null,
@@ -14,36 +14,37 @@ class PublicationManager extends React.Component {
     publications: []
   };
 
-  componentDidMount (term) {
+  componentDidMount(term) {
     // this.getPublications();
-  };
+  }
 
-  goFirstPage = (e) => {
+  goFirstPage = e => {
     e.preventDefault();
   };
 
-  goPreviousPage = (e) => {
+  goPreviousPage = e => {
     e.preventDefault();
-    console.log('@todo: publications previous page');
+    console.log("@todo: publications previous page");
   };
 
-  goNextPage = (e) => {
+  goNextPage = e => {
     e.preventDefault();
-    console.log('@todo: publications next page');
+    console.log("@todo: publications next page");
   };
 
-  goLastPage = (e) => {
+  goLastPage = e => {
     e.preventDefault();
-    console.log('@todo: publications last page', e);
+    console.log("@todo: publications last page", e);
   };
 
   getPublications = () => {
     this.props.onWait(true);
-    let url = '/api/publications';
+    let url = "/api/publications";
     if (this.props.author) {
-      url = '/api/author/' + this.props.author.id + '/publications';
-    };
-    axios.get(url)
+      url = "/api/author/" + this.props.author.id + "/publications";
+    }
+    axios
+      .get(url)
       .then(response => {
         this.props.onStopWait();
         this.setState({
@@ -52,17 +53,17 @@ class PublicationManager extends React.Component {
       })
       .catch(error => {
         this.props.onStopWait();
-        console.error('Application error: ', error);
+        console.error("Application error: ", error);
       });
   };
 
-  createPublication = (publication) => {
-    console.log('creating publication', publication);
+  createPublication = publication => {
+    console.log("creating publication", publication);
     this.setState({
       newPublication: {
         id: null,
-        title: '',
-        body: ''
+        title: "",
+        body: ""
       }
     });
     if (this.props.onCreatePublication) {
@@ -70,38 +71,39 @@ class PublicationManager extends React.Component {
     }
   };
 
-  editPublication = (publication) => {
-    console.log('editing publication', publication);
+  editPublication = publication => {
+    console.log("editing publication", publication);
     this.setState({
       editingPublication: publication
     });
   };
 
-  startRemoving = (publication) => {
-    console.log('removing publication', publication);
+  startRemoving = publication => {
+    console.log("removing publication", publication);
     this.setState({
       removingPublication: publication
     });
   };
 
-  removePublication = (publication) => {
-    let url = '/api/publication/' + publication.id;
+  removePublication = publication => {
+    let url = "/api/publication/" + publication.id;
 
     this.props.onWait("Removing publication...");
-    axios.delete(url)
+    axios
+      .delete(url)
       .then(response => {
         this.props.onStopWait();
         this.cancelRemoving();
         this.getPublications();
         setTimeout(() => {
-          let messageType = response.data.status ? 'info' : 'error';
+          let messageType = response.data.status ? "info" : "error";
           this.props.onNotify(response.data.message, messageType);
         }, 300);
       })
-      .catch( error => {
+      .catch(error => {
         this.props.onStopWait();
         this.cancelRemoving();
-        this.props.onNotify(error.response.data.message, 'error');
+        this.props.onNotify(error.response.data.message, "error");
       });
   };
 
@@ -111,8 +113,8 @@ class PublicationManager extends React.Component {
     });
   };
 
-  onSavePublication = (publication) => {
-    console.log('Saved publication', publication);
+  onSavePublication = publication => {
+    console.log("Saved publication", publication);
     this.getPublications();
     this.cancelPublicationForm();
   };
@@ -128,32 +130,43 @@ class PublicationManager extends React.Component {
   };
 
   orderPublications = (field, orientation) => {
-    console.log('field?', field);
-    console.log('orientation?', orientation);
+    console.log("field?", field);
+    console.log("orientation?", orientation);
   };
 
-  render () {
-    // let searcher = null;
+  render() {
+    let searcher = null;
     let publicationListTitle = null;
-    let publicationCount = this.state.publications ? this.state.publications.length : 0;
-    
-    if (!this.state.newPublication && !this.state.editingPublication) {
-      // searcher = <Searcher 
-      //   onSearch={this.getPublications}
-      //   onOrder={this.orderPublications}
-      //   />;
+    let publicationCount = this.state.publications
+      ? this.state.publications.length
+      : 0;
+
+    if (true) {
+      searcher = (
+        <div className="mb-4">
+          <Searcher
+            onSearch={this.getPublications}
+            onOrder={this.orderPublications}
+            disabled={
+              this.state.newPublication || this.state.editingPublication
+            }
+          />
+        </div>
+      );
       publicationListTitle = (
-        <PublicationListTitle 
+        <PublicationListTitle
+          disabled={this.state.newPublication || this.state.editingPublication}
           title="Publications"
           results={publicationCount}
           publications={this.state.publications}
-          onCreatePublication={this.createPublication} />
+          onCreatePublication={this.createPublication}
+        />
       );
     }
 
     return (
       <div>
-        {/* {searcher} */}
+        {searcher}
         {publicationListTitle}
         <PublicationList
           author={this.props.author}
@@ -175,7 +188,7 @@ class PublicationManager extends React.Component {
           onCancelRemoving={this.cancelRemoving}
           onWait={this.props.onWait}
           onStopWait={this.props.onStopWait}
-          />
+        />
       </div>
     );
   }

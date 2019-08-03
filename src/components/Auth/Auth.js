@@ -134,8 +134,8 @@ class Auth extends React.Component {
                 className="do do-primary"
                 disabled={this.state.email === "" || this.state.password === ""}
               >
-                <i className="fas fa-door-open" />
-                Enter
+                <i className="fas fa-arrow-right" />
+                Connect
               </button>
             </div>
           </div>
