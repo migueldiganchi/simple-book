@@ -21,7 +21,7 @@ class PublicationManager extends React.Component {
   };
 
   componentDidMount() {
-    this.getPublications();
+    this.getPublications(this.state.termFilter, this.state.scopeFilter);
   }
 
   goFirstPage = e => {
@@ -170,7 +170,7 @@ class PublicationManager extends React.Component {
       scopeFilter: null
     });
     setTimeout(() => {
-      this.getPublications(this.state.termFilter, this.state.scopeFilter);
+      this.getPublications(this.state.termFilter, null);
     }, 33);
   };
 
@@ -187,7 +187,7 @@ class PublicationManager extends React.Component {
     let searcher = null;
     let workingTitle = null;
     let publicationListTitle = null;
-    let publicationListTitleTextScope = "All";
+    let publicationListTitleTextScope = "All publications";
     let publicationListTitleTextTerm = "";
     let publicationCount = this.state.publications
       ? this.state.publications.length
@@ -200,10 +200,10 @@ class PublicationManager extends React.Component {
     if (this.state.scopeFilter) {
       switch (this.state.scopeFilter) {
         case this.state.scopeFilterTypes.FRIENDS:
-          publicationListTitleTextScope = "Friends";
+          publicationListTitleTextScope = "Only friends";
           break;
         case this.state.scopeFilterTypes.PUBLIC:
-          publicationListTitleTextScope = "Public";
+          publicationListTitleTextScope = "Only public";
           break;
         default:
           break;
@@ -213,15 +213,15 @@ class PublicationManager extends React.Component {
     searcher = (
       <div className="mb-2">
         <Searcher
-          onSearch={this.getPublications}
-          onClearScope={this.clearScopeFilter}
-          onClearTerm={this.clearTermFilter}
           appliedTerm={this.state.termFilter}
           disabled={
             this.state.removingPublication ||
             this.state.newPublication ||
             this.state.editingPublication
           }
+          onSearch={this.getPublications}
+          onClearScope={this.clearScopeFilter}
+          onClearTerm={this.clearTermFilter}
         />
       </div>
     );
@@ -247,7 +247,7 @@ class PublicationManager extends React.Component {
           this.state.newPublication ||
           this.state.editingPublication
         }
-        title={`${publicationListTitleTextScope} publications`}
+        title={`${publicationListTitleTextScope}`}
         results={publicationCount}
         resultsFilterTermText={publicationListTitleTextTerm}
         publications={this.state.publications}

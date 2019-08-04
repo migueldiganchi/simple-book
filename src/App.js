@@ -88,6 +88,7 @@ class App extends React.Component {
       ) : null;
 
     let loadingApp = this.state.waiting ? <Loading /> : null;
+
     return (
       <div className="App">
         {glassApp}

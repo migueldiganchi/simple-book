@@ -16,6 +16,15 @@ class Searcher extends React.Component {
       PUBLIC: 2
     }
   };
+
+  componentWillReceiveProps(props) {
+    console.log("updated?", props);
+    console.log("comparing with?", this.state.term);
+    if (props.isClean) {
+      console.log("is?", props.isClean);
+    }
+  }
+
   suggestSearching = () => {
     this.setState({
       isActive: true
@@ -78,13 +87,20 @@ class Searcher extends React.Component {
       <div className="order-info">
         <div className="keypad keypad-inline-block keypad-bottom-radius keypad-secondary">
           <a
+            className={"do do-circular " + disabledClassName}
+            onClick={this.toggleScopeFilter}
+          >
+            <i className="fas fa-times" />
+          </a>
+          <a
             className={friendsClassName + disabledClassName}
             onClick={() => {
               this.setScopeFilter(this.state.scopeFilterTypes.FRIENDS);
             }}
           >
-            <i className="fas fa-lock icon-friends" />
-            Friends
+            <i className="fas fa-users icon-friends" />
+            <span className="responsive responsive-desktop">Only friends</span>
+            <span className="responsive responsive-mobile">Friends</span>
           </a>
           <a
             className={publicClassName + disabledClassName}
@@ -92,7 +108,7 @@ class Searcher extends React.Component {
               this.setScopeFilter(this.state.scopeFilterTypes.PUBLIC);
             }}
           >
-            <i className="fas fa-unlock icon-public" />
+            <i className="fas fa-lock-open icon-public" />
             Public
           </a>
         </div>
@@ -154,7 +170,8 @@ class Searcher extends React.Component {
                 type="reset"
                 onClick={this.clearTerm}
                 className={
-                  "do do-primary do-flat do-circular do-none" + disabledClassName
+                  "do do-primary do-flat do-circular do-none" +
+                  disabledClassName
                 }
               >
                 <i className="fas fa-times" />

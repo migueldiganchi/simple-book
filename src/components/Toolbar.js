@@ -20,7 +20,7 @@ function Toolbar(props) {
             className="do do-circular do-danger"
             onClick={props.onStartRemoving}
           >
-            <i className="fas fa-eraser" />
+            <i className="fas fa-trash" />
           </a>
           <a className="do do-circular do-secondary" onClick={props.onEdit}>
             <i className="fas fa-pencil-alt" />

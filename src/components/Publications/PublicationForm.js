@@ -96,7 +96,6 @@ class PublicationForm extends Component {
   };
 
   onEnterPress = e => {
-    console.log('here? e: ', e);
     if (e.keyCode == 13 && e.shiftKey == false) {
       e.preventDefault();
       this.onSubmitPublication(e);
@@ -159,8 +158,8 @@ class PublicationForm extends Component {
                   this.setScope(this.state.scopeTypes.FRIENDS);
                 }}
               >
-                <i className="fas fa-lock icon-friends" />
-                Frields
+                <i className="fas fa-users icon-friends" />
+                Only friends
               </button>
               <button
                 type="button"
@@ -169,7 +168,7 @@ class PublicationForm extends Component {
                   this.setScope(this.state.scopeTypes.PUBLIC);
                 }}
               >
-                <i className="fas fa-unlock icon-public" />
+                <i className="fas fa-lock-open icon-public" />
                 Public
               </button>
             </div>
@@ -182,7 +181,7 @@ class PublicationForm extends Component {
                   this.setScope(this.state.scopeTypes.FRIENDS);
                 }}
               >
-                <i className="fas fa-lock icon-friends" />
+                <i className="fas fa-users icon-friends" />
               </button>
               <button
                 type="button"
@@ -191,7 +190,7 @@ class PublicationForm extends Component {
                   this.setScope(this.state.scopeTypes.PUBLIC);
                 }}
               >
-                <i className="fas fa-unlock icon-public" />
+                <i className="fas fa-lock-open icon-public" />
               </button>
             </div>
 
@@ -205,7 +204,7 @@ class PublicationForm extends Component {
                 Cancel
               </button>
               <button type="submit" className="do do-primary">
-                <i className="fas fa-seedling" />
+                <i className="fas fas fa-check" />
                 {this.props.publication.id ? "Update" : "Publish"}
               </button>
             </div>
@@ -218,7 +217,7 @@ class PublicationForm extends Component {
                 <i className="fas fa-ban" />
               </button>
               <button type="submit" className="do do-circular do-primary">
-                <i className="fas fa-seedling" />
+                <i className="fas fas fa-check" />
               </button>
             </div>
           </div>

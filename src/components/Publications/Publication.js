@@ -100,7 +100,7 @@ class Publication extends React.Component {
           <a className="do do-warning"
             disabled={this.state.waiting}
             onClick={this.confirmRemoving}>
-            <i className="fas fa-eraser" />
+            <i className="fas fa-trash" />
             {this.state.waiting ? 'Removing...' : 'Remove'}
           </a>
         </div>

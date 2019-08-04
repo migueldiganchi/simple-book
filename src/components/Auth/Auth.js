@@ -127,7 +127,7 @@ class Auth extends React.Component {
                 disabled={this.state.email === "" && this.state.password === ""}
                 onClick={this.onClear}
               >
-                <i className="fas fa-eraser" />
+                <i className="fas fa-trash" />
               </button>
               <button
                 type="submit"

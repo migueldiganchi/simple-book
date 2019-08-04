@@ -13,7 +13,12 @@ function PublicationListTitle(props) {
           </small>
         ) : null}
       </div>
-      <div className="adder-container keypad keypad-inline-block my-3">
+      <div
+        className={
+          "adder-container keypad my-3 " +
+          (props.disabled ? " responsive responsive-desktop" : "")
+        }
+      >
         <a
           disabled={props.disabled}
           className={"do do-primary"}

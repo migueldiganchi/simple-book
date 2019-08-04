@@ -2,27 +2,27 @@ import React from "react";
 
 function PublicationListItem(props) {
   const startRemovingHandler = e => {
+    e.stopPropagation();
     e.preventDefault();
     props.onStartRemoving(props.publication);
-    e.stopPropagation();
   };
 
   const confirmRemoving = e => {
+    e.stopPropagation();
     e.preventDefault();
     props.onConfirmRemoving(props.publication);
-    e.stopPropagation();
   };
 
   const cancelRemoving = e => {
+    e.stopPropagation();
     e.preventDefault();
     props.onCancelRemoving(props.publication);
-    e.stopPropagation();
   };
 
   const editHander = e => {
+    e.stopPropagation();
     e.preventDefault();
     props.onEdit(props.publication);
-    e.stopPropagation();
   };
 
   let listItemClassName = "list-item";
@@ -32,7 +32,7 @@ function PublicationListItem(props) {
   if (props.isRemoving) {
     listItemClassName = "list-item removing";
     confirmation = (
-      <div className="keypad confirmation fixed">
+      <div className="keypad confirmation fixed bg-tr">
         <h4>Are you sure?</h4>
       </div>
     );
@@ -43,17 +43,22 @@ function PublicationListItem(props) {
             <i className="fas fa-ban" />
             Cancel
           </button>
-          <a className="do do-warning" onClick={confirmRemoving}>
-            <i className="fas fa-eraser" />
+          <a className="do do-danger" onClick={confirmRemoving}>
+            <i className="fas fa-trash" />
             Remove
           </a>
         </div>
         <div className="keypad fixed responsive responsive-mobile">
-          <button type="button" className="do do-circular" onClick={cancelRemoving}>
+          <button
+            type="button"
+            className="do do-circular"
+            onClick={cancelRemoving}
+          >
             <i className="fas fa-ban" />
           </button>
-          <a className="do do-warning do-circular" onClick={confirmRemoving}>
-            <i className="fas fa-eraser" />
+          <a className="do do-danger" onClick={confirmRemoving}>
+            <i className="fas fa-trash" />
+            Yes
           </a>
         </div>
       </div>
@@ -64,7 +69,7 @@ function PublicationListItem(props) {
     keypad = (
       <div className="keypad">
         <a className="do do-circular do-danger" onClick={startRemovingHandler}>
-          <i className="fas fa-eraser" />
+          <i className="fas fa-trash" />
         </a>
         <a className="do do-circular do-primary" onClick={editHander}>
           <i className="fas fa-pencil-alt" />
@@ -83,9 +88,9 @@ function PublicationListItem(props) {
       <small>{props.publication.date_time}</small>
       {keypad}
       {props.publication.scope === 1 ? (
-        <i className="icon fas fa-lock icon-friends" />
+        <i className="icon fas fa-users icon-friends" />
       ) : (
-        <i className="icon fas fa-unlock icon-public" />
+        <i className="icon fas fa-lock-open icon-public" />
       )}
     </div>
   );
