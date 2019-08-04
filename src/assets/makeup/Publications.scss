@@ -62,7 +62,8 @@
 
     .keypad.confirmation {
       position: absolute;
-      right: 6px;
+      z-index: 9999;
+      left: 6px;
       top: 6px;
       padding: 0 12px;
       bottom: initial;

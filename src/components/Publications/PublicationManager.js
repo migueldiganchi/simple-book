@@ -132,7 +132,7 @@ class PublicationManager extends React.Component {
       .then(response => {
         this.props.onStopWait();
         this.cancelRemoving();
-        this.getPublications();
+        this.getPublications(this.state.termFilter, this.state.scopeFilter);
         setTimeout(() => {
           this.props.onNotify("Successfuly removed", "info");
         }, 300);
@@ -194,7 +194,7 @@ class PublicationManager extends React.Component {
       : 0;
 
     if (this.state.termFilter) {
-      publicationListTitleTextTerm = `searching ${this.state.termFilter}`;
+      publicationListTitleTextTerm = `${this.state.termFilter}`;
     }
 
     if (this.state.scopeFilter) {

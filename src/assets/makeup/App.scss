@@ -118,7 +118,7 @@ html {
     @include transition(right, 0.3s, ease-in-out);
     position: fixed;
     z-index: 999;
-    bottom: 15px;
+    top: 15px;
     right: -320px;
 
     .keypad {
@@ -224,7 +224,7 @@ html {
         font-size: 15px;
         background-color: #2b3252;
         color: #40ee3a;
-        padding-left: 33px
+        padding-left: 33px;
       }
       button {
         position: absolute;
@@ -357,6 +357,10 @@ html {
   .App-board {
     width: 600px;
     margin: 0 auto;
+    @media screen and (max-width: 600px) {
+      width: 100%;
+      padding: 0 15px;
+    }
     color: #40ee3a;
 
     .App-board-panel {
@@ -497,6 +501,20 @@ form {
   }
 }
 
+.responsive {
+  display: none !important;
+  @media screen and (max-width: 600px) {
+    &-mobile {
+      display: inline-block !important;
+    }
+  }
+  @media screen and (min-width: 601px) {
+    &-desktop {
+      display: inline-block !important;
+    }
+  }
+}
+
 .keypad {
   @include border-radius(30px);
   @include bg-tr;
@@ -512,20 +530,6 @@ form {
 
   &-bottom-radius {
     @include border-radii(0, 0, 24px, 24px);
-  }
-
-  .responsive {
-    display: none;
-    @media screen and (max-width: 420px) {
-      &-mobile {
-        display: inline-block;
-      }
-    }
-    @media screen and (min-width: 421px) {
-      &-desktop {
-        display: inline-block;
-      }
-    }
   }
 
   .do,

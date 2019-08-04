@@ -1,7 +1,6 @@
 import React from "react";
 
 function PublicationListTitle(props) {
-  
   return (
     <div className="keypad board-panel-keypad text-center">
       <div className={props.featured ? "text text-featured" : "text"}>
@@ -9,7 +8,8 @@ function PublicationListTitle(props) {
         {props.results ? <small>{props.results} results</small> : null}
         {props.resultsFilterTermText ? (
           <small>
-            <b className="text-featured">{props.resultsFilterTermText}</b>
+            (Searching &nbsp;
+            <b className="text-featured">{props.resultsFilterTermText}</b>)
           </small>
         ) : null}
       </div>

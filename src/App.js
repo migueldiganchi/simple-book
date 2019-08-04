@@ -92,7 +92,7 @@ class App extends React.Component {
       <div className="App">
         {glassApp}
         {loadingApp}
-        <Header title="Welcome to CrazyBook" {...this.props} />
+        <Header title="CrazyBook" {...this.props} />
         <Board>
           <BoardPanel>
             <Route path="/" exact render={this.wall} />

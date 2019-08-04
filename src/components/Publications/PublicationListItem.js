@@ -33,19 +33,29 @@ function PublicationListItem(props) {
     listItemClassName = "list-item removing";
     confirmation = (
       <div className="keypad confirmation fixed">
-        <h4>Removing: Are you sure?</h4>
+        <h4>Are you sure?</h4>
       </div>
     );
     keypad = (
-      <div className="keypad fixed">
-        <button type="button" className="do" onClick={cancelRemoving}>
-          <i className="fas fa-ban" />
-          Cancel
-        </button>
-        <a className="do do-warning" onClick={confirmRemoving}>
-          <i className="fas fa-eraser" />
-          Remove
-        </a>
+      <div>
+        <div className="keypad fixed responsive responsive-desktop">
+          <button type="button" className="do" onClick={cancelRemoving}>
+            <i className="fas fa-ban" />
+            Cancel
+          </button>
+          <a className="do do-warning" onClick={confirmRemoving}>
+            <i className="fas fa-eraser" />
+            Remove
+          </a>
+        </div>
+        <div className="keypad fixed responsive responsive-mobile">
+          <button type="button" className="do do-circular" onClick={cancelRemoving}>
+            <i className="fas fa-ban" />
+          </button>
+          <a className="do do-warning do-circular" onClick={confirmRemoving}>
+            <i className="fas fa-eraser" />
+          </a>
+        </div>
       </div>
     );
   } else if (props.isDisabled) {
@@ -64,9 +74,7 @@ function PublicationListItem(props) {
   }
 
   return (
-    <div
-      className={listItemClassName}
-    >
+    <div className={listItemClassName}>
       {confirmation}
       <h3>{props.publication.title}</h3>
       <p>
