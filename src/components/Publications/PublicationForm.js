@@ -6,8 +6,8 @@ class PublicationForm extends Component {
     body: "",
     scope: -1,
     scopeTypes: {
-      FRIENDS: 0,
-      PUBLIC: 1
+      FRIENDS: 1,
+      PUBLIC: 2
     }
   };
 
@@ -15,8 +15,13 @@ class PublicationForm extends Component {
     this.setState({
       id: this.props.publication.id,
       body: this.props.publication.body,
-      bodyClassName: "field",
-      scope: this.state.scopeTypes.FRIENDS
+      scope:
+        this.props.publication &&
+        this.props.publication.scope &&
+        this.props.publication.scope > -1
+          ? this.props.publication.scope
+          : this.state.scopeTypes.FRIENDS,
+      bodyClassName: "field"
     });
   }
 
@@ -24,7 +29,8 @@ class PublicationForm extends Component {
     e.preventDefault();
     let publication = {
       id: this.props.publication.id,
-      body: this.state.body
+      body: this.state.body,
+      scope: this.state.scope
     };
     if (!this.validate(publication)) {
       return;
@@ -128,7 +134,7 @@ class PublicationForm extends Component {
             <div className={this.state.bodyClassName}>
               <textarea
                 type="text"
-                rows="3"
+                rows="2"
                 autoFocus
                 onChange={this.typingBody}
                 placeholder="Publication body"
@@ -153,8 +159,8 @@ class PublicationForm extends Component {
                   this.setScope(this.state.scopeTypes.FRIENDS);
                 }}
               >
-                <i className="fas fa-user-friends" />
-                Only friends
+                <i className="fas fa-user-lock" />
+                Frields
               </button>
               <button
                 type="button"
@@ -179,7 +185,7 @@ class PublicationForm extends Component {
                   this.setScope(this.state.scopeTypes.FRIENDS);
                 }}
               >
-                <i className="fas fa-user-friends" />
+                <i className="fas fa-user-lock" />
               </button>
               <button
                 type="button"

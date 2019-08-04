@@ -10,7 +10,7 @@ function Header(props) {
 
   return (
     <header className="App-header">
-      <div className="App-title m-0 pt-1 clearfix">
+      <div className="App-title m-0 clearfix">
         <NavLink
           to="/auth"
           activeClassName="active"

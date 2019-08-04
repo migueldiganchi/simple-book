@@ -192,12 +192,12 @@ html {
   .App-header {
     background-color: #40ee3a;
     color: #2b3252;
-    padding: 9px;
+    padding: 12px 9px 9px;
     margin-bottom: 27px;
     text-shadow: 1px 1px 1px #5e7c9771;
     .App-title-text {
       display: inline-block;
-      margin-top: 6px !important;
+      margin-top: 9px !important;
     }
     .do {
       margin: 0 0 8.1px !important;
@@ -537,6 +537,16 @@ form {
     }
   }
 
+  p {
+    margin-left: 36px !important;
+  }
+
+  .icon {
+    position: absolute;
+    top: 23px;
+    left: 21px;
+  }
+
   .keypad {
     @include transition(visibility, 0.3s, ease);
     @include transition(opacity, 0.3s, ease);
@@ -613,6 +623,7 @@ button:focus {
   &.do-warning {
     background-color: #40ee3a;
     color: #0d1138 !important;
+    border-color: #fff !important;
   }
 
   &.do-danger {

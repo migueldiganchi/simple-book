@@ -1,13 +1,22 @@
-import React, { Component } from "react";
+import React from "react";
 
-class Searcher extends Component {
+class Searcher extends React.Component {
+  constructor(props) {
+    super(props);
+    this.textInput = React.createRef();
+  }
+
   state = {
     isActive: false,
     isFilterActive: false,
-    term: ""
+    term: "",
+    scopeFilter: -1,
+    scopeFilterTypes: {
+      FRIENDS: 1,
+      PUBLIC: 2
+    }
   };
   suggestSearching = () => {
-    console.log("loading focus");
     this.setState({
       isActive: true
     });
@@ -33,20 +42,37 @@ class Searcher extends Component {
 
   toggleFilter = () => {
     this.setState({ isFilterActive: !this.state.isFilterActive });
+    // clear scope filter
+    if (this.state.isFilterActive) {
+      this.setState({ scopeFilter: -1 });
+      if (!this.props.onClose) {
+        return;
+      }
+      this.props.onClose();
+    }
   };
 
-  orderByDate = () => {
-    console.log("order publication results by date time");
-    this.props.onOrder("by-date", "asc");
-  };
+  setScopeFilter = scope => {
+    this.setState({
+      scopeFilter: scope
+    });
 
-  orderByAuthorName = () => {
-    console.log("order publication results by author name");
-    this.props.onOrder("by-author-name", "desc");
+    if (!this.props.onSearch) {
+      return;
+    }
+    this.props.onSearch(this.state.term, scope);
   };
 
   getFilterContainer = () => {
     let disabledClassName = this.props.disabled ? " disabled" : "";
+    let friendsClassName =
+      this.state.scopeFilter === this.state.scopeFilterTypes.FRIENDS
+        ? "do do-warning"
+        : "do do-secondary";
+    let publicClassName =
+      this.state.scopeFilter === this.state.scopeFilterTypes.PUBLIC
+        ? "do do-warning"
+        : "do do-secondary";
 
     return (
       <div className="order-info">
@@ -58,22 +84,40 @@ class Searcher extends Component {
         </div>
         <div className="keypad right">
           <a
-            className={"do do-primary " + disabledClassName}
-            onClick={this.orderByDate}
+            className={friendsClassName + disabledClassName}
+            onClick={() => {
+              this.setScopeFilter(this.state.scopeFilterTypes.FRIENDS);
+            }}
           >
-            <i className="fas fa-sort" />
-            By date
+            <i className="fas fa-user-lock" />
+            Friends
           </a>
           <a
-            className={"do do-primary " + disabledClassName}
-            onClick={this.orderByAuthorName}
+            className={publicClassName + disabledClassName}
+            onClick={() => {
+              this.setScopeFilter(this.state.scopeFilterTypes.PUBLIC);
+            }}
           >
-            <i className="fas fa-sort" />
-            By author
+            <i className="fas fa-fire" />
+            Public
           </a>
         </div>
       </div>
     );
+  };
+
+  clearTerm = () => {
+    setTimeout(() => {
+      this.setState({
+        term: ""
+      });
+      this.textInput.current.focus();
+      console.log('this.textInput', this.textInput);
+    }, 99);
+    if (!this.props.onClose) {
+      return;
+    }
+    this.props.onClose();
   };
 
   render() {
@@ -96,6 +140,7 @@ class Searcher extends Component {
       <div className={searcherClassName}>
         <form action="/searcher" method="get" onSubmit={this.goSearch}>
           <input
+            ref={this.textInput}
             onFocus={this.suggestSearching}
             onBlur={this.finishSuggestion}
             onChange={this.onTyping}
@@ -103,9 +148,24 @@ class Searcher extends Component {
             type="text"
             placeholder={placeholderText}
           />
-          <button className={"do do-flat do-circular " + disabledClassName}>
-            <i className="fas fa-search" />
-          </button>
+          {this.state.term === "" ? (
+            <button
+              type="submit"
+              className={"do do-flat do-circular" + disabledClassName}
+            >
+              <i className="fas fa-search" />
+            </button>
+          ) : (
+            <button
+              type="reset"
+              onClick={this.clearTerm}
+              className={
+                "do do-primary do-flat do-circular" + disabledClassName
+              }
+            >
+              <i className="fas fa-times" />
+            </button>
+          )}
         </form>
         <a
           className={filterTogglerClassName + disabledClassName}

@@ -11,10 +11,16 @@ class PublicationManager extends React.Component {
     newPublication: null,
     publication: null,
     removingPublication: null,
-    publications: []
+    publications: [],
+    termFilter: null,
+    scopeFilter: null,
+    scopeFilterTypes: {
+      FRIENDS: 1,
+      PUBLIC: 2
+    }
   };
 
-  componentDidMount(term) {
+  componentDidMount() {
     this.getPublications();
   }
 
@@ -37,7 +43,7 @@ class PublicationManager extends React.Component {
     console.log("@todo: publications last page", e);
   };
 
-  getPublications = () => {
+  getPublications = (term, scope) => {
     this.props.onWait("Loading publications...");
     axios
       .get("/publications.json")
@@ -54,21 +60,50 @@ class PublicationManager extends React.Component {
             ...object
           });
         }
-          this.setState({
-            publications: [...publications.reverse()]
-          });
+
+        this.filterPublications(publications, term, scope);
       })
       .catch(error => {
         this.props.onStopWait();
       });
   };
 
+  filterPublications(publications, term, scope) {
+    let results = [...publications.reverse()];
+    let currentTermFilter = null;
+    let currentScopeFilter = null;
+
+    if (term) {
+      currentTermFilter = term;
+      results = [
+        ...results.filter(publication => {
+          return publication.body.includes(term);
+        })
+      ];
+    }
+
+    if (scope) {
+      currentScopeFilter = scope;
+      results = [
+        ...results.filter(publication => {
+          return publication.scope === scope;
+        })
+      ];
+    }
+
+    this.setState({
+      publications: results,
+      scopeFilter: currentScopeFilter,
+      termFilter: currentTermFilter
+    });
+  }
+
   createPublication = publication => {
     this.setState({
       newPublication: {
         id: null,
-        title: "",
-        body: ""
+        body: "",
+        scope: -1
       }
     });
     if (this.props.onCreatePublication) {
@@ -115,8 +150,7 @@ class PublicationManager extends React.Component {
     });
   };
 
-  onSavePublication = publication => {
-    console.info("After save this publication", publication);
+  onSavePublication = () => {
     this.getPublications();
     this.cancelPublicationForm();
   };
@@ -131,23 +165,37 @@ class PublicationManager extends React.Component {
     }
   };
 
-  orderPublications = (field, orientation) => {
-    console.log("field?", field);
-    console.log("orientation?", orientation);
-  };
-
   render() {
     let searcher = null;
     let publicationListTitle = null;
+    let publicationListTitleTextScope = "All";
+    let publicationListTitleTextTerm = "";
     let publicationCount = this.state.publications
       ? this.state.publications.length
       : 0;
+
+    if (this.state.termFilter) {
+      publicationListTitleTextTerm = `(searching ${this.state.termFilter})`;
+    }
+
+    if (this.state.scopeFilter) {
+      switch (this.state.scopeFilter) {
+        case this.state.scopeFilterTypes.FRIENDS:
+          publicationListTitleTextScope = "Friends";
+          break;
+        case this.state.scopeFilterTypes.PUBLIC:
+          publicationListTitleTextScope = "Public";
+          break;
+        default:
+          break;
+      }
+    }
 
     searcher = (
       <div className="mb-2">
         <Searcher
           onSearch={this.getPublications}
-          onOrder={this.orderPublications}
+          onClose={this.getPublications}
           disabled={this.state.newPublication || this.state.editingPublication}
         />
       </div>
@@ -155,8 +203,9 @@ class PublicationManager extends React.Component {
     publicationListTitle = (
       <PublicationListTitle
         disabled={this.state.newPublication || this.state.editingPublication}
-        title="Publications"
+        title={`${publicationListTitleTextScope} publications`}
         results={publicationCount}
+        resultsFilterTermText={publicationListTitleTextTerm}
         publications={this.state.publications}
         onCreatePublication={this.createPublication}
       />
