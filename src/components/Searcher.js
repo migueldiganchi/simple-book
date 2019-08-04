@@ -8,9 +8,9 @@ class Searcher extends React.Component {
 
   state = {
     isActive: false,
-    isFilterActive: false,
+    isScopeFilterActive: false,
     term: "",
-    scopeFilter: -1,
+    scopeFilter: null,
     scopeFilterTypes: {
       FRIENDS: 1,
       PUBLIC: 2
@@ -40,15 +40,15 @@ class Searcher extends React.Component {
     });
   };
 
-  toggleFilter = () => {
-    this.setState({ isFilterActive: !this.state.isFilterActive });
-    // clear scope filter
-    if (this.state.isFilterActive) {
-      this.setState({ scopeFilter: -1 });
-      if (!this.props.onClose) {
+  toggleScopeFilter = () => {
+    this.setState({ isScopeFilterActive: !this.state.isScopeFilterActive });
+    if (this.state.isScopeFilterActive) {
+      // clear scope filter
+      this.setState({ scopeFilter: null });
+      if (!this.props.onClearScope) {
         return;
       }
-      this.props.onClose();
+      this.props.onClearScope();
     }
   };
 
@@ -76,20 +76,14 @@ class Searcher extends React.Component {
 
     return (
       <div className="order-info">
-        <div className="keypad left">
-          <a onClick={this.toggleFilter} className={"do " + disabledClassName}>
-            <i className="fas fa-times" />
-            Close
-          </a>
-        </div>
-        <div className="keypad right">
+        <div className="keypad keypad-inline-block keypad-bottom-radius keypad-secondary">
           <a
             className={friendsClassName + disabledClassName}
             onClick={() => {
               this.setScopeFilter(this.state.scopeFilterTypes.FRIENDS);
             }}
           >
-            <i className="fas fa-user-lock" />
+            <i className="fas fa-lock icon-friends" />
             Friends
           </a>
           <a
@@ -98,7 +92,7 @@ class Searcher extends React.Component {
               this.setScopeFilter(this.state.scopeFilterTypes.PUBLIC);
             }}
           >
-            <i className="fas fa-fire" />
+            <i className="fas fa-unlock icon-public" />
             Public
           </a>
         </div>
@@ -107,17 +101,18 @@ class Searcher extends React.Component {
   };
 
   clearTerm = () => {
-    setTimeout(() => {
-      this.setState({
-        term: ""
-      });
-      this.textInput.current.focus();
-      console.log('this.textInput', this.textInput);
-    }, 99);
-    if (!this.props.onClose) {
+    this.setState({
+      term: ""
+    });
+    this.textInput.current.focus();
+    if (!this.props.onClearTerm) {
       return;
     }
-    this.props.onClose();
+    this.props.onClearTerm();
+  };
+
+  isAppliedTerm = () => {
+    return this.state.term === this.props.appliedTerm;
   };
 
   render() {
@@ -126,53 +121,60 @@ class Searcher extends React.Component {
       ? "App-searcher active"
       : "App-searcher";
 
+    if (this.state.isScopeFilterActive || this.isAppliedTerm()) {
+      searcherClassName += " searching";
+    }
+
     let disabledClassName = this.props.disabled ? " disabled" : "";
 
-    let filterTogglerClassName = this.state.isFilterActive
-      ? "filter-toggler do do-flat do-circular do-primary"
-      : "filter-toggler do do-flat do-circular";
+    let filterScopeTogglerClassName = this.state.isScopeFilterActive
+      ? "filter-toggler do do-flat do-circular do-primary do-none"
+      : "filter-toggler do do-flat do-circular do-none";
 
-    let filterContainer = this.state.isFilterActive
+    let filterContainer = this.state.isScopeFilterActive
       ? this.getFilterContainer()
       : null;
 
     return (
-      <div className={searcherClassName}>
-        <form action="/searcher" method="get" onSubmit={this.goSearch}>
-          <input
-            ref={this.textInput}
-            onFocus={this.suggestSearching}
-            onBlur={this.finishSuggestion}
-            onChange={this.onTyping}
-            disabled={this.props.disabled}
-            type="text"
-            placeholder={placeholderText}
-          />
-          {this.state.term === "" ? (
-            <button
-              type="submit"
-              className={"do do-flat do-circular" + disabledClassName}
-            >
-              <i className="fas fa-search" />
-            </button>
-          ) : (
-            <button
-              type="reset"
-              onClick={this.clearTerm}
-              className={
-                "do do-primary do-flat do-circular" + disabledClassName
-              }
-            >
-              <i className="fas fa-times" />
-            </button>
-          )}
-        </form>
-        <a
-          className={filterTogglerClassName + disabledClassName}
-          onClick={this.toggleFilter}
-        >
-          <i className="fas fa-filter" />
-        </a>
+      <div>
+        <div className={searcherClassName + disabledClassName}>
+          <form action="/searcher" method="get" onSubmit={this.goSearch}>
+            <input
+              ref={this.textInput}
+              onFocus={this.suggestSearching}
+              onBlur={this.finishSuggestion}
+              onChange={this.onTyping}
+              disabled={this.props.disabled}
+              value={this.state.term}
+              type="text"
+              placeholder={placeholderText}
+            />
+            {this.isAppliedTerm() ? (
+              <button
+                type="reset"
+                onClick={this.clearTerm}
+                className={
+                  "do do-primary do-flat do-circular do-none" + disabledClassName
+                }
+              >
+                <i className="fas fa-times" />
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className={"do do-flat do-circular do-none" + disabledClassName}
+              >
+                <i className="fas fa-search" />
+              </button>
+            )}
+          </form>
+          <a
+            className={filterScopeTogglerClassName + disabledClassName}
+            onClick={this.toggleScopeFilter}
+          >
+            <i className="fas fa-filter" />
+          </a>
+        </div>
         {filterContainer}
       </div>
     );

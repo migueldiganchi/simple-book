@@ -77,7 +77,7 @@ class PublicationManager extends React.Component {
       currentTermFilter = term;
       results = [
         ...results.filter(publication => {
-          return publication.body.includes(term);
+          return publication.body.toLowerCase().includes(term.toLowerCase());
         })
       ];
     }
@@ -103,7 +103,7 @@ class PublicationManager extends React.Component {
       newPublication: {
         id: null,
         body: "",
-        scope: -1
+        scope: null
       }
     });
     if (this.props.onCreatePublication) {
@@ -151,7 +151,7 @@ class PublicationManager extends React.Component {
   };
 
   onSavePublication = () => {
-    this.getPublications();
+    this.getPublications(this.state.termFilter, this.state.scopeFilter);
     this.cancelPublicationForm();
   };
 
@@ -165,8 +165,27 @@ class PublicationManager extends React.Component {
     }
   };
 
+  clearScopeFilter = () => {
+    this.setState({
+      scopeFilter: null
+    });
+    setTimeout(() => {
+      this.getPublications(this.state.termFilter, this.state.scopeFilter);
+    }, 33);
+  };
+
+  clearTermFilter = () => {
+    this.setState({
+      termFilter: null
+    });
+    setTimeout(() => {
+      this.getPublications(null, this.state.scopeFilter);
+    }, 33);
+  };
+
   render() {
     let searcher = null;
+    let workingTitle = null;
     let publicationListTitle = null;
     let publicationListTitleTextScope = "All";
     let publicationListTitleTextTerm = "";
@@ -175,7 +194,7 @@ class PublicationManager extends React.Component {
       : 0;
 
     if (this.state.termFilter) {
-      publicationListTitleTextTerm = `(searching ${this.state.termFilter})`;
+      publicationListTitleTextTerm = `searching ${this.state.termFilter}`;
     }
 
     if (this.state.scopeFilter) {
@@ -195,14 +214,39 @@ class PublicationManager extends React.Component {
       <div className="mb-2">
         <Searcher
           onSearch={this.getPublications}
-          onClose={this.getPublications}
-          disabled={this.state.newPublication || this.state.editingPublication}
+          onClearScope={this.clearScopeFilter}
+          onClearTerm={this.clearTermFilter}
+          appliedTerm={this.state.termFilter}
+          disabled={
+            this.state.removingPublication ||
+            this.state.newPublication ||
+            this.state.editingPublication
+          }
         />
       </div>
     );
-    publicationListTitle = (
+
+    if (this.state.removingPublication) {
+      workingTitle = "Removing publication";
+    } else if (this.state.editingPublication) {
+      workingTitle = "Editing publication";
+    } else if (this.state.newPublication) {
+      workingTitle = "New publication";
+    }
+
+    publicationListTitle = workingTitle ? (
       <PublicationListTitle
-        disabled={this.state.newPublication || this.state.editingPublication}
+        featured={true}
+        disabled={true}
+        title={workingTitle}
+      />
+    ) : (
+      <PublicationListTitle
+        disabled={
+          this.state.removingPublication ||
+          this.state.newPublication ||
+          this.state.editingPublication
+        }
         title={`${publicationListTitleTextScope} publications`}
         results={publicationCount}
         resultsFilterTermText={publicationListTitleTextTerm}
@@ -212,7 +256,7 @@ class PublicationManager extends React.Component {
     );
 
     return (
-      <div>
+      <div className="pb-4">
         {searcher}
         {publicationListTitle}
         <PublicationList

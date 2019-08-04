@@ -66,7 +66,6 @@ function PublicationListItem(props) {
   return (
     <div
       className={listItemClassName}
-      onClick={() => props.onOpen(props.publication)}
     >
       {confirmation}
       <h3>{props.publication.title}</h3>
@@ -76,9 +75,9 @@ function PublicationListItem(props) {
       <small>{props.publication.date_time}</small>
       {keypad}
       {props.publication.scope === 1 ? (
-        <i className="icon fas fa-user-lock" />
+        <i className="icon fas fa-lock icon-friends" />
       ) : (
-        <i className="icon fas fa-fire" />
+        <i className="icon fas fa-unlock icon-public" />
       )}
     </div>
   );

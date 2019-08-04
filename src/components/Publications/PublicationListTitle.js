@@ -1,24 +1,28 @@
 import React from "react";
 
 function PublicationListTitle(props) {
+  
   return (
-    <div className="keypad board-panel-keypad">
-      <div className="text">
+    <div className="keypad board-panel-keypad text-center">
+      <div className={props.featured ? "text text-featured" : "text"}>
         <span>{props.title}</span>
-        <small>{props.results} results</small>
+        {props.results ? <small>{props.results} results</small> : null}
         {props.resultsFilterTermText ? (
           <small>
-            <i>{props.resultsFilterTermText}</i>
+            <b className="text-featured">{props.resultsFilterTermText}</b>
           </small>
         ) : null}
       </div>
-      <a
-        className={"do do-primary " + (props.disabled ? "disabled" : "")}
-        onClick={props.onCreatePublication}
-      >
-        <i className="fas fa-plus" />
-        Publication
-      </a>
+      <div className="adder-container keypad keypad-inline-block my-3">
+        <a
+          disabled={props.disabled}
+          className={"do do-primary"}
+          onClick={props.onCreatePublication}
+        >
+          <i className="fas fa-plus" />
+          Publication
+        </a>
+      </div>
     </div>
   );
 }

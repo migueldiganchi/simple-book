@@ -4,7 +4,7 @@ import axios from "./../../connection/axios-app";
 class PublicationForm extends Component {
   state = {
     body: "",
-    scope: -1,
+    scope: null,
     scopeTypes: {
       FRIENDS: 1,
       PUBLIC: 2
@@ -17,8 +17,7 @@ class PublicationForm extends Component {
       body: this.props.publication.body,
       scope:
         this.props.publication &&
-        this.props.publication.scope &&
-        this.props.publication.scope > -1
+        this.props.publication.scope
           ? this.props.publication.scope
           : this.state.scopeTypes.FRIENDS,
       bodyClassName: "field"
@@ -123,7 +122,7 @@ class PublicationForm extends Component {
 
     return (
       <div className="form-container">
-        {formTitle}
+        {/* {formTitle} */}
         <form
           action="/publications"
           method="post"
@@ -143,15 +142,8 @@ class PublicationForm extends Component {
             </div>
           </div>
 
-          <div className="keypad">
-            <button
-              type="button"
-              className="do do-circular"
-              onClick={this.props.onCancel}
-            >
-              <i className="fas fa-ban" />
-            </button>
-            <div className="responsive responsive-desktop">
+          <div className="clearfix">
+            <div className="keypad keypad-inline-block float-left">
               <button
                 type="button"
                 className={switcherFriendsClassName}
@@ -159,7 +151,7 @@ class PublicationForm extends Component {
                   this.setScope(this.state.scopeTypes.FRIENDS);
                 }}
               >
-                <i className="fas fa-user-lock" />
+                <i className="fas fa-lock icon-friends" />
                 Frields
               </button>
               <button
@@ -169,36 +161,48 @@ class PublicationForm extends Component {
                   this.setScope(this.state.scopeTypes.PUBLIC);
                 }}
               >
-                <i className="fas fa-fire" />
+                <i className="fas fa-unlock icon-public" />
                 Public
               </button>
-              <button type="submit" className="do do-primary">
-                <i className="fas fa-seedling" />
-                {this.props.publication.id ? "Update" : "Publish"}
-              </button>
             </div>
-            <div className="responsive responsive-mobile">
+
+            <div className="keypad keypad-inline-block float-right">
               <button
                 type="button"
-                className={switcherFriendsClassName}
-                onClick={() => {
-                  this.setScope(this.state.scopeTypes.FRIENDS);
-                }}
+                className="do do-circular"
+                onClick={this.props.onCancel}
               >
-                <i className="fas fa-user-lock" />
+                <i className="fas fa-ban" />
               </button>
-              <button
-                type="button"
-                className={switcherPublicClassName}
-                onClick={() => {
-                  this.setScope(this.state.scopeTypes.PUBLIC);
-                }}
-              >
-                <i className="fas fa-fire" />
-              </button>
-              <button type="submit" className="do do-circular do-primary">
-                <i className="fas fa-seedling" />
-              </button>
+              <div className="responsive responsive-desktop">
+                <button type="submit" className="do do-primary">
+                  <i className="fas fa-seedling" />
+                  {this.props.publication.id ? "Update" : "Publish"}
+                </button>
+              </div>
+              <div className="responsive responsive-mobile">
+                <button
+                  type="button"
+                  className={switcherFriendsClassName}
+                  onClick={() => {
+                    this.setScope(this.state.scopeTypes.FRIENDS);
+                  }}
+                >
+                  <i className="fas fa-lock icon-friends" />
+                </button>
+                <button
+                  type="button"
+                  className={switcherPublicClassName}
+                  onClick={() => {
+                    this.setScope(this.state.scopeTypes.PUBLIC);
+                  }}
+                >
+                  <i className="fas fa-unlock icon-public" />
+                </button>
+                <button type="submit" className="do do-circular do-primary">
+                  <i className="fas fa-seedling" />
+                </button>
+              </div>
             </div>
           </div>
         </form>

@@ -210,6 +210,10 @@ html {
     position: relative;
     background-color: #444b69;
     padding: 9px;
+
+    &.searching {
+      background-color: #40ee3a !important;
+    }
     form {
       @include transition(box-shadow, 0.3s, ease);
       @include border-radius(9px);
@@ -220,6 +224,7 @@ html {
         font-size: 15px;
         background-color: #2b3252;
         color: #40ee3a;
+        padding-left: 33px
       }
       button {
         position: absolute;
@@ -228,32 +233,28 @@ html {
       }
     }
 
-    .filter-toggler {
-      transition: opacity 0.3s ease, color 0.3s ease;
-      position: absolute;
-      // opacity: 1;
-      font-size: 15px;
-      top: 14px;
-      right: 60px;
-    }
-
-    .order-info {
-      overflow: auto;
-      margin-top: 9px;
-      .keypad.left {
-        float: left !important;
-      }
-      .keypad.right {
-        float: right !important;
-      }
-    }
-
     // App-searcher
     &.active {
       @include box-shadow(2px, 2px, 2px, #111);
     }
+    &.disabled {
+      @include box-shadow(0, 0, 0, #000);
+    }
   }
 
+  .filter-toggler {
+    transition: opacity 0.3s ease, color 0.3s ease;
+    position: absolute;
+    border: solid 3px violet;
+    font-size: 15px;
+    top: 14px;
+    left: 15px;
+  }
+
+  .order-info {
+    overflow: auto;
+    text-align: center;
+  }
   .App-commander {
     position: fixed;
     z-index: 999;
@@ -379,8 +380,12 @@ html {
           }
         }
 
-        .do {
-          float: right;
+        .keypad {
+          position: fixed;
+          bottom: 0px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 9999;
         }
       }
     }
@@ -392,6 +397,10 @@ html {
       }
     }
   }
+}
+
+.text-featured {
+  color: #40ee3a !important;
 }
 
 form {
@@ -410,6 +419,14 @@ form {
       color: #586083;
     }
   }
+}
+
+.icon-public {
+  color: #40ee3a;
+}
+
+.icon-friends {
+  color: #f31a1a;
 }
 
 .form-container {
@@ -485,6 +502,18 @@ form {
   @include bg-tr;
   padding: 7.2px;
 
+  &-secondary {
+    background: #444b69 !important;
+  }
+
+  &-inline-block {
+    display: inline-block;
+  }
+
+  &-bottom-radius {
+    @include border-radii(0, 0, 24px, 24px);
+  }
+
   .responsive {
     display: none;
     @media screen and (max-width: 420px) {
@@ -516,7 +545,7 @@ form {
 }
 
 .list-item {
-  @include box-shadow(1px, 1px, 1px, #111111);
+  // @include box-shadow(1px, 1px, 1px, #111111);
   @include border-radius(9px);
   @include transition(background-color, 0.3s, ease);
   text-align: left;
@@ -562,8 +591,8 @@ form {
   }
 
   &:hover {
-    @include box-shadow(2px, 2px, 2px, #111111);
-    cursor: pointer;
+    // @include box-shadow(2px, 2px, 2px, #111111);
+    // cursor: pointer;
     & > .keypad {
       visibility: visible;
       opacity: 1;
@@ -602,6 +631,12 @@ button:focus {
     box-shadow: none !important;
   }
 
+  &.do-none {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
   &.do-primary {
     background-color: #0d1138;
     border: solid 1px #40ee3a;
@@ -615,15 +650,28 @@ button:focus {
 
   &.do-secondary {
     background-color: #c9c9c9;
-    border: solid 1px #333 !important;
-    color: #333 !important;
+    border: solid 1px #444b69 !important;
+    color: #444b69 !important;
     border: none;
+    * {
+      color: #444b69 !important;
+    }
+    &:hover {
+      border-color: #3a51b8 !important;
+      color: #3a51b8 !important;
+      * {
+        color: #3a51b8 !important;
+      }
+    }
   }
 
   &.do-warning {
     background-color: #40ee3a;
-    color: #0d1138 !important;
+    color: #283075 !important;
     border-color: #fff !important;
+    * {
+      color: #283075 !important;
+    }
   }
 
   &.do-danger {

@@ -49,7 +49,7 @@ class Auth extends React.Component {
           this.props.onStopWait();
           const credentials = response.data;
           console.log("@todo:persist token", credentials);
-          this.props.onNotify("Welcome to Fasobook!");
+          this.props.onNotify("Welcome to Crazybook!");
           this.props.history.push({
             pathname: "/"
           });
