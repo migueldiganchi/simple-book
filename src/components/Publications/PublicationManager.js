@@ -45,27 +45,29 @@ class PublicationManager extends React.Component {
 
   getPublications = (term, scope) => {
     this.props.onWait("Loading publications...");
-    axios
-      .get("/publications.json")
-      .then(response => {
-        this.props.onStopWait();
-        let object = null;
-        let objects = response.data;
-        let publications = [];
+    setTimeout(() => {
+      axios
+        .get("/publications.json")
+        .then(response => {
+          this.props.onStopWait();
+          let object = null;
+          let objects = response.data;
+          let publications = [];
 
-        for (let key in objects) {
-          object = objects[key];
-          publications.push({
-            id: key,
-            ...object
-          });
-        }
+          for (let key in objects) {
+            object = objects[key];
+            publications.push({
+              id: key,
+              ...object
+            });
+          }
 
-        this.filterPublications(publications, term, scope);
-      })
-      .catch(error => {
-        this.props.onStopWait();
-      });
+          this.filterPublications(publications, term, scope);
+        })
+        .catch(error => {
+          this.props.onStopWait();
+        });
+    }, 1100);
   };
 
   filterPublications(publications, term, scope) {
@@ -129,7 +131,7 @@ class PublicationManager extends React.Component {
     this.props.onWait("Removing publication...");
     axios
       .delete(url)
-      .then(response => {
+      .then(() => {
         this.props.onStopWait();
         this.cancelRemoving();
         this.getPublications(this.state.termFilter, this.state.scopeFilter);
@@ -203,7 +205,7 @@ class PublicationManager extends React.Component {
           publicationListTitleTextScope = "Only friends";
           break;
         case this.state.scopeFilterTypes.PUBLIC:
-          publicationListTitleTextScope = "Only public";
+          publicationListTitleTextScope = "Public";
           break;
         default:
           break;

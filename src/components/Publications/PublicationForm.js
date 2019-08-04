@@ -54,23 +54,21 @@ class PublicationForm extends Component {
     // go server to save publication
     this.props.onWait(loadingMessage);
     method(url, publication)
-      .then(response => {
+      .then(() => {
         this.props.onStopWait();
         setTimeout(() => {
-          let messageType = response.data.status
-            ? isNewPublication
-              ? "success"
-              : "info"
-            : "error";
-          let message = response.data.message;
-          this.props.onNotify(message, messageType);
+          let message =
+            "Successfuly " + (isNewPublication ? "created" : "updated");
           if (this.props.onSave) {
             this.props.onSave(publication);
+            setTimeout(() => {
+              this.props.onNotify(message, "info");
+            }, 333);
           }
         }, 300);
       })
       .catch(error => {
-        this.props.onNotify(error.response.message, "error");
+        this.props.onNotify("Oops! Something went wrong", "error");
       });
   };
 

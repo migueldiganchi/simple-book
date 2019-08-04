@@ -45,7 +45,8 @@ class App extends React.Component {
     this.setState({
       waiting: message,
       notification: {
-        message: message
+        message: message,
+        type: "default"
       }
     });
   };

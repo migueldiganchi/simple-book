@@ -116,14 +116,16 @@ html {
   }
 
   .App-notifier {
-    @include transition(right, 0.3s, ease-in-out);
+    @include transition(top, 0.3s, ease-in-out);
     position: fixed;
     z-index: 999;
-    top: 15px;
-    right: -320px;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
 
     .keypad {
-      float: left;
+      // float: left;
+      @include box-shadow(2px, 2px, 2px, #222);
       color: #fff;
       * {
         color: #fff;
@@ -134,6 +136,7 @@ html {
     }
 
     .bot {
+      display: none;
       @include border-radius(50%);
       float: right;
       margin-left: 6px;
@@ -150,20 +153,26 @@ html {
     }
 
     .keypad {
-      @include box-shadow(1px, 1px, 1px, #111);
+      @include box-shadow(3px, 3px, 3px, #111);
       @include transition(background-color, 0.3s, ease);
-      // @include bg-tr;
-      background-color: #333 !important;
-      border: solid 1px #999;
+      @include bg-tr;
+      background-color: #c9c9c9 !important;
+      border: solid 1px #0d1138;
+      * {
+        color: #0d1138;
+      }
     }
 
     &.active {
-      right: 15px;
+      top: 66px;
     }
 
     &.error {
       .keypad {
         background-color: #ef5455 !important;
+        * {
+          color: #fff;
+        }
       }
     }
 
@@ -193,7 +202,7 @@ html {
   .App-header {
     background-color: #40ee3a;
     color: #2b3252;
-    padding: 12px 9px 9px;
+    padding: 12px 9px 6px;
     margin-bottom: 27px;
     text-shadow: 1px 1px 1px #5e7c9771;
     .App-title-text {
