@@ -112,7 +112,7 @@ class Searcher extends React.Component {
   };
 
   isAppliedTerm = () => {
-    return this.state.term === this.props.appliedTerm;
+    return this.props.appliedTerm !== null;
   };
 
   render() {
