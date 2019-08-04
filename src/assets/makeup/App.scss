@@ -123,17 +123,19 @@ html {
     left: 50%;
     transform: translateX(-50%);
 
-    .keypad {
-      // float: left;
-      @include box-shadow(2px, 2px, 2px, #222);
-      color: #fff;
-      * {
-        color: #fff;
-      }
-      .text {
-        padding: 0 12px;
-      }
-    }
+    // .keypad {
+    //   // @include box-shadow(0px, 3px, 31px, 12px, #727A87);
+    //   -webkit-box-shadow: 0px 3px 31px 12px red;
+    //   -moz-box-shadow: 0px 3px 31px 12px red;
+    //   box-shadow: 0px 3px 31px 12px red;
+    //   color: #fff;
+    //   * {
+    //     color: #fff;
+    //   }
+    //   .text {
+    //     padding: 0 12px;
+    //   }
+    // }
 
     .bot {
       display: none;
@@ -153,18 +155,20 @@ html {
     }
 
     .keypad {
-      @include box-shadow(3px, 3px, 3px, #111);
+      @include box-shadow(0px, 3px, 31px, #4c4e5f);
       @include transition(background-color, 0.3s, ease);
       @include bg-tr;
       background-color: #c9c9c9 !important;
-      border: solid 1px #0d1138;
+      border: solid 1px transparent;
+      padding-left: 21px;
+      padding-right: 21px;
       * {
         color: #0d1138;
       }
     }
 
     &.active {
-      top: 66px;
+      top: 9px;
     }
 
     &.error {
@@ -369,13 +373,20 @@ html {
   }
 
   .App-board {
-    width: 600px;
     margin: 0 auto;
+    color: #40ee3a;
+    width: 600px;
+
     @media screen and (max-width: 600px) {
       width: 100%;
       padding: 0 15px;
     }
-    color: #40ee3a;
+
+    // Auth screen
+    .auth {
+      max-width: 450px;
+      margin: 0 auto;
+    }
 
     .App-board-panel {
       .keypad.board-panel-keypad {
