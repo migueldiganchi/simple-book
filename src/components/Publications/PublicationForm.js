@@ -100,7 +100,7 @@ class PublicationForm extends Component {
     error = bodyErrors.length > 0;
 
     if (error) {
-      this.props.onNotify("Ups, check your information please", "error");
+      this.props.onNotify("Oops", "error");
     }
 
     return !error;
