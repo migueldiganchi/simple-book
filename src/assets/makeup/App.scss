@@ -123,20 +123,6 @@ html {
     left: 50%;
     transform: translateX(-50%);
 
-    // .keypad {
-    //   // @include box-shadow(0px, 3px, 31px, 12px, #727A87);
-    //   -webkit-box-shadow: 0px 3px 31px 12px red;
-    //   -moz-box-shadow: 0px 3px 31px 12px red;
-    //   box-shadow: 0px 3px 31px 12px red;
-    //   color: #fff;
-    //   * {
-    //     color: #fff;
-    //   }
-    //   .text {
-    //     padding: 0 12px;
-    //   }
-    // }
-
     .bot {
       display: none;
       @include border-radius(50%);
@@ -168,7 +154,7 @@ html {
     }
 
     &.active {
-      top: 9px;
+      top: 8.1px;
     }
 
     &.error {
@@ -465,10 +451,6 @@ form {
     b {
       font-weight: bold !important;
     }
-    margin-bottom: 3px;
-    &:last-child {
-      margin-bottom: 0;
-    }
     @media screen and (max-width: 600px) {
       font-size: 12px;
     }
@@ -485,6 +467,12 @@ form {
 
 .form {
   .text {
+    font-size: 13.5px;
+    margin-top: 15px !important;
+    &:first-child {
+      margin-top: 0 !important;
+    }
+    // border: solid 3px orange;
     &.error {
       color: #ef5455;
     }

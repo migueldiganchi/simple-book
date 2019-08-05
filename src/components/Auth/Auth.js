@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 
 import axiosAuth from "./../../connection/axios-auth";
 
-import Validation from "./../Validaiton";
+import Validation from "../Validation";
 
 class Auth extends React.Component {
   emailInput;
@@ -19,6 +19,7 @@ class Auth extends React.Component {
   };
 
   isValid = () => {
+    let error = false;
     let emailErrors = [];
     let passwordErrors = [];
 
@@ -43,21 +44,25 @@ class Auth extends React.Component {
       this.setState({ passwordClassName: "field error" });
     } else if (this.state.password.length < 6) {
       passwordErrors.push({
-        message: "Password too short (min: 6)"
+        message: "Too short (min: 6)"
       });
       this.setState({ passwordClassName: "field error" });
     } else {
       this.setState({ passwordClassName: "field" });
     }
 
-    // restart validation
     this.setState({
       emailValidationErrors: emailErrors,
       passwordValidationErrors: passwordErrors
     });
-    
-    // return !error;
-    return emailErrors.length < 1 && passwordErrors.length < 1;
+
+    error = emailErrors.length > 0 || passwordErrors.length > 0;
+
+    if (error) {
+      this.props.onNotify("Ups, check your information please", "error");
+    }
+
+    return !error;
   };
 
   isValidEmailFormat = email => {
@@ -127,7 +132,7 @@ class Auth extends React.Component {
 
     return (
       <div className="auth">
-        {formTitle}
+        {/* {formTitle} */}
         <form
           action="/auth"
           method="post"
@@ -138,7 +143,7 @@ class Auth extends React.Component {
             <div>
               <div
                 className={
-                  "text text-left px-2 " +
+                  "text px-2 " +
                   (this.state.emailValidationErrors.length > 0 ? "error" : "")
                 }
               >
@@ -160,7 +165,12 @@ class Auth extends React.Component {
               <Validation validationList={this.state.emailValidationErrors} />
 
               {/* password */}
-              <div className="text text-left px-2">
+              <div
+                className={
+                  "text px-2 " +
+                  (this.state.passwordValidationErrors.length > 0 ? "error" : "")
+                }
+              >
                 <label>Password</label>
               </div>
               <div className={this.state.passwordClassName}>
@@ -180,13 +190,7 @@ class Auth extends React.Component {
             <div className="keypad">
               <button
                 type="button"
-                className={
-                  "do do-circular " +
-                  (this.state.email.length < 1 &&
-                  this.state.password.length < 1
-                    ? "disabled"
-                    : "")
-                }
+                className="do do-circular"
                 onClick={this.onClear}
               >
                 <i className="fas fa-eraser" />

@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import axios from "./../../connection/axios-app";
 
+import Validation from "./../Validation";
+
 class PublicationForm extends Component {
   state = {
     body: "",
     scope: null,
+    bodyValidationErrors: [],
     scopeTypes: {
       FRIENDS: 1,
       PUBLIC: 2
@@ -30,7 +33,7 @@ class PublicationForm extends Component {
       body: this.state.body,
       scope: this.state.scope
     };
-    if (!this.validate(publication)) {
+    if (!this.isValid(publication)) {
       return;
     }
 
@@ -72,15 +75,29 @@ class PublicationForm extends Component {
       });
   };
 
-  validate = publication => {
+  isValid = publication => {
     let error = false;
+    let bodyErrors = [];
 
     if (publication.body === "") {
-      error = true;
+      bodyErrors.push({
+        message: "Body is required"
+      });
+      this.setState({ bodyClassName: "field error" });
+    } else if (publication.body.length < 6) {
+      bodyErrors.push({
+        message: "Too short (min: 6)"
+      });
       this.setState({ bodyClassName: "field error" });
     } else {
       this.setState({ bodyClassName: "field" });
     }
+
+    this.setState({
+      bodyValidationErrors: bodyErrors
+    });
+
+    error = bodyErrors.length > 0;
 
     if (error) {
       this.props.onNotify("Ups, check your information please", "error");
@@ -145,6 +162,7 @@ class PublicationForm extends Component {
                 value={this.state.body}
               />
             </div>
+            <Validation validationList={this.state.bodyValidationErrors} />
           </div>
 
           <div className="clearfix">
