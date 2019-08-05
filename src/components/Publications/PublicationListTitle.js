@@ -8,8 +8,7 @@ function PublicationListTitle(props) {
         {props.results ? <small>{props.results} results</small> : null}
         {props.resultsFilterTermText ? (
           <small>
-            (Searching &nbsp;
-            <b className="text-featured">{props.resultsFilterTermText}</b>)
+            (<b className="text-featured">{props.resultsFilterTermText}</b>)
           </small>
         ) : null}
       </div>

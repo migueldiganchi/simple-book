@@ -3,6 +3,8 @@ import { withRouter } from "react-router-dom";
 
 import axiosAuth from "./../../connection/axios-auth";
 
+import Validation from "./../Validaiton";
+
 class Auth extends React.Component {
   emailInput;
 
@@ -11,31 +13,63 @@ class Auth extends React.Component {
     password: "",
     emailClassName: "field",
     passwordClassName: "field",
-    waiting: null
+    waiting: null,
+    emailValidationErrors: [],
+    passwordValidationErrors: []
   };
 
   isValid = () => {
-    let error = false;
+    let emailErrors = [];
+    let passwordErrors = [];
 
     if (this.state.email === "") {
-      error = true;
+      emailErrors.push({
+        message: "Email is required"
+      });
+      this.setState({ emailClassName: "field error" });
+    } else if (!this.isValidEmailFormat(this.state.email)) {
+      emailErrors.push({
+        message: "Bad email format"
+      });
       this.setState({ emailClassName: "field error" });
     } else {
       this.setState({ emailClassName: "field" });
     }
 
     if (this.state.password === "") {
-      error = true;
+      passwordErrors.push({
+        message: "Password is required"
+      });
+      this.setState({ passwordClassName: "field error" });
+    } else if (this.state.password.length < 6) {
+      passwordErrors.push({
+        message: "Password too short (min: 6)"
+      });
       this.setState({ passwordClassName: "field error" });
     } else {
       this.setState({ passwordClassName: "field" });
     }
 
-    return !error;
+    // restart validation
+    this.setState({
+      emailValidationErrors: emailErrors,
+      passwordValidationErrors: passwordErrors
+    });
+    
+    // return !error;
+    return emailErrors.length < 1 && passwordErrors.length < 1;
+  };
+
+  isValidEmailFormat = email => {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
   };
 
   onGoAuth = e => {
     e.preventDefault();
+    if (!this.isValid()) {
+      return null;
+    }
 
     this.props.onWait("Checking for credentials...");
     setTimeout(() => {
@@ -57,7 +91,7 @@ class Auth extends React.Component {
         .catch(error => {
           console.info("error", error);
           setTimeout(() => {
-            this.props.onNotify("Oops! Something went wrong :(", "error");
+            this.props.onNotify("Bad credentials. Please try again", "error");
           }, 99);
           this.props.onStopWait();
         });
@@ -75,7 +109,11 @@ class Auth extends React.Component {
   onClear = () => {
     this.setState({
       email: "",
-      password: ""
+      password: "",
+      emailClassName: "field",
+      passwordClassName: "field",
+      emailValidationErrors: [],
+      passwordValidationErrors: []
     });
     this.emailInput.focus();
   };
@@ -97,43 +135,63 @@ class Auth extends React.Component {
           onSubmit={this.onGoAuth}
         >
           <div className="form-body">
-            <div className={this.state.emailClassName}>
-              {/* email */}
-              <input
-                type="text"
-                autoFocus
-                onChange={this.typingEmail}
-                ref={input => {
-                  this.emailInput = input;
-                }}
-                placeholder="Email"
-                value={this.state.email}
-              />
-            </div>
-            {/* password */}
-            <div className={this.state.passwordClassName}>
-              <input
-                type="password"
-                onChange={this.typingPassword}
-                placeholder="Password"
-                value={this.state.password}
+            <div>
+              <div
+                className={
+                  "text text-left px-2 " +
+                  (this.state.emailValidationErrors.length > 0 ? "error" : "")
+                }
+              >
+                <label>Email</label>
+              </div>
+              <div className={this.state.emailClassName}>
+                {/* email */}
+                <input
+                  type="text"
+                  autoFocus
+                  onChange={this.typingEmail}
+                  ref={input => {
+                    this.emailInput = input;
+                  }}
+                  placeholder="Email"
+                  value={this.state.email}
+                />
+              </div>
+              <Validation validationList={this.state.emailValidationErrors} />
+
+              {/* password */}
+              <div className="text text-left px-2">
+                <label>Password</label>
+              </div>
+              <div className={this.state.passwordClassName}>
+                <input
+                  type="password"
+                  onChange={this.typingPassword}
+                  placeholder="Password"
+                  value={this.state.password}
+                />
+              </div>
+
+              <Validation
+                validationList={this.state.passwordValidationErrors}
               />
             </div>
 
             <div className="keypad">
               <button
                 type="button"
-                className="do do-circular"
-                disabled={this.state.email === "" && this.state.password === ""}
+                className={
+                  "do do-circular " +
+                  (this.state.email.length < 1 &&
+                  this.state.password.length < 1
+                    ? "disabled"
+                    : "")
+                }
                 onClick={this.onClear}
               >
-                <i className="fas fa-trash" />
+                <i className="fas fa-eraser" />
               </button>
-              <button
-                type="submit"
-                className="do do-primary"
-                disabled={this.state.email === "" || this.state.password === ""}
-              >
+              <button type="submit" className="do do-primary">
                 <i className="fas fa-arrow-right" />
                 Connect
               </button>

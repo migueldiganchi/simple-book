@@ -458,11 +458,38 @@ form {
   color: #758efc;
 }
 
+.validation {
+  &-error {
+    color: #ef5455;
+    font-size: 11px;
+    b {
+      font-weight: bold !important;
+    }
+    margin-bottom: 3px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    @media screen and (max-width: 600px) {
+      font-size: 12px;
+    }
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
 .form-container {
   text-align: center;
 }
 
 .form {
+  .text {
+    &.error {
+      color: #ef5455;
+    }
+  }
+
   .field {
     @include border-radius(9px);
     @include transition(background-color, 0.3s, ease);
@@ -471,10 +498,11 @@ form {
       background-color: #ef5455;
     }
     padding: 6px;
-    margin-bottom: 6px;
+    margin-bottom: 12px;
     &:last-child {
       margin-bottom: 0;
     }
+
     input,
     textarea,
     select {
