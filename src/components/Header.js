@@ -45,7 +45,7 @@ class Header extends React.Component {
               <NavLink
                 key="login-desktop"
                 to="/auth"
-                disabledClassName="disabled"
+                activeClassName="disabled"
                 className={
                   "do do-primary float-left responsive responsive-desktop " +
                   (isAuthdisabled ? "disabled" : "")
@@ -57,7 +57,7 @@ class Header extends React.Component {
               <NavLink
                 key="login-mobile"
                 to="/auth"
-                disabledClassName="disabled"
+                activeClassName="disabled"
                 className={
                   "do do-primary do-circular float-left responsive responsive-mobile " +
                   (isAuthdisabled ? "disabled" : "")
@@ -123,7 +123,7 @@ class Header extends React.Component {
             ) : (
               <NavLink
                 to="/"
-                disabledClassName={isHomedisabled ? "" : "text-underline"}
+                activeClassName={isHomedisabled ? "" : "text-underline"}
               >
                 <span>{this.props.title}</span>
               </NavLink>
