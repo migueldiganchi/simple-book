@@ -22,6 +22,7 @@ function PublicationList(props) {
           <PublicationListItem
             key={publication.id}
             publication={publication}
+            isAuthenticated={props.isAuthenticated}
             isRemoving={isRemoving(publication)}
             isDisabled={isDisabled(publication)}
             onEdit={props.onEdit}

@@ -6,6 +6,8 @@ import Searcher from "./../Searcher";
 import PublicationList from "./PublicationList";
 import PublicationListTitle from "./PublicationListTitle";
 
+import Presentation from "./../Presentation";
+
 class PublicationManager extends React.Component {
   state = {
     newPublication: null,
@@ -101,6 +103,11 @@ class PublicationManager extends React.Component {
   }
 
   createPublication = publication => {
+    if (!this.props.isAuthenticated()) {
+      this.props.onNotify("Please authenticate", "info");
+      return;
+    }
+
     this.setState({
       newPublication: {
         id: null,
@@ -108,6 +115,7 @@ class PublicationManager extends React.Component {
         scope: null
       }
     });
+
     if (this.props.onCreatePublication) {
       this.props.onCreatePublication(publication);
     }
@@ -238,6 +246,7 @@ class PublicationManager extends React.Component {
 
     publicationListTitle = workingTitle ? (
       <PublicationListTitle
+        isAuthenticated={this.props.isAuthenticated}
         featured={true}
         disabled={true}
         title={workingTitle}
@@ -249,6 +258,7 @@ class PublicationManager extends React.Component {
           this.state.newPublication ||
           this.state.editingPublication
         }
+        isAuthenticated={this.props.isAuthenticated}
         title={`${publicationListTitleTextScope}`}
         results={publicationCount}
         resultsFilterTermText={publicationListTitleTextTerm}
@@ -259,11 +269,13 @@ class PublicationManager extends React.Component {
 
     return (
       <div className="pb-4">
+        {!this.props.isAuthenticated() ? <Presentation /> : null}
         {searcher}
         {publicationListTitle}
         <PublicationList
           author={this.props.author}
           newPublication={this.state.newPublication}
+          isAuthenticated={this.props.isAuthenticated}
           editingPublication={this.state.editingPublication}
           removingPublication={this.state.removingPublication}
           publications={this.state.publications}

@@ -195,12 +195,48 @@ html {
     padding: 12px 9px 6px;
     margin-bottom: 27px;
     text-shadow: 1px 1px 1px #5e7c9771;
+
+    &.confirming-close {
+      background-color: #5e7c9771;
+      .App-title-text {
+        color: #fff !important;
+      }
+    }
+
     .App-title-text {
       display: inline-block;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       margin-top: 9px !important;
     }
     .do {
       margin: 0 0 8.1px !important;
+    }
+
+    .App-closer-confirmer {
+      position: absolute;
+      top: 12px;
+      .do {
+        margin-right: 6px !important;
+        &:last-child {
+          margin-right: 0 !important;
+        }
+      }
+    }
+  }
+
+  .App-presentation {
+    @include border-radius(9px);
+    @include bg-tr-light;
+    margin-bottom: 24px;
+    padding: 15px 15px 27px;
+    .text-box {
+      padding: 6px;
+      font-size: 15px;
+    }
+    .logo-holder {
+      font-size: 69px;
     }
   }
 
@@ -554,6 +590,10 @@ form {
       display: inline-block !important;
     }
   }
+}
+
+.inline-block {
+  display: inline-block;
 }
 
 .keypad {

@@ -221,7 +221,7 @@ class PublicationForm extends Component {
               </button>
               <button type="submit" className="do do-primary">
                 <i className="fas fas fa-check" />
-                {this.props.publication.id ? "Update" : "Publish"}
+                {this.props.publication.id ? "Update" : "Post"}
               </button>
             </div>
             <div className="keypad keypad-inline-block responsive responsive-mobile float-right">

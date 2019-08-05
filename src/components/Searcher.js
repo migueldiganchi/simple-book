@@ -17,14 +17,6 @@ class Searcher extends React.Component {
     }
   };
 
-  componentWillReceiveProps(props) {
-    console.log("updated?", props);
-    console.log("comparing with?", this.state.term);
-    if (props.isClean) {
-      console.log("is?", props.isClean);
-    }
-  }
-
   suggestSearching = () => {
     this.setState({
       isActive: true

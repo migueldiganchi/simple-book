@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 
 import Auth from "./components/Auth/Auth";
 
@@ -16,6 +16,10 @@ class App extends React.Component {
     notification: null,
     waiting: null
   };
+
+  constructor(props) {
+    super(props);
+  }
 
   notify = (message, messageType, messageTimeout, callback) => {
     this.setState({
@@ -64,6 +68,7 @@ class App extends React.Component {
         waiting={this.state.waiting}
         onNotify={this.notify}
         onWait={this.wait}
+        isAuthenticated={this.isAuthenticated}
         onStopWait={this.stopWait}
         {...props}
       />
@@ -71,15 +76,47 @@ class App extends React.Component {
   };
 
   auth = props => {
+    if (this.isAuthenticated()) {
+      this.props.history.push({
+        pathname: "/"
+      });
+      return;
+    }
     return (
       <Auth
         waiting={this.state.waiting}
         onNotify={this.notify}
         onWait={this.wait}
         onStopWait={this.stopWait}
+        onAuth={this.openApp}
         {...props}
       />
     );
+  };
+
+  isAuthenticated() {
+    const token = localStorage.getItem("token");
+    const expirationDate = localStorage.getItem("expirationDate");
+
+    return token !== null;
+  }
+
+  openApp = credentials => {
+    const expirationDate = new Date(
+      new Date().getTime() + credentials.expiresIn * 1000
+    );
+    localStorage.setItem("token", credentials.idToken);
+    localStorage.setItem("expirationDate", expirationDate);
+  };
+
+  closeApp = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("expirationDate");
+    this.props.history.push({
+      pathname: "/"
+    });
+    this.notify("See you soon!");
+    return;
   };
 
   render() {
@@ -94,7 +131,12 @@ class App extends React.Component {
       <div className="App">
         {glassApp}
         {loadingApp}
-        <Header title="CrazyBook" {...this.props} />
+        <Header
+          title="Crazybook"
+          isAuthenticated={this.isAuthenticated}
+          onLogout={this.closeApp}
+          {...this.props}
+        />
         <Board>
           <BoardPanel>
             <Route path="/" exact render={this.wall} />
@@ -111,4 +153,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);

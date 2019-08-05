@@ -12,21 +12,23 @@ function PublicationListTitle(props) {
           </small>
         ) : null}
       </div>
-      <div
-        className={
-          "adder-container keypad my-3 " +
-          (props.disabled ? " responsive responsive-desktop" : "")
-        }
-      >
-        <a
-          disabled={props.disabled}
-          className={"do do-primary"}
-          onClick={props.onCreatePublication}
+      {props.isAuthenticated() ? (
+        <div
+          className={
+            "adder-container keypad my-3 " +
+            (props.disabled ? " responsive responsive-desktop" : "")
+          }
         >
-          <i className="fas fa-plus" />
-          Publication
-        </a>
-      </div>
+          <a
+            disabled={props.disabled}
+            className={"do do-primary"}
+            onClick={props.onCreatePublication}
+          >
+            <i className="fas fa-plus" />
+            Publication
+          </a>
+        </div>
+      ) : null}
     </div>
   );
 }

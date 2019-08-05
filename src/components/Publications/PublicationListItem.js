@@ -66,7 +66,7 @@ function PublicationListItem(props) {
   } else if (props.isDisabled) {
     listItemClassName = "list-item disabled";
   } else {
-    keypad = (
+    keypad = props.isAuthenticated() ? (
       <div className="keypad">
         <a className="do do-circular do-danger" onClick={startRemovingHandler}>
           <i className="fas fa-trash" />
@@ -75,7 +75,7 @@ function PublicationListItem(props) {
           <i className="fas fa-pencil-alt" />
         </a>
       </div>
-    );
+    ) : null;
   }
 
   return (

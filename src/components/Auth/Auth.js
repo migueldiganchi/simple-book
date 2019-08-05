@@ -87,7 +87,7 @@ class Auth extends React.Component {
         .then(response => {
           this.props.onStopWait();
           const credentials = response.data;
-          console.log("@todo:persist token", credentials);
+          this.storeCredentials(credentials);
           this.props.onNotify("Welcome to Crazybook!");
           this.props.history.push({
             pathname: "/"
@@ -96,11 +96,15 @@ class Auth extends React.Component {
         .catch(error => {
           console.info("error", error);
           setTimeout(() => {
-            this.props.onNotify("Bad credentials. Please try again", "error");
+            this.props.onNotify("Bad credentials", "error");
           }, 99);
           this.props.onStopWait();
         });
     }, 3000);
+  };
+
+  storeCredentials = credentials => {
+    this.props.onAuth(credentials);
   };
 
   typingEmail = e => {
@@ -143,7 +147,7 @@ class Auth extends React.Component {
             <div>
               <div
                 className={
-                  "text px-2 " +
+                  "text text-left px-2 " +
                   (this.state.emailValidationErrors.length > 0 ? "error" : "")
                 }
               >
@@ -167,8 +171,10 @@ class Auth extends React.Component {
               {/* password */}
               <div
                 className={
-                  "text px-2 " +
-                  (this.state.passwordValidationErrors.length > 0 ? "error" : "")
+                  "text text-left px-2 " +
+                  (this.state.passwordValidationErrors.length > 0
+                    ? "error"
+                    : "")
                 }
               >
                 <label>Password</label>
