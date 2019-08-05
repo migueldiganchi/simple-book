@@ -4,15 +4,15 @@ import { NavLink } from "react-router-dom";
 function Presentation() {
   return (
     <div className="App-presentation">
-      <div class="text-center logo-holder">
+      <div className="text-center logo-holder">
         <i className="fas fa-smile-wink" />
       </div>
-      <h3>Welcome to <b>Crazybook</b>!</h3>
       <p className="text-box">
-          Laboratoria <b>news</b> application
+          Laboratoria <b>news</b> manager
       </p>
       <NavLink to="/auth" className="do do-primary">
-        <span>Login to post</span>
+        <i className="fas fa-plug" />
+        <span>Access here</span>
       </NavLink>
     </div>
   );

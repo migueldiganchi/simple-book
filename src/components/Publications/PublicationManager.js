@@ -23,6 +23,9 @@ class PublicationManager extends React.Component {
   };
 
   componentDidMount() {
+    if (!this.props.isAuthenticated()) {
+      return;
+    }
     this.getPublications(this.state.termFilter, this.state.scopeFilter);
   }
 
@@ -32,17 +35,14 @@ class PublicationManager extends React.Component {
 
   goPreviousPage = e => {
     e.preventDefault();
-    console.log("@todo: publications previous page");
   };
 
   goNextPage = e => {
     e.preventDefault();
-    console.log("@todo: publications next page");
   };
 
   goLastPage = e => {
     e.preventDefault();
-    console.log("@todo: publications last page", e);
   };
 
   getPublications = (term, scope) => {
@@ -259,7 +259,7 @@ class PublicationManager extends React.Component {
           this.state.editingPublication
         }
         isAuthenticated={this.props.isAuthenticated}
-        title={`${publicationListTitleTextScope}`}
+        title={publicationListTitleTextScope}
         results={publicationCount}
         resultsFilterTermText={publicationListTitleTextTerm}
         publications={this.state.publications}
@@ -267,9 +267,10 @@ class PublicationManager extends React.Component {
       />
     );
 
-    return (
+    return !this.props.isAuthenticated() ? (
+      <Presentation />
+    ) : (
       <div className="pb-4">
-        {!this.props.isAuthenticated() ? <Presentation /> : null}
         {searcher}
         {publicationListTitle}
         <PublicationList

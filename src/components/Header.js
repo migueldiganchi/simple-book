@@ -26,8 +26,8 @@ class Header extends React.Component {
   };
 
   render() {
-    const isAuthActive = !!matchPath(this.props.location.pathname, "/auth");
-    const isHomeActive = !!matchPath(this.props.location.pathname, {
+    const isAuthdisabled = !!matchPath(this.props.location.pathname, "/auth");
+    const isHomedisabled = !!matchPath(this.props.location.pathname, {
       path: "/",
       exact: true
     });
@@ -45,10 +45,10 @@ class Header extends React.Component {
               <NavLink
                 key="login-desktop"
                 to="/auth"
-                activeClassName="active"
+                disabledClassName="disabled"
                 className={
                   "do do-primary float-left responsive responsive-desktop " +
-                  (isAuthActive ? "disabled" : "")
+                  (isAuthdisabled ? "disabled" : "")
                 }
               >
                 <i className="fas fa-plug" />
@@ -57,10 +57,10 @@ class Header extends React.Component {
               <NavLink
                 key="login-mobile"
                 to="/auth"
-                activeClassName="active"
+                disabledClassName="disabled"
                 className={
                   "do do-primary do-circular float-left responsive responsive-mobile " +
-                  (isAuthActive ? "disabled" : "")
+                  (isAuthdisabled ? "disabled" : "")
                 }
               >
                 <i className="fas fa-key" />
@@ -104,7 +104,7 @@ class Header extends React.Component {
               <a
                 onClick={this.doLogout}
                 key="confirm-logout"
-                className="do do-primary float-left"
+                className="do do-danger float-left"
               >
                 <i className="fas fa-power-off" />
                 Yes
@@ -116,11 +116,14 @@ class Header extends React.Component {
           )}
           <h5 className="App-title-text mt-1">
             {this.state.closeConfirmation ? (
-              <b>Are you sure?</b>
+              <span>
+                <b className="responsive responsive-desktop">Are you sure?</b>
+                <b className="responsive responsive-mobile">Sure?</b>
+              </span>
             ) : (
               <NavLink
                 to="/"
-                activeClassName={isHomeActive ? "" : "text-underline"}
+                disabledClassName={isHomedisabled ? "" : "text-underline"}
               >
                 <span>{this.props.title}</span>
               </NavLink>
@@ -128,9 +131,10 @@ class Header extends React.Component {
           </h5>
           <NavLink
             to="/"
+            exact
             className={
               "do do-primary float-right responsive responsive-desktop " +
-              (isHomeActive ? "disabled" : "")
+              (isHomedisabled ? "disabled" : "")
             }
           >
             <i className="fas fa-home" />
@@ -138,9 +142,10 @@ class Header extends React.Component {
           </NavLink>
           <NavLink
             to="/"
+            exact
             className={
               "do do-primary do-circular float-right responsive responsive-mobile " +
-              (isHomeActive ? "disabled" : "")
+              (isHomedisabled ? "disabled" : "")
             }
           >
             <i className="fas fa-home" />

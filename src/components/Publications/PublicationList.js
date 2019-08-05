@@ -37,7 +37,7 @@ function PublicationList(props) {
       return (
         <div className="pa-5 mt-5">
           <div className="mt-5 pt-5 text-muted">
-              <b>Nothing here</b>
+            <b>Nothing here</b>
           </div>
         </div>
       );
@@ -91,7 +91,7 @@ function PublicationList(props) {
 
   return (
     <div className="list-container">
-      {newForm}
+      {props.isAuthenticated() ? newForm : null}
       <div className="publication-list">{renderList()}</div>
     </div>
   );

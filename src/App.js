@@ -94,12 +94,13 @@ class App extends React.Component {
     );
   };
 
-  isAuthenticated() {
+  isAuthenticated = () => {
     const token = localStorage.getItem("token");
-    const expirationDate = localStorage.getItem("expirationDate");
+    const expirationDate = new Date(localStorage.getItem("expirationDate"));
+    const currentDate = new Date();
 
-    return token !== null;
-  }
+    return token !== null && expirationDate > currentDate;
+  };
 
   openApp = credentials => {
     const expirationDate = new Date(

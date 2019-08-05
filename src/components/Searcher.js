@@ -24,7 +24,6 @@ class Searcher extends React.Component {
   };
 
   finishSuggestion = () => {
-    console.log("finishing focus");
     this.setState({
       isActive: false
     });
