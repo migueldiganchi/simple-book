@@ -8,11 +8,11 @@ function Presentation() {
         <i className="fas fa-smile-wink" />
       </div>
       <p className="text-box">
-        <b>Laboratoria</b> news manager
+        <b>Laboratoria</b> news
       </p>
       <NavLink to="/auth" className="do do-primary">
         <i className="fas fa-plug" />
-        <span>Access here</span>
+        <span>Access here to post</span>
       </NavLink>
     </div>
   );

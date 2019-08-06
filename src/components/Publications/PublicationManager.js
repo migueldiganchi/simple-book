@@ -267,10 +267,9 @@ class PublicationManager extends React.Component {
       />
     );
 
-    return !this.props.isAuthenticated() ? (
-      <Presentation />
-    ) : (
+    return (
       <div className="pb-4">
+        {!this.props.isAuthenticated() ? <Presentation /> : null}
         {searcher}
         {publicationListTitle}
         <PublicationList

@@ -63,7 +63,7 @@ class Header extends React.Component {
                   (isAuthdisabled ? "disabled" : "")
                 }
               >
-                <i className="fas fa-key" />
+                <i className="fas fa-plug" />
               </NavLink>
             ]
           ) : !this.state.closeConfirmation ? (

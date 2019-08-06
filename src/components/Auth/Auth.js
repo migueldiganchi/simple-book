@@ -77,30 +77,29 @@ class Auth extends React.Component {
     }
 
     this.props.onWait("Checking for credentials...");
-    setTimeout(() => {
-      axiosAuth
-        .post("/verifyPassword?key=AIzaSyAXRS3ijUJ0HhgC12cSeqe41WnDEcoN6-w", {
-          email: this.state.email,
-          password: this.state.password,
-          returnSecureToken: true
-        })
-        .then(response => {
-          this.props.onStopWait();
-          const credentials = response.data;
-          this.storeCredentials(credentials);
-          this.props.onNotify("Welcome to Crazybook!");
-          this.props.history.push({
-            pathname: "/"
-          });
-        })
-        .catch(error => {
-          console.info("error", error);
-          setTimeout(() => {
-            this.props.onNotify("Bad credentials", "error");
-          }, 99);
-          this.props.onStopWait();
+    // setTimeout(() => {
+    axiosAuth
+      .post("/verifyPassword?key=AIzaSyAXRS3ijUJ0HhgC12cSeqe41WnDEcoN6-w", {
+        email: this.state.email,
+        password: this.state.password,
+        returnSecureToken: true
+      })
+      .then(response => {
+        this.props.onStopWait();
+        const credentials = response.data;
+        this.storeCredentials(credentials);
+        this.props.onNotify("Welcome to Crazybook!");
+        this.props.history.push({
+          pathname: "/"
         });
-    }, 3000);
+      })
+      .catch(error => {
+        setTimeout(() => {
+          this.props.onNotify("Bad credentials", "error");
+        }, 99);
+        this.props.onStopWait();
+      });
+    // }, 3000);
   };
 
   storeCredentials = credentials => {
