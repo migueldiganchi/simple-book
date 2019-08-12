@@ -128,14 +128,16 @@ class Auth extends React.Component {
 
   render() {
     let formTitle = (
-      <h4 className="mb-4">
-        <b>Authentication</b>
-      </h4>
+      <div>
+        <h4 className="mb-4">
+          <b>Authentication</b>
+        </h4>
+      </div>
     );
 
     return (
       <div className="auth">
-        {/* {formTitle} */}
+        {formTitle}
         <form
           action="/auth"
           method="post"

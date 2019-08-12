@@ -111,7 +111,7 @@ class PublicationForm extends Component {
   };
 
   onEnterPress = e => {
-    if (e.keyCode == 13 && e.shiftKey == false) {
+    if (e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
       this.onSubmitPublication(e);
     }
@@ -124,12 +124,6 @@ class PublicationForm extends Component {
   };
 
   render() {
-    let formTitle = (
-      <h4 className="mb-4">
-        <b>{this.props.publication.id ? "Editing" : "New"} Publication</b>
-      </h4>
-    );
-
     let switcherFriendsClassName =
       "do " +
       (this.state.scope === this.state.scopeTypes.FRIENDS
@@ -143,7 +137,6 @@ class PublicationForm extends Component {
 
     return (
       <div className="form-container">
-        {/* {formTitle} */}
         <form
           action="/publications"
           method="post"

@@ -23,9 +23,6 @@ class PublicationManager extends React.Component {
   };
 
   componentDidMount() {
-    if (!this.props.isAuthenticated()) {
-      return;
-    }
     this.getPublications(this.state.termFilter, this.state.scopeFilter);
   }
 
