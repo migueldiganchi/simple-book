@@ -4,14 +4,14 @@ body,
 html {
   padding: 0;
   margin: 0;
-  background-color: #2b3252;
+  background-color: #586f56;
   * {
     font-family: "Nunito", sans-serif;
   }
 }
 
 .App {
-  background: #2b3252; /* fallback for old browsers */
+  background: #8ba189; /* fallback for old browsers */
   text-align: center;
   padding-bottom: 30px;
 
@@ -190,24 +190,26 @@ html {
   }
 
   .App-header {
-    background-color: #40ee3a;
+    background-color: #586f56;
     color: #2b3252;
     padding: 12px 9px 6px;
     margin-bottom: 27px;
-    text-shadow: 1px 1px 1px #5e7c9771;
+    text-shadow: 1px 1px 1px #738d76;
 
     &.confirming-close {
-      background-color: #5e7c9771;
+      background-color: #738d76;
       .App-title-text {
         color: #fff !important;
       }
       .do {
         margin: 0 0 6px !important;
         &.disabled {
-          background-color: #5e7c9771 !important;
+          background-color: #738d76 !important;
           border-color: #fff !important;
           color: #fff !important;
-          * {color: #fff !important;}
+          * {
+            color: #fff !important;
+          }
         }
       }
     }
@@ -215,9 +217,15 @@ html {
     .App-title-text {
       display: inline-block;
       position: absolute;
+      font-weight: bold;
+      font-size: 27px;
       left: 50%;
       transform: translateX(-50%);
-      margin-top: 9px !important;
+      margin-top: 6px !important;
+      * {
+        color: #fff !important;
+        text-shadow: 3px 3px 3px #586f56;
+      }
     }
     .do {
       margin: 0 0 6px !important;
@@ -264,7 +272,7 @@ html {
     @include border-radius(9px);
     @include box-shadow(1px, 1px, 1px, #111);
     position: relative;
-    background-color: #444b69;
+    background-color: #738d76;
     padding: 9px;
 
     &.searching:not(.disabled) {
@@ -273,12 +281,12 @@ html {
     form {
       @include transition(box-shadow, 0.3s, ease);
       @include border-radius(9px);
-      background-color: #2b3252;
+      background-color: #586f56;
       position: relative;
       padding: 12px 15px !important;
       input[type="text"] {
         font-size: 15px;
-        background-color: #2b3252;
+        background-color: #586f56;
         color: #40ee3a;
         padding-left: 33px;
       }
@@ -303,8 +311,6 @@ html {
   .filter-toggler {
     transition: opacity 0.3s ease, color 0.3s ease;
     position: absolute;
-    border: solid 3px violet;
-    // font-size: 15px;
     font-size: 18px;
 
     top: 14px;
@@ -483,11 +489,11 @@ form {
     width: 100%;
 
     &[disabled] {
-      color: #84838f !important;
+      color: #a9b99f !important;
     }
 
     &::placeholder {
-      color: #586083;
+      color: #a9b99f;
     }
   }
 }

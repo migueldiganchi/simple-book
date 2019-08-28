@@ -133,7 +133,7 @@ class App extends React.Component {
         {glassApp}
         {loadingApp}
         <Header
-          title="Crazybook"
+          title="Fasobook"
           isAuthenticated={this.isAuthenticated}
           onLogout={this.closeApp}
           {...this.props}

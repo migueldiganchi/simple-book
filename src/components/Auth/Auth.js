@@ -88,7 +88,7 @@ class Auth extends React.Component {
         this.props.onStopWait();
         const credentials = response.data;
         this.storeCredentials(credentials);
-        this.props.onNotify("Welcome to Crazybook!");
+        this.props.onNotify("Welcome to Fasobook!");
         this.props.history.push({
           pathname: "/"
         });
