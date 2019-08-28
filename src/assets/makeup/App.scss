@@ -224,21 +224,21 @@ html {
       margin-top: 6px !important;
       * {
         color: #fff !important;
-        text-shadow: 3px 3px 3px #586f56;
+        text-shadow: 2px 2px 2px #353a34;
       }
     }
     .do {
       margin: 0 0 6px !important;
       &.disabled {
-        border: solid 2px #2b3252 !important;
-        background-color: #40ee3a;
+        border: solid 2px #3f463e !important;
+        background-color: #8ba189;
         opacity: 1;
-        color: #2b3252 !important;
+        color: #3f463e !important;
         text-shadow: none;
         box-shadow: none !important;
         font-weight: 900;
         * {
-          color: #2b3252 !important;
+          color: #3f463e !important;
         }
       }
     }
@@ -262,9 +262,13 @@ html {
       padding: 12px;
       margin-bottom: 21px;
       font-size: 15px;
+      color: #fff;
+      text-shadow: 2px 2px 2px #323832;
     }
     .logo-holder {
       font-size: 69px;
+      color: 	#11cf00 !important;
+      text-shadow: 1px 1px 1px 	#413e3b;
     }
   }
 
@@ -422,7 +426,7 @@ html {
 
   .App-board {
     margin: 0 auto;
-    color: #40ee3a;
+    color: #fff;
     width: 600px;
 
     @media screen and (max-width: 600px) {
@@ -543,7 +547,7 @@ form {
   .field {
     @include border-radius(9px);
     @include transition(background-color, 0.3s, ease);
-    background-color: #586083;
+    background-color: #586f56;
     &.error {
       background-color: #ef5455;
     }
@@ -557,7 +561,7 @@ form {
     textarea,
     select {
       @include border-radius(6px);
-      background-color: #2b3252;
+      background-color: #3b4739	;
       color: #fff;
       padding: 6px 9px;
       -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -757,9 +761,9 @@ button:focus {
   }
 
   &.do-primary {
-    background-color: #0d1138;
-    border: solid 1px #40ee3a;
-    color: #40ee3a !important;
+    background-color: #40533f;
+    border: solid 1px #dbd1c8;
+    color: #dfd6ce !important;
   }
 
   &.do-success {

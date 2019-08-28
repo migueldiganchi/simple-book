@@ -5,10 +5,10 @@ function Presentation() {
   return (
     <div className="App-presentation">
       <div className="text-center logo-holder">
-        <i className="fas fa-smile-wink" />
+        <i className="fas fa-cannabis" />
       </div>
       <p className="text-box">
-        <b>Free people news</b>
+        <h5>Your own green space</h5>
       </p>
       <NavLink to="/auth" className="do do-primary">
         <i className="fas fa-plug" />
