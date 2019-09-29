@@ -42,12 +42,29 @@ class MemoryCards extends React.Component {
     ],
     playingPosition: 0,
     playingPlayer: null,
-    cardTimeout: 3000,
+    cardTimeout: 1500,
+    playerTimeout: 9000,
+    playerSecondsOut: 0,
     isBoardOpened: false,
     isBeingShuffled: false
   };
 
-  exchangeTurn = () => {
+  async exchangeTurn() {
+    // Exchanging clock
+    this.setState({
+      playerSecondsOut: (
+        <div className="mb-5">
+          <i className="fas fa-clock"></i>
+        </div>
+      )
+    });
+    await this.delay(999);
+    
+    // Check for the timer
+    if (window.playerClock) {
+      clearInterval(window.playerClock);
+    }
+
     const players = [...this.state.players];
     this.setState({
       playingPlayer: players[this.state.playingPosition]
@@ -64,11 +81,30 @@ class MemoryCards extends React.Component {
       });
     }
 
-    setTimeout(() => {
-      console.log("this.state.playingPosition", this.state.playingPosition);
-      console.log("this.state.playingPlayer", this.state.playingPlayer);
-    }, 600);
-  };
+    let playerTimeout = this.state.playerTimeout;
+    let userSecondsOut = 0;
+
+    window.playerClock = setInterval(() => {
+      playerTimeout -= 1000;
+      if (playerTimeout < 1) {
+        clearInterval(window.playerClock);
+        console.log("timeout! Time to exchange.", window.playerClock);
+        this.exchangeTurn();
+      } else {
+        // clearInterval(clock);
+        userSecondsOut = parseInt(playerTimeout / 1000);
+        console.log("playerTimeout", playerTimeout);
+        console.log("userSecondsOut", userSecondsOut);
+      }
+      this.setState({
+        playerSecondsOut: userSecondsOut
+      });
+    }, 1000);
+  }
+
+  delay(duration) {
+    return new Promise(resolve => setTimeout(resolve, duration));
+  }
 
   closeBoard = () => {
     this.setState({
@@ -99,7 +135,7 @@ class MemoryCards extends React.Component {
         isBoardOpened: true,
         isBeingShuffled: false
       });
-    }, 1000);
+    }, 666);
   };
 
   turn = card => {
@@ -107,15 +143,13 @@ class MemoryCards extends React.Component {
     let winnerCards = [...this.state.winnerCards];
 
     if (openedCards.length === 0) {
-      console.log("openedCards.length === 0");
       openedCards.push(card);
       setTimeout(() => {
         this.setState({
           openedCards: []
         });
-      }, 3000);
+      }, this.state.cardTimeout);
     } else if (openedCards.length === 1) {
-      console.log("openedCards.length === 1");
       openedCards.push(card);
       let prevCard = openedCards[0];
       let currentPlayer = this.state.playingPlayer;
@@ -128,11 +162,11 @@ class MemoryCards extends React.Component {
           this.setState({
             playingPlayer: currentPlayer
           });
-        }, 600);
+        }, this.state.cardTimeout);
       } else {
         setTimeout(() => {
           this.exchangeTurn();
-        }, 600);
+        }, this.state.cardTimeout);
       }
     }
 
@@ -162,7 +196,6 @@ class MemoryCards extends React.Component {
 
   isCardOpened = card => {
     let foundCard = this.state.openedCards.find(openedCard => {
-      // console.log("openedCard", openedCard);
       return openedCard.id === card.id;
     });
 
@@ -207,7 +240,7 @@ class MemoryCards extends React.Component {
                   onClick={() => this.turn(card)}
                   className="memory-board_card col-3"
                 >
-                  <div id={`card_number_${card.id}`} className={cardClassName}>
+                  <div className={cardClassName}>
                     <h3>{card.number}</h3>
                   </div>
                 </div>
@@ -218,7 +251,7 @@ class MemoryCards extends React.Component {
 
         {/* timer */}
         <div className="memory-timer">
-          <b>00</b> : <b>00</b>
+          <b>{this.state.playerSecondsOut}</b>
         </div>
 
         {/* players */}
