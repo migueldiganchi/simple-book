@@ -95,6 +95,7 @@ function PublicationList(props) {
     newGame = <MemoryGame 
       game={props.newGame}
       onWait={props.onWait}
+      onNotify={props.onNotify}
       onStopWait={props.onStopWait}      
       onCancelMemory={props.onCancelMemory}/>;
   }

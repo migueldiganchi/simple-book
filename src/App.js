@@ -45,12 +45,12 @@ class App extends React.Component {
     this.setState({ notification: null });
   };
 
-  wait = message => {
+  wait = (message, messageType) => {
     this.setState({
       waiting: message,
       notification: {
         message: message,
-        type: "default"
+        type: messageType ? messageType : "default"
       }
     });
   };

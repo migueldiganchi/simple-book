@@ -25,35 +25,123 @@ class MemoryCards extends React.Component {
       { id: 19, kind: "b", number: "9" },
       { id: 20, kind: "b", number: "10" }
     ],
-    openedCards: [],
-    winnerCards: [],
     players: [
       // me
       {
         id: 1,
         name: "Miguel Diganchi",
+        won: false,
         score: 0
       },
       {
         id: 2,
         name: "Diego Diganchi",
+        won: false,
         score: 0
       }
     ],
+    openedCards: [],
+    winnerCards: [],
     playingPosition: 0,
     playingPlayer: null,
     cardTimeout: 1500,
     playerTimeout: 9000,
     playerSecondsOut: 0,
     isBoardOpened: false,
-    isBeingShuffled: false
+    isBeingShuffled: false,
+    endGame: false,
+    endGameMessage: null
   };
 
-  async exchangeTurn() {
+  turn = card => {
+    // Prepare arrays
+    let openedCards = [...this.state.openedCards];
+    let winnerCards = [...this.state.winnerCards];
+    let successMatch = false;
+    let finishClock = false;
+
+    // Check for cards
+    if (openedCards.length === 0) {
+      openedCards.push(card);
+      // Wait for the card timeout
+      setTimeout(() => {
+        // Clear all opened cards
+        this.setState({
+          openedCards: []
+        });
+      }, this.state.cardTimeout);
+    } else if (openedCards.length === 1) {
+      openedCards.push(card);
+      // Get first card
+      let firstCard = openedCards[0];
+
+      // Check if card numbers match
+      if (firstCard.number === card.number) {
+        // Add cards to the winner stack
+        winnerCards.push(firstCard);
+        winnerCards.push(card);
+        openedCards = [];
+        successMatch = true;
+        // Add points to the score
+        this.state.playingPlayer.score += 1;
+      }
+
+      // Check for status of winner cards
+      if (winnerCards.length === this.state.cards.length) {
+        finishClock = true;
+      }
+      this.exchangeTurn(successMatch, finishClock);
+    }
+
+    this.setState({
+      openedCards: [...openedCards],
+      winnerCards: [...winnerCards]
+    });
+  };
+
+  showResults = () => {
+    // @todo: improve this code to allow more than 2 participants
+    let resultsMessage = "Both are winners!";
+    let player1 = this.state.players[0];
+    let player2 = this.state.players[1];
+    let winner = null;
+
+    if (player1.score === player2.score) {
+      player1.won = true;
+      player2.won = true;
+    } else if (player1.score > player2.score) {
+      player1.won = true;
+      winner = player1;
+    } else if (player1.score < player2.score) {
+      player2.won = true;
+      winner = player2;
+    }
+
+    if (winner) {
+      resultsMessage = "Announcement: " + winner.name + " won!";
+    }
+
+    // Finish game
+    this.setState({
+      endGame: true,
+      endGameMessage: resultsMessage
+    });
+
+    this.props.onNotify(resultsMessage, "bg-tr", 6000);
+  };
+
+  exchangeTurn = async (successMatch, end) => {
     // Restart timer if it exists
     if (window.playerClock) {
       clearInterval(window.playerClock);
     }
+
+    if (end) {
+      // Finish game
+      this.showResults();
+      return;
+    }
+
     // Initial values
     const players = [...this.state.players];
     let playerTimeout = this.state.playerTimeout;
@@ -64,51 +152,79 @@ class MemoryCards extends React.Component {
     if (!players[nextPosition]) {
       nextPosition = 0;
     }
-    // Initial settings
-    setTimeout(() => { // Wait for the next tick to allow rendering (?)
-      this.setState({
-        playingPlayer: players[this.state.playingPosition],
-        playerSecondsOut: userSecondsOut,
-        playingPosition: nextPosition
-      });
-    }, 1);
-    // Start chronometer
-    window.playerClock = setInterval(() => {
-      // Reduce timeout for a 1 second
-      playerTimeout -= 1000;
-      if (playerTimeout === 0) {
-        // Timeout: Lets restart clock and do exchange
-        clearInterval(window.playerClock);
-        doExchange = true;
-        // Show the finish of chronometer
-        userSecondsOut = 0;
-      } else {
-        // Keep counting on: Prepare seconds to show
-        userSecondsOut = parseInt(playerTimeout / 1000);
-      }
-      // Show seconds in the panel
-      this.setState({
-        playerSecondsOut: userSecondsOut
-      });
-      // Check if we must exchange
-      if (doExchange) {
-        this.exchangeTurn();
-      }
-    }, 1000);
-  }
 
-  delay(duration) {
-    return new Promise(resolve => setTimeout(resolve, duration));
-  }
+    // Initial settings
+    let message = successMatch ? "Great!" : "New Turn";
+    let messageType = successMatch ? "success" : "";
+    this.props.onWait(message, messageType);
+    setTimeout(() => {
+      this.props.onStopWait();
+      if (successMatch) {
+        // Player is the same
+        this.setState({
+          playerSecondsOut: userSecondsOut
+        });
+      } else {
+        // Exchanging the player
+        this.setState({
+          playingPlayer: players[this.state.playingPosition],
+          playerSecondsOut: userSecondsOut,
+          playingPosition: nextPosition
+        });
+      }
+
+      // Start chronometer
+      window.playerClock = setInterval(() => {
+        // Reduce timeout for a 1 second
+        playerTimeout -= 1000;
+        if (playerTimeout === 0) {
+          // Timeout: Lets restart clock and do exchange
+          clearInterval(window.playerClock);
+          doExchange = true;
+          userSecondsOut = 0;
+        } else {
+          // Keep counting on: Prepare seconds to show
+          userSecondsOut = parseInt(playerTimeout / 1000);
+        }
+        // Show seconds in the panel
+        this.setState({
+          playerSecondsOut: userSecondsOut
+        });
+        // Check if we must exchange
+        if (doExchange) {
+          this.exchangeTurn();
+        }
+      }, 1000);
+    }, 666);
+  };
 
   closeBoard = () => {
     this.setState({
+      openedCards: [],
+      winnerCards: [],
+      playingPosition: 0,
+      playingPlayer: null,
+      cardTimeout: 1500,
+      playerTimeout: 9000,
+      playerSecondsOut: 0,
       isBoardOpened: false,
       isBeingShuffled: false,
-      playingPosition: 0,
-      playingPlayer: null
+      endGame: false,
+      endGameMessage: null
     });
+
+    this.resetPlayers();
+
+    if (window.playerClock) {
+      clearInterval(window.playerClock);
+    }
   };
+
+  resetPlayers() {
+    this.state.players.forEach(player => {
+      player.score = 0;
+    });
+  }
 
   startBoard = () => {
     // Doing Shuffle
@@ -123,7 +239,7 @@ class MemoryCards extends React.Component {
       this.props.onStopWait();
       // Doing shuffle
       this.shuffle();
-      // @todo: Activate initial player
+      // Activate initial player
       this.exchangeTurn();
       // Change memory state
       this.setState({
@@ -131,44 +247,6 @@ class MemoryCards extends React.Component {
         isBeingShuffled: false
       });
     }, 666);
-  };
-
-  turn = card => {
-    let openedCards = [...this.state.openedCards];
-    let winnerCards = [...this.state.winnerCards];
-
-    if (openedCards.length === 0) {
-      openedCards.push(card);
-      setTimeout(() => {
-        this.setState({
-          openedCards: []
-        });
-      }, this.state.cardTimeout);
-    } else if (openedCards.length === 1) {
-      openedCards.push(card);
-      let prevCard = openedCards[0];
-      let currentPlayer = this.state.playingPlayer;
-      if (prevCard.number === card.number) {
-        winnerCards.push(prevCard);
-        winnerCards.push(card);
-        openedCards = [];
-        setTimeout(() => {
-          currentPlayer.score += 1;
-          this.setState({
-            playingPlayer: currentPlayer
-          });
-        }, this.state.cardTimeout);
-      } else {
-        setTimeout(() => {
-          this.exchangeTurn();
-        }, this.state.cardTimeout);
-      }
-    }
-
-    this.setState({
-      openedCards: [...openedCards],
-      winnerCards: [...winnerCards]
-    });
   };
 
   shuffle = () => {
@@ -212,14 +290,39 @@ class MemoryCards extends React.Component {
     return winnerCard !== undefined;
   };
 
+  circularHandlerControl() {
+    let handlerButtonClassName = "memory-handler";
+    return this.state.isBoardOpened ? (
+      <div className={handlerButtonClassName}>
+        <button
+          onClick={this.closeBoard}
+          type="button"
+          className="do do-circular do-primary do-circular-large"
+        >
+          <i className="fas fa-times" />
+        </button>
+      </div>
+    ) : (
+      <div className={handlerButtonClassName}>
+        <button
+          onClick={this.startBoard}
+          type="button"
+          className="do do-circular do-primary do-circular-large"
+        >
+          <i className="fas fa-play" />
+        </button>
+      </div>
+    );
+  }
+
   render() {
     let cardClassName = null;
-    let handlerButtonClassName = "memory-handler";
+    let cancelClassname = null;
 
     return (
       <div className="memory">
         {/* board */}
-        {this.state.isBoardOpened ? (
+        {this.state.isBoardOpened && !this.state.endGame ? (
           <div className="memory-board row">
             {this.state.cards.map((card, i) => {
               cardClassName = "memory-board_card_wrapper";
@@ -245,19 +348,32 @@ class MemoryCards extends React.Component {
         ) : null}
 
         {/* timer */}
-        <div className="memory-timer">
-          <b>{this.state.playerSecondsOut}</b>
-        </div>
+        {!this.state.endGame ? (
+          <div className="memory-timer">
+            <b>{this.state.playerSecondsOut}</b>
+          </div>
+        ) : (
+          <div className="memory-timer py-3 px-4">
+            <small>{this.state.endGameMessage}</small>
+          </div>
+        )}
 
         {/* players */}
         <div className="memory-players row">
           {this.state.players.map((player, i) => {
             let cardSideClassName = "memory-players_card col-6 ";
-            cardSideClassName += this.isActiveUser(player) ? "active " : "";
+            cardSideClassName +=
+              this.isActiveUser(player) && !player.won ? "active " : "";
+            cardSideClassName += player.won ? "won " : "";
             cardSideClassName += !(i % 2) ? "left" : "right";
 
             return (
               <div key={i} className={cardSideClassName}>
+                {player.won ? (
+                  <div className="prize">
+                    <i className="fas fa" />
+                  </div>
+                ) : null}
                 <div className="memory-players_card_image_holder">
                   <img src="" alt="" />
                 </div>
@@ -271,27 +387,7 @@ class MemoryCards extends React.Component {
         </div>
 
         {/* Circular handler */}
-        {this.state.isBoardOpened ? (
-          <div className={handlerButtonClassName}>
-            <button
-              onClick={this.closeBoard}
-              type="button"
-              className="do do-circular do-primary do-circular-large"
-            >
-              <i className="fas fa-times" />
-            </button>
-          </div>
-        ) : (
-          <div className={handlerButtonClassName}>
-            <button
-              onClick={this.startBoard}
-              type="button"
-              className="do do-circular do-primary do-circular-large"
-            >
-              <i className="fas fa-play" />
-            </button>
-          </div>
-        )}
+        {!this.state.endGame ? this.circularHandlerControl() : null}
 
         <div className="memory-buttons clearfix">
           <div className="keypad keypad-inline-block responsive responsive-desktop float-left">
@@ -303,13 +399,23 @@ class MemoryCards extends React.Component {
           <div className="keypad keypad-inline-block responsive responsive-desktop float-right">
             <button
               type="button"
-              className="do do-secondary"
+              className={
+                "do do-secondary " +
+                (this.state.isBoardOpened && !this.state.endGame
+                  ? "disabled"
+                  : "")
+              }
               onClick={this.props.onCancelMemory}
             >
               <i className="fas fa-users icon-friends" />
               Cancel
             </button>
-            <button type="button" className="do do-primary">
+            <button
+              type="button"
+              className={
+                "do do-primary " + (!this.state.endGame ? "disabled" : "")
+              }
+            >
               <i className="fas fas fa-check" />
               Post
             </button>

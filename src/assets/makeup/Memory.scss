@@ -74,6 +74,9 @@
       font-size: 39px;
       vertical-align: middle;
     }
+    small {
+      font-size: initial !important;
+    }
   }
 
   // Players
@@ -86,6 +89,47 @@
 
     .memory-players_card {
       padding: 21px;
+
+      &.won,
+      &.won.active {
+        // border: solid 3px gold !important;
+        background: radial-gradient(
+            ellipse farthest-corner at right bottom,
+            #fedb37 0%,
+            #fdb931 8%,
+            #9f7928 30%,
+            #8a6e2f 40%,
+            transparent 80%
+          ),
+          radial-gradient(
+            ellipse farthest-corner at left top,
+            #ffffff 0%,
+            #ffffac 8%,
+            #d1b464 25%,
+            #5d4a1f 62.5%,
+            #5d4a1f 100%
+          ) !important;
+
+        .memory-players_card_image_holder img {
+          border: solid 3px gold !important;
+        }
+
+        .memory-playsers_card_name {
+          color: gold !important;
+          text-shadow: 1px 1px 1px #000;
+        }
+        * {
+          color: gold !important;
+          text-shadow: 1px 1px 1px #000;
+        }
+
+        .playsers_card_details,
+        .playsers_card_details * {
+          color: gold !important;
+          text-shadow: 1px 1px 1px #000;
+        }
+      }
+
       &.left {
         // border: solid 3px #c9c9c999;
         -webkit-border-top-left-radius: 6px;
@@ -146,7 +190,7 @@
 
   // Handler
   .memory-handler {
-    @include bg-tr-medium;    
+    @include bg-tr-medium;
     -webkit-border-bottom-right-radius: 50%;
     -webkit-border-bottom-left-radius: 50%;
     -moz-border-radius-bottomright: 50%;
