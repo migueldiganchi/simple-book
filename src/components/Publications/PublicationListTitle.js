@@ -12,7 +12,7 @@ function PublicationListTitle(props) {
           </small>
         ) : null}
       </div>
-      {props.isAuthenticated() ? (
+      {props.isAuthenticated() && !props.disabled ? (
         <div
           className={
             "adder-container keypad my-3 " +
@@ -26,6 +26,15 @@ function PublicationListTitle(props) {
           >
             <i className="fas fa-plus" />
             Publication
+          </a>
+
+          <a
+            disabled={props.disabled}
+            className={"do do-success"}
+            onClick={props.onCreateGame}
+          >
+            <i className="fas fa-trophy" />
+            Game
           </a>
         </div>
       ) : null}

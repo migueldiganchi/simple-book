@@ -2,6 +2,7 @@ import React from "react";
 
 import PublicationListItem from "./PublicationListItem";
 import PublicationForm from "./PublicationForm";
+import MemoryGame from "./../Games/MemoryCards";
 
 function PublicationList(props) {
   const renderList = () => {
@@ -74,6 +75,7 @@ function PublicationList(props) {
   };
 
   let newForm = null;
+  let newGame = null;
 
   if (props.newPublication) {
     newForm = (
@@ -89,9 +91,18 @@ function PublicationList(props) {
     );
   }
 
+  if (props.newGame) {
+    newGame = <MemoryGame 
+      game={props.newGame}
+      onWait={props.onWait}
+      onStopWait={props.onStopWait}      
+      onCancelMemory={props.onCancelMemory}/>;
+  }
+
   return (
     <div className="list-container">
       {props.isAuthenticated() ? newForm : null}
+      {props.isAuthenticated() ? newGame : null}
       <div className="publication-list">{renderList()}</div>
     </div>
   );

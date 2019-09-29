@@ -207,7 +207,9 @@ html {
           background-color: #5e7c9771 !important;
           border-color: #fff !important;
           color: #fff !important;
-          * {color: #fff !important;}
+          * {
+            color: #fff !important;
+          }
         }
       }
     }
@@ -815,6 +817,11 @@ button:focus {
     width: 39px;
     line-height: 39px;
     padding: 0;
+    &.do-circular-large {
+      height: 51px;
+      width: 51px;
+      line-height: 51px;
+    }
   }
 
   &:not(.do-circular) .fas {
