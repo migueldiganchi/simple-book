@@ -50,55 +50,50 @@ class MemoryCards extends React.Component {
   };
 
   async exchangeTurn() {
-    // Exchanging clock
-    this.setState({
-      playerSecondsOut: (
-        <div className="mb-5">
-          <i className="fas fa-clock"></i>
-        </div>
-      )
-    });
-    await this.delay(999);
-    
-    // Check for the timer
+    // Restart timer if it exists
     if (window.playerClock) {
       clearInterval(window.playerClock);
     }
-
+    // Initial values
     const players = [...this.state.players];
-    this.setState({
-      playingPlayer: players[this.state.playingPosition]
-    });
-
-    const nextPosition = this.state.playingPosition + 1;
+    let playerTimeout = this.state.playerTimeout;
+    let userSecondsOut = parseInt(playerTimeout / 1000);
+    let nextPosition = this.state.playingPosition + 1;
+    let doExchange = false;
+    // If next position doesn't exists go back to the initial player
     if (!players[nextPosition]) {
+      nextPosition = 0;
+    }
+    // Initial settings
+    setTimeout(() => { // Wait for the next tick to allow rendering (?)
       this.setState({
-        playingPosition: 0
-      });
-    } else {
-      this.setState({
+        playingPlayer: players[this.state.playingPosition],
+        playerSecondsOut: userSecondsOut,
         playingPosition: nextPosition
       });
-    }
-
-    let playerTimeout = this.state.playerTimeout;
-    let userSecondsOut = 0;
-
+    }, 1);
+    // Start chronometer
     window.playerClock = setInterval(() => {
+      // Reduce timeout for a 1 second
       playerTimeout -= 1000;
-      if (playerTimeout < 1) {
+      if (playerTimeout === 0) {
+        // Timeout: Lets restart clock and do exchange
         clearInterval(window.playerClock);
-        console.log("timeout! Time to exchange.", window.playerClock);
-        this.exchangeTurn();
+        doExchange = true;
+        // Show the finish of chronometer
+        userSecondsOut = 0;
       } else {
-        // clearInterval(clock);
+        // Keep counting on: Prepare seconds to show
         userSecondsOut = parseInt(playerTimeout / 1000);
-        console.log("playerTimeout", playerTimeout);
-        console.log("userSecondsOut", userSecondsOut);
       }
+      // Show seconds in the panel
       this.setState({
         playerSecondsOut: userSecondsOut
       });
+      // Check if we must exchange
+      if (doExchange) {
+        this.exchangeTurn();
+      }
     }, 1000);
   }
 
