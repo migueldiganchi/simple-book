@@ -24,7 +24,7 @@ function PublicationListTitle(props) {
             className={"do do-primary responsive responsive-desktop"}
             onClick={props.onCreatePublication}
           >
-            <i className="fas fa-plus" />
+            <i className="fas fa-keyboard" />
             Publication
           </a>
           <a
@@ -32,7 +32,7 @@ function PublicationListTitle(props) {
             className={"do do-primary do-circular responsive responsive-mobile"}
             onClick={props.onCreatePublication}
           >
-            <i className="fas fa-plus" />
+            <i className="fas fa-keyboard" />
           </a>
 
           <a

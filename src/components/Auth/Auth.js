@@ -76,7 +76,7 @@ class Auth extends React.Component {
       return null;
     }
 
-    this.props.onWait("Checking for credentials...");
+    this.props.onWait("Authenticating...");
     // setTimeout(() => {
     axiosAuth
       .post("/verifyPassword?key=AIzaSyAXRS3ijUJ0HhgC12cSeqe41WnDEcoN6-w", {

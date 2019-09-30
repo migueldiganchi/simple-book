@@ -92,12 +92,17 @@ function PublicationList(props) {
   }
 
   if (props.newGame) {
-    newGame = <MemoryGame 
-      game={props.newGame}
-      onWait={props.onWait}
-      onNotify={props.onNotify}
-      onStopWait={props.onStopWait}      
-      onCancelMemory={props.onCancelMemory}/>;
+    newGame = (
+      <MemoryGame
+        game={null}
+        onWait={props.onWait}
+        onNotify={props.onNotify}
+        onStopWait={props.onStopWait}
+        isAuthenticated={props.isAuthenticated}
+        onCancelMemory={props.onCancelMemory}
+        onGameResults={props.onGameResults}
+      />
+    );
   }
 
   return (

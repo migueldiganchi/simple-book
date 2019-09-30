@@ -127,9 +127,7 @@ class PublicationManager extends React.Component {
 
     this.setState({
       newGame: {
-        id: null,
-        score: null,
-        participants: [{ id: 1, user: "me" }, { id: 2, user: "Another person" }]
+        id: null
       }
     });
   };
@@ -177,6 +175,13 @@ class PublicationManager extends React.Component {
     this.getPublications(this.state.termFilter, this.state.scopeFilter);
     this.cancelPublicationForm();
   };
+
+  gameResults = (players) => {
+    this.props.onNotify("@todo: POST RESULTS", "info", 3000, () => {
+      console.log("players", players);
+      this.cancelMemory();
+    });
+  }
 
   cancelPublicationForm = () => {
     this.setState({
@@ -277,7 +282,7 @@ class PublicationManager extends React.Component {
         disabled={
           this.state.removingPublication ||
           this.state.newPublication ||
-          this.state.editingPublication || 
+          this.state.editingPublication ||
           this.state.newGame
         }
         isAuthenticated={this.props.isAuthenticated}
@@ -311,6 +316,7 @@ class PublicationManager extends React.Component {
           onNext={this.goNextPage}
           onLast={this.goLastPage}
           onSave={this.onSavePublication}
+          onGameResults={this.gameResults}
           onCancel={this.cancelPublicationForm}
           onCancelMemory={this.cancelMemory}
           onEdit={this.editPublication}
