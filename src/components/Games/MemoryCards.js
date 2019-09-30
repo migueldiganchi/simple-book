@@ -457,7 +457,10 @@ class MemoryCards extends React.Component {
             return (
               <div key={i} className={cardSideClassName}>
                 <div className="memory-players_card_image_holder">
-                  <img src="" alt="" />
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAq53F5miyA4D4SNJ8asuItUGge7r6ML1BcgInmFCypxLVZ_CT"
+                    alt={player.name}
+                  />
                 </div>
                 <h4 className="memory-playsers_card_name">{player.name}</h4>
                 <div className="memory-playsers_card_details mt-3">
