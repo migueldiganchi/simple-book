@@ -83,7 +83,7 @@ class MemoryCards extends React.Component {
       // Push second card: Check if numbers match
       openedCards.push(card);
       firstCard = openedCards[0];
-      if (firstCard.number === card.number) {
+      if (firstCard.number === card.number && firstCard.kind !== card.kind) {
         winnerCards.push(firstCard);
         winnerCards.push(card);
         openedCards = [];
@@ -238,7 +238,7 @@ class MemoryCards extends React.Component {
   }
 
   closeBoard = () => {
-    this.props.onWait("Closing game...");
+    this.props.onWait("Closing game...", "info");
     setTimeout(() => {
       // [Visual Effect]
       this.props.onStopWait();
@@ -277,7 +277,7 @@ class MemoryCards extends React.Component {
       isBeingShuffled: true
     });
     // Wait
-    this.props.onWait("Shuffling cards...");
+    this.props.onWait("Shuffling cards...", "info");
 
     setTimeout(() => {
       // Stop wait
