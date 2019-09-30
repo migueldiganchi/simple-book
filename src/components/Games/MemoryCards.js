@@ -50,7 +50,8 @@ class MemoryCards extends React.Component {
     isBoardOpened: false,
     isBeingShuffled: false,
     endGame: false,
-    endGameMessage: null
+    endGameMessage: null,
+    confirmer: false
   };
 
   turn = card => {
@@ -118,7 +119,7 @@ class MemoryCards extends React.Component {
     }
 
     if (winner) {
-      resultsMessage = "Announcement: " + winner.name + " won!";
+      resultsMessage = winner.name + " won!";
     }
 
     // Finish game
@@ -195,8 +196,29 @@ class MemoryCards extends React.Component {
           this.exchangeTurn();
         }
       }, 1000);
-    }, 666);
+    }, 999);
   };
+
+  confirmCloseBoard() {
+    // Get last timer
+
+    this.setState({
+      confirmer: true
+    });
+
+    if (window.playerClock) {
+      clearInterval(window.playerClock);
+    }
+  }
+
+  cancelCloseBoard() {
+    this.setState({
+      confirmer: false
+    });
+
+    // Continue as the winner
+    this.exchangeTurn(true);
+  }
 
   closeBoard = () => {
     this.setState({
@@ -210,7 +232,8 @@ class MemoryCards extends React.Component {
       isBoardOpened: false,
       isBeingShuffled: false,
       endGame: false,
-      endGameMessage: null
+      endGameMessage: null,
+      confirmer: false
     });
 
     this.resetPlayers();
@@ -291,38 +314,65 @@ class MemoryCards extends React.Component {
   };
 
   circularHandlerControl() {
-    let handlerButtonClassName = "memory-handler";
-    return this.state.isBoardOpened ? (
-      <div className={handlerButtonClassName}>
-        <button
-          onClick={this.closeBoard}
-          type="button"
-          className="do do-circular do-primary do-circular-large"
-        >
-          <i className="fas fa-times" />
-        </button>
-      </div>
-    ) : (
-      <div className={handlerButtonClassName}>
-        <button
-          onClick={this.startBoard}
-          type="button"
-          className="do do-circular do-primary do-circular-large"
-        >
-          <i className="fas fa-play" />
-        </button>
-      </div>
-    );
+    let handlerButtonClassName = this.state.confirmer
+      ? "memory-confirmer"
+      : "memory-handler";
+
+    if (this.state.confirmer) {
+      return (
+        <div className={handlerButtonClassName}>
+          <button
+            onClick={() => this.cancelCloseBoard()}
+            type="button"
+            className="do do-large"
+          >
+            <i className="fas fa-ban" />
+            Mmna
+          </button>
+          <button
+            onClick={() => this.closeBoard()}
+            type="button"
+            className="do do-large do-danger"
+          >
+            <i className="fas fa-trash" />
+            Yes, close
+          </button>
+        </div>
+      );
+    } else {
+      return this.state.isBoardOpened ? (
+        <div className={handlerButtonClassName}>
+          <button
+            onClick={() => this.confirmCloseBoard()}
+            type="button"
+            className="do do-circular do-primary do-circular-large"
+          >
+            <i className="fas fa-times" />
+          </button>
+        </div>
+      ) : (
+        <div className={handlerButtonClassName}>
+          <button
+            onClick={this.startBoard}
+            type="button"
+            className="do do-circular do-primary do-circular-large"
+          >
+            <i className="fas fa-play" />
+          </button>
+        </div>
+      );
+    }
   }
 
   render() {
     let cardClassName = null;
-    let cancelClassname = null;
 
     return (
       <div className="memory">
         {/* board */}
-        {this.state.isBoardOpened && !this.state.endGame ? (
+        {this.state.isBoardOpened &&
+        !this.state.confirmer &&
+        !this.state.endGame ? (
           <div className="memory-board row">
             {this.state.cards.map((card, i) => {
               cardClassName = "memory-board_card_wrapper";
@@ -350,7 +400,13 @@ class MemoryCards extends React.Component {
         {/* timer */}
         {!this.state.endGame ? (
           <div className="memory-timer">
-            <b>{this.state.playerSecondsOut}</b>
+            {!this.state.confirmer ? (
+              <b>{this.state.playerSecondsOut}</b>
+            ) : (
+              <div className="memory-timer_confirmer_text">
+                <small>Do you want to close?</small>
+              </div>
+            )}
           </div>
         ) : (
           <div className="memory-timer py-3 px-4">
@@ -365,15 +421,10 @@ class MemoryCards extends React.Component {
             cardSideClassName +=
               this.isActiveUser(player) && !player.won ? "active " : "";
             cardSideClassName += player.won ? "won " : "";
-            cardSideClassName += !(i % 2) ? "left" : "right";
+            cardSideClassName += !(i % 2) ? "left" : "right ";
 
             return (
               <div key={i} className={cardSideClassName}>
-                {player.won ? (
-                  <div className="prize">
-                    <i className="fas fa" />
-                  </div>
-                ) : null}
                 <div className="memory-players_card_image_holder">
                   <img src="" alt="" />
                 </div>
@@ -389,38 +440,57 @@ class MemoryCards extends React.Component {
         {/* Circular handler */}
         {!this.state.endGame ? this.circularHandlerControl() : null}
 
-        <div className="memory-buttons clearfix">
-          <div className="keypad keypad-inline-block responsive responsive-desktop float-left">
-            <button type="button" className="do do-circular do-secondary">
-              <i className="fas fa-users icon-friends" />
-            </button>
-          </div>
-
-          <div className="keypad keypad-inline-block responsive responsive-desktop float-right">
+        {!this.state.confirmer ? (
+          <div className="memory-confirmer ml-3 clearfix">
+            {/* Cancel button: Desktop */}
             <button
               type="button"
               className={
-                "do do-secondary " +
+                "do do-secondary responsive responsive-desktop do-large " +
                 (this.state.isBoardOpened && !this.state.endGame
                   ? "disabled"
                   : "")
               }
               onClick={this.props.onCancelMemory}
             >
-              <i className="fas fa-users icon-friends" />
+              <i className="fas fa-ban" />
               Cancel
             </button>
+            {/* Cancel button: Mobile */}
             <button
               type="button"
               className={
-                "do do-primary " + (!this.state.endGame ? "disabled" : "")
+                "do do-circular do-circular-large do-secondary responsive responsive-mobile " +
+                (this.state.isBoardOpened && !this.state.endGame
+                  ? "disabled"
+                  : "")
+              }
+              onClick={this.props.onCancelMemory}
+            >
+              <i className="fas fa-ban" />
+            </button>
+
+            {/* Post Button: Desktop */}
+            <button
+              type="button"
+              className={
+                "do do-primary responsive responsive-desktop do-large no-margin " + (!this.state.endGame ? "disabled" : "")
               }
             >
               <i className="fas fas fa-check" />
               Post
             </button>
+            {/* Post Button: Mobile */}
+            <button
+              type="button"
+              className={
+                "do do-primary do-circular do-circular-large responsive responsive-mobile no-margin " + (!this.state.endGame ? "disabled" : "")
+              }
+            >
+              <i className="fas fas fa-check" />
+            </button>
           </div>
-        </div>
+        ) : null}
       </div>
     );
   }

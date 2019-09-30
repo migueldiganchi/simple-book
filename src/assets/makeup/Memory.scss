@@ -13,13 +13,17 @@
       padding: 9px;
       .memory-board_card_wrapper {
         transition: all 1s ease;
-        padding: 33px;
+        padding: 21px;
+        @media screen and (max-width: 450px) {
+          padding: 18px 9px;
+        }
+
         border-radius: 3px;
         -moz-border-radius: 3px;
         -webkit-border-radius: 3px;
         &.back {
           box-shadow: none !important;
-          background-color: #999 !important;
+          background-color: #444b69 !important;
           h3 {
             color: #999 !important;
             // visibility: hidden;
@@ -33,6 +37,9 @@
         h3 {
           margin: 0;
           font-weight: bold;
+          @media screen and (max-width: 450px) {
+            font-size: 18px;
+          }
         }
 
         &.dark {
@@ -63,6 +70,10 @@
     padding: 3px 27px;
     display: inline-block;
 
+    @media screen and (max-width: 450px) {
+      padding-top: 9px;
+    }
+
     -webkit-border-top-left-radius: 21px;
     -webkit-border-top-right-radius: 21px;
     -moz-border-radius-topleft: 21px;
@@ -73,9 +84,18 @@
     * {
       font-size: 39px;
       vertical-align: middle;
+      @media screen and (max-width: 450px) {
+        font-size: 27px;
+      }
     }
     small {
       font-size: initial !important;
+      font-weight: bold;
+    }
+
+    .memory-timer_confirmer_text {
+      // border: solid 1px red;
+      margin: 0 12px 6px !important;
     }
   }
 
@@ -86,32 +106,21 @@
     margin: 0;
     border-radius: 6px;
     // padding: 12px;
-
+    
     .memory-players_card {
       padding: 21px;
-
+      @media screen and (max-width: 450px) {
+        padding: 12px 0px 6px;
+      }
+      
+      
       &.won,
       &.won.active {
-        // border: solid 3px gold !important;
-        background: radial-gradient(
-            ellipse farthest-corner at right bottom,
-            #fedb37 0%,
-            #fdb931 8%,
-            #9f7928 30%,
-            #8a6e2f 40%,
-            transparent 80%
-          ),
-          radial-gradient(
-            ellipse farthest-corner at left top,
-            #ffffff 0%,
-            #ffffac 8%,
-            #d1b464 25%,
-            #5d4a1f 62.5%,
-            #5d4a1f 100%
-          ) !important;
+        @include bg-gold;
 
         .memory-players_card_image_holder img {
           border: solid 3px gold !important;
+          box-shadow: 1px 1px 1px #000;
         }
 
         .memory-playsers_card_name {
@@ -148,6 +157,9 @@
         -moz-border-radius-bottomright: 6px;
         border-top-right-radius: 6px;
         border-bottom-right-radius: 6px;
+        &:not(.won) {
+          border-left: solid 0.6px #c9c9c933;
+        }
       }
 
       &.active {
@@ -175,12 +187,19 @@
           border-radius: 50%;
           -moz-border-radius: 50%;
           -webkit-border-radius: 50%;
+
+          @media screen and (max-width: 450px) {
+            width: 75px;
+            height: 75px;
+          }
         }
       }
       .memory-playsers_card_name {
         color: #333;
         margin: 0 !important;
-        font-size: 18px !important;
+        @media screen and (max-width: 450px) {
+          font-size: 14.1px !important;
+        }
       }
       * {
         color: #333 !important;
@@ -199,6 +218,27 @@
     border-bottom-left-radius: 50%;
     padding: 9px 12px 12px;
     display: inline-block;
+  }
+
+  .memory-confirmer {
+    @include bg-tr-medium;
+    -webkit-border-bottom-right-radius: 33px;
+    -webkit-border-bottom-left-radius: 33px;
+    -moz-border-radius-bottomright: 33px;
+    -moz-border-radius-bottomleft: 33px;
+    border-bottom-right-radius: 33px;
+    border-bottom-left-radius: 33px;
+
+    padding: 9px 12px 12px;
+    display: inline-block;
+
+    .do {
+      margin-right: 12px !important;
+      &:last-child,
+      &.no-margin {
+        margin-right: 0 !important;
+      }
+    }
   }
 
   .memory-buttons {

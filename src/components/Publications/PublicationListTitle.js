@@ -16,25 +16,40 @@ function PublicationListTitle(props) {
         <div
           className={
             "adder-container keypad my-3 " +
-            (props.disabled ? " responsive responsive-desktop" : "")
+            (props.disabled ? " " : "")
           }
         >
           <a
             disabled={props.disabled}
-            className={"do do-primary"}
+            className={"do do-primary responsive responsive-desktop"}
             onClick={props.onCreatePublication}
           >
             <i className="fas fa-plus" />
             Publication
           </a>
+          <a
+            disabled={props.disabled}
+            className={"do do-primary do-circular responsive responsive-mobile"}
+            onClick={props.onCreatePublication}
+          >
+            <i className="fas fa-plus" />
+          </a>
 
           <a
             disabled={props.disabled}
-            className={"do do-success"}
+            className={"do do-primary responsive responsive-desktop no-margin"}
             onClick={props.onCreateGame}
           >
             <i className="fas fa-trophy" />
             Game
+          </a>
+
+          <a
+            disabled={props.disabled}
+            className={"do do-circular do-primary responsive responsive-mobile no-margin "}
+            onClick={props.onCreateGame}
+          >
+            <i className="fas fa-trophy" />
           </a>
         </div>
       ) : null}

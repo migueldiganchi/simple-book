@@ -638,7 +638,8 @@ form {
   .do,
   .text {
     margin-right: 7.2px !important;
-    &:last-child {
+    &:last-child,
+    &.no-margin {
       margin-right: 0 !important;
     }
   }
@@ -729,6 +730,12 @@ button:focus {
   display: inline-block;
   padding: 9px 18px 10px 24px;
   font-size: 14px;
+
+  &.do-large {
+    padding: 12px 21px 12px 24px;
+    font-size: 16px;
+  }
+
   margin: 0 !important;
   background-color: #444b69;
   color: #fff !important;

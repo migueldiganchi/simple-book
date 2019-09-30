@@ -181,7 +181,6 @@ class PublicationForm extends Component {
                 Public
               </button>
             </div>
-
             <div className="keypad keypad-inline-block responsive responsive-mobile float-left">
               <button
                 type="button"
