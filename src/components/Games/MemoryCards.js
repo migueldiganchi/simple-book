@@ -435,7 +435,7 @@ class MemoryCards extends React.Component {
               <b>{this.state.playerSecondsOut}</b>
             ) : (
               <div className="memory-timer_confirmer_text">
-                <small>Do you want to close?</small>
+                <small>Game over?</small>
               </div>
             )}
           </div>
