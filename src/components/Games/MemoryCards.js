@@ -205,7 +205,7 @@ class MemoryCards extends React.Component {
     }
     // Check if there is a winner
     if (winner) {
-      resultsMessage = winner.name + " won!";
+      resultsMessage = "Winner!";
     }
     // Finish game
     this.setState({

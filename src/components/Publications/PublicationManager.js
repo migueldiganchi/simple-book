@@ -44,7 +44,7 @@ class PublicationManager extends React.Component {
   };
 
   getPublications = (term, scope) => {
-    this.props.onWait("Loading publications...");
+    this.props.onWait("Loading...");
     setTimeout(() => {
       axios
         .get("/publications.json")
@@ -177,7 +177,7 @@ class PublicationManager extends React.Component {
   };
 
   gameResults = (players) => {
-    this.props.onNotify("@todo: POST RESULTS", "info", 3000, () => {
+    this.props.onNotify("@todo", "info", 3000, () => {
       console.log("players", players);
       this.cancelMemory();
     });
