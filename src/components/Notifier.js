@@ -5,6 +5,7 @@ import botTalking from './../assets/media/bot-talking.gif';
 function Notifier (props) {
   let message = props.notification ? props.notification.message : null;
   let type = props.notification ? props.notification.type : "";
+  console.log("type", type);
   let notifierClass = message ? 
     'App-notifier active ' + type : 
     'App-notifier';

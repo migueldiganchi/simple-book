@@ -11,6 +11,7 @@ import Presentation from "./../Presentation";
 class PublicationManager extends React.Component {
   state = {
     newPublication: null,
+    newGame: null,
     publication: null,
     removingPublication: null,
     publications: [],
@@ -43,7 +44,7 @@ class PublicationManager extends React.Component {
   };
 
   getPublications = (term, scope) => {
-    this.props.onWait("Loading publications...");
+    this.props.onWait("Loading...");
     setTimeout(() => {
       axios
         .get("/publications.json")
@@ -118,6 +119,19 @@ class PublicationManager extends React.Component {
     }
   };
 
+  createGame = () => {
+    if (!this.props.isAuthenticated()) {
+      this.props.onNotify("Please authenticate", "info");
+      return;
+    }
+
+    this.setState({
+      newGame: {
+        id: null
+      }
+    });
+  };
+
   editPublication = publication => {
     this.setState({
       editingPublication: publication
@@ -162,6 +176,13 @@ class PublicationManager extends React.Component {
     this.cancelPublicationForm();
   };
 
+  gameResults = (players) => {
+    this.props.onNotify("@todo", "info", 3000, () => {
+      console.log("players", players);
+      this.cancelMemory();
+    });
+  }
+
   cancelPublicationForm = () => {
     this.setState({
       newPublication: null,
@@ -170,6 +191,12 @@ class PublicationManager extends React.Component {
     if (this.props.onCancelPublicationForm) {
       this.props.onCancelPublicationForm();
     }
+  };
+
+  cancelMemory = () => {
+    this.setState({
+      newGame: null
+    });
   };
 
   clearScopeFilter = () => {
@@ -239,6 +266,8 @@ class PublicationManager extends React.Component {
       workingTitle = "Editing publication";
     } else if (this.state.newPublication) {
       workingTitle = "New publication";
+    } else if (this.state.newGame) {
+      workingTitle = "New game";
     }
 
     publicationListTitle = workingTitle ? (
@@ -253,7 +282,8 @@ class PublicationManager extends React.Component {
         disabled={
           this.state.removingPublication ||
           this.state.newPublication ||
-          this.state.editingPublication
+          this.state.editingPublication ||
+          this.state.newGame
         }
         isAuthenticated={this.props.isAuthenticated}
         title={publicationListTitleTextScope}
@@ -261,6 +291,7 @@ class PublicationManager extends React.Component {
         resultsFilterTermText={publicationListTitleTextTerm}
         publications={this.state.publications}
         onCreatePublication={this.createPublication}
+        onCreateGame={this.createGame}
       />
     );
 
@@ -272,6 +303,7 @@ class PublicationManager extends React.Component {
         <PublicationList
           author={this.props.author}
           newPublication={this.state.newPublication}
+          newGame={this.state.newGame}
           isAuthenticated={this.props.isAuthenticated}
           editingPublication={this.state.editingPublication}
           removingPublication={this.state.removingPublication}
@@ -284,7 +316,9 @@ class PublicationManager extends React.Component {
           onNext={this.goNextPage}
           onLast={this.goLastPage}
           onSave={this.onSavePublication}
+          onGameResults={this.gameResults}
           onCancel={this.cancelPublicationForm}
+          onCancelMemory={this.cancelMemory}
           onEdit={this.editPublication}
           onStartRemoving={this.startRemoving}
           onConfirmRemoving={this.removePublication}

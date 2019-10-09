@@ -1,141 +1,177 @@
 //Cross browser CSS3 mixins
 @mixin box-shadow($left, $top, $radius, $color) {
-	box-shadow: $left $top $radius $color;
-	-webkit-box-shadow: $left $top $radius $color;
-	-moz-box-shadow: $left $top $radius $color;
+  box-shadow: $left $top $radius $color;
+  -webkit-box-shadow: $left $top $radius $color;
+  -moz-box-shadow: $left $top $radius $color;
 }
 
 @mixin transition($property, $duration, $easing: linear) {
-	transition: $property $duration $easing;
-	-webkit-transition: $property $duration $easing;
-	-moz-transition: $property $duration $easing;
+  transition: $property $duration $easing;
+  -webkit-transition: $property $duration $easing;
+  -moz-transition: $property $duration $easing;
 }
 
 @mixin border-radius($radius) {
-	border-radius: $radius;
-	-webkit-border-radius: $radius;
-	-moz-border-radius: $radius;
+  border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
 }
 
 @mixin border-radii($topleft, $topright, $bottomright, $bottomleft) {
-	border-top-left-radius: $topleft;
-	border-top-right-radius: $topright;
-	border-bottom-right-radius: $bottomright;
-	border-bottom-left-radius: $bottomleft;
-	-webkit-border-top-left-radius: $topleft;
-	-webkit-border-top-right-radius: $topright;
-	-webkit-border-bottom-right-radius: $bottomright;
-	-webkit-border-bottom-left-radius: $bottomleft;
-	-moz-border-radius-topleft: $topleft;
-	-moz-border-radius-topright: $topright;
-	-moz-border-radius-bottomright: $bottomright;
-	-moz-border-radius-bottomleft: $bottomleft;
+  border-top-left-radius: $topleft;
+  border-top-right-radius: $topright;
+  border-bottom-right-radius: $bottomright;
+  border-bottom-left-radius: $bottomleft;
+  -webkit-border-top-left-radius: $topleft;
+  -webkit-border-top-right-radius: $topright;
+  -webkit-border-bottom-right-radius: $bottomright;
+  -webkit-border-bottom-left-radius: $bottomleft;
+  -moz-border-radius-topleft: $topleft;
+  -moz-border-radius-topright: $topright;
+  -moz-border-radius-bottomright: $bottomright;
+  -moz-border-radius-bottomleft: $bottomleft;
 }
 
-
 @mixin bg-tr {
-	/* Fallback for web browsers that doesn't support RGBa */
-	background-color: rgb(0, 0, 0) transparent !important;
-	/* RGBa with 0.6 opacity */
-	background-color: rgba(0, 0, 0, 0.66) !important;
-	/* For IE 5.5 - 7*/
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000000, endColorstr=#33000000) !important;
-	/* For IE 8*/
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000000, endColorstr=#33000000)" !important;
+  /* Fallback for web browsers that doesn't support RGBa */
+  background-color: rgb(0, 0, 0) transparent !important;
+  /* RGBa with 0.6 opacity */
+  background-color: rgba(0, 0, 0, 0.66) !important;
+  /* For IE 5.5 - 7*/
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000000, endColorstr=#33000000) !important;
+  /* For IE 8*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000000, endColorstr=#33000000)" !important;
 }
 
 @mixin bg-tr-light {
-	/* Fallback for web browsers that doesn't support RGBa */
-	background-color: rgb(0, 0, 0) transparent !important;
-	/* RGBa with 0.6 opacity */
-	background-color: rgba(0, 0, 0, 0.10) !important;
-	/* For IE 5.5 - 7*/
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000) !important;
-	/* For IE 8*/
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)" !important;
+  /* Fallback for web browsers that doesn't support RGBa */
+  background-color: rgb(0, 0, 0) transparent !important;
+  /* RGBa with 0.6 opacity */
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  /* For IE 5.5 - 7*/
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000) !important;
+  /* For IE 8*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)" !important;
 }
 
+@mixin bg-gold {
+  background: radial-gradient(
+      ellipse farthest-corner at right bottom,
+      #fedb37 0%,
+      #fdb931 8%,
+      #9f7928 30%,
+      #8a6e2f 40%,
+      transparent 80%
+    ),
+    radial-gradient(
+      ellipse farthest-corner at left top,
+      #ffffff 0%,
+      #ffffac 8%,
+      #d1b464 25%,
+      #5d4a1f 62.5%,
+      #5d4a1f 100%
+    ) !important;
+}
 
 @mixin bg-tr-medium {
-	/* Fallback for web browsers that doesn't support RGBa */
-	background-color: rgb(0, 0, 0) transparent !important;
-	/* RGBa with 0.6 opacity */
-	background-color: rgba(0, 0, 0, 0.75) !important;
-	/* For IE 5.5 - 7*/
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000) !important;
-	/* For IE 8*/
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)" !important;
-}
-  
-@mixin bg-gradient-up {
-	background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-	/* webkit example */
-	background-image: -webkit-gradient(
-		linear, left bottom, left top, from(rgba(0,0,0,0.8)),
-		to(rgba(0,0,0,0.2)), color-stop(.5,#111)
-	);
-
-	/* mozilla example - FF3.6+ */
-	background-image: -moz-linear-gradient(
-		rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 95%
-	);
-
-	// approximately a 33% opacity on blue 
-	filter: progid:DXImageTransform.Microsoft.gradient(
-		startColorstr=#111, endColorstr=#111
-	);
-
-	/* IE8 uses -ms-filter for whatever reason... */
-	-ms-filter: progid:DXImageTransform.Microsoft.gradient(
-		startColorstr=#111, endColorstr=#111
-	);  
+  /* Fallback for web browsers that doesn't support RGBa */
+  background-color: rgb(0, 0, 0) transparent !important;
+  /* RGBa with 0.6 opacity */
+  background-color: rgba(0, 0, 0, 0.27s) !important;
+  /* For IE 5.5 - 7*/
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000) !important;
+  /* For IE 8*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)" !important;
 }
 
 @mixin bg-gradient-up {
-	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-	// /* webkit example */
-	background-image: -webkit-gradient(
-		linear, left bottom, left top, from(rgba(0,0,0,0.8)),
-		to(rgba(0,0,0,0.2)), color-stop(.5,#111)
-	);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  /* webkit example */
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    from(rgba(0, 0, 0, 0.8)),
+    to(rgba(0, 0, 0, 0.2)),
+    color-stop(0.5, #111)
+  );
 
-	/* mozilla example - FF3.6+ */
-	background-image: -moz-linear-gradient(
-		rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 95%
-	);
+  /* mozilla example - FF3.6+ */
+  background-image: -moz-linear-gradient(
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0) 95%
+  );
 
-	// approximately a 33% opacity on blue 
-	filter: progid:DXImageTransform.Microsoft.gradient(
+  // approximately a 33% opacity on blue
+  filter: progid:DXImageTransform.Microsoft.gradient(
 		startColorstr=#111, endColorstr=#111
 	);
 
-	/* IE8 uses -ms-filter for whatever reason... */
-	-ms-filter: progid:DXImageTransform.Microsoft.gradient(
+  /* IE8 uses -ms-filter for whatever reason... */
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(
 		startColorstr=#111, endColorstr=#111
-	);  
+	);
+}
+
+@mixin bg-gradient-up {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0)
+  );
+  // /* webkit example */
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    from(rgba(0, 0, 0, 0.8)),
+    to(rgba(0, 0, 0, 0.2)),
+    color-stop(0.5, #111)
+  );
+
+  /* mozilla example - FF3.6+ */
+  background-image: -moz-linear-gradient(
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0) 95%
+  );
+
+  // approximately a 33% opacity on blue
+  filter: progid:DXImageTransform.Microsoft.gradient(
+		startColorstr=#111, endColorstr=#111
+	);
+
+  /* IE8 uses -ms-filter for whatever reason... */
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(
+		startColorstr=#111, endColorstr=#111
+	);
 }
 
 @mixin bg-tr-white {
-	/* Fallback for web browsers that doesn't support RGBa */
-	background-color: rgb(200, 200, 200) transparent !important;
-	/* RGBa with 0.6 opacity */
-	background-color: rgba(200, 200, 200, 0.6) !important;
-	/* For IE 5.5 - 7*/
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#999, endColorstr=#999) !important;
-	/* For IE 8*/
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#999, endColorstr=#999)" !important;
+  /* Fallback for web browsers that doesn't support RGBa */
+  background-color: rgb(200, 200, 200) transparent !important;
+  /* RGBa with 0.6 opacity */
+  background-color: rgba(200, 200, 200, 0.6) !important;
+  /* For IE 5.5 - 7*/
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#999, endColorstr=#999) !important;
+  /* For IE 8*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#999, endColorstr=#999)" !important;
 }
 
-
 @mixin gradient($color1, $color2) {
-	background-color: $color1;
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#{$color1}, endColorstr=#{$color2});
-	background-image: -moz-linear-gradient(center top, $color1, $color2);
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($color1), to($color2));
+  background-color: $color1;
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#{$color1}, endColorstr=#{$color2});
+  background-image: -moz-linear-gradient(center top, $color1, $color2);
+  background-image: -webkit-gradient(
+    linear,
+    0% 0%,
+    0% 100%,
+    from($color1),
+    to($color2)
+  );
 }
 
 @mixin nitid {
-	zoom: 1 !important;
-	filter: alpha(opacity=70) !important;
-	opacity: 0.70 !important;
+  zoom: 1 !important;
+  filter: alpha(opacity=70) !important;
+  opacity: 0.7 !important;
 }

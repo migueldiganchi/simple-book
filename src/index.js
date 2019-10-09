@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 import './assets/makeup/App.scss'
 import './assets/makeup/Publications.scss'
+import './assets/makeup/Memory.scss'
 
 ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
 

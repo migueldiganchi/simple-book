@@ -1,0 +1,264 @@
+@import "./_mixins";
+
+.memory {
+  // border: solid 3px #222 !important;
+  // border: solid 3px blue !important;
+  padding: 0;
+  margin-bottom: 21px;
+
+  // Board
+  .memory-board {
+    margin-bottom: 12px;
+    .memory-board_card {
+      padding: 9px;
+      .memory-board_card_wrapper {
+        transition: all 1s ease;
+        padding: 21px;
+        @media screen and (max-width: 450px) {
+          padding: 18px 9px;
+        }
+
+        border-radius: 3px;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        &.back {
+          box-shadow: none !important;
+          background-color: #444b69 !important;
+          h3 {
+            // color: #999 !important; // teslting line: Allow to see numbers
+            visibility: hidden; // remove this to see numbers
+          }
+          &:hover {
+            box-shadow: 3px 3px 3px #000 !important;
+            cursor: pointer;
+          }
+        }
+
+        h3 {
+          margin: 0;
+          font-weight: bold;
+          @media screen and (max-width: 450px) {
+            font-size: 18px;
+          }
+        }
+
+        &.dark {
+          box-shadow: 3px 3px 3px #000;
+          background: #c06c84;
+          h3 {
+            color: #f8b195;
+          }
+        }
+
+        &.light {
+          box-shadow: 3px 3px 3px #000;
+          background: #f8b195;
+          h3 {
+            color: #c06c84;
+          }
+        }
+      }
+    }
+  }
+
+  // Timer
+  .memory-timer {
+    border: solid 3px #40ee3a;
+    * {
+      margin: 0 !important;
+    }
+    padding: 12px 21px;
+
+    @media screen and (max-width: 600px) {
+      padding: 3px 19px 6px;
+    }
+    position: absolute;
+    z-index: 9;
+
+    -webkit-box-shadow: 0px 5px 31px 4px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 5px 31px 4px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 5px 31px 4px rgba(0, 0, 0, 0.75);
+
+    @media screen and (max-width: 450px) {
+      padding-top: 9px;
+    }
+
+    background-color: #222;
+
+    border-radius: 9px;
+    margin-top: 21px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    text-align: center;
+    * {
+      font-size: 27px;
+      vertical-align: middle;
+      @media screen and (max-width: 450px) {
+        font-size: 27px;
+      }
+    }
+    small {
+      font-size: initial !important;
+      font-weight: bold;
+    }
+
+    .memory-timer_confirmer_text {
+      // border: solid 1px red;
+      margin: 0 12px 6px !important;
+    }
+  }
+
+  // Players
+  .memory-players {
+    @include bg-tr;
+    // border: solid 3px blue;
+    margin: 0;
+    border-radius: 6px;
+    // padding: 12px;
+
+    .memory-players_card {
+      padding: 21px;
+      @media screen and (max-width: 450px) {
+        padding: 12px 0px 6px;
+      }
+
+      &.won,
+      &.won.active {
+        @include bg-gold;
+
+        .memory-players_card_image_holder img {
+          border: solid 3px gold !important;
+          box-shadow: 1px 1px 1px #000;
+        }
+
+        .memory-playsers_card_name {
+          color: gold !important;
+          text-shadow: 1px 1px 1px #000;
+        }
+        * {
+          color: gold !important;
+          text-shadow: 1px 1px 1px #000;
+        }
+
+        .playsers_card_details,
+        .playsers_card_details * {
+          color: gold !important;
+          text-shadow: 1px 1px 1px #000;
+        }
+      }
+
+      &.left {
+        -webkit-border-top-left-radius: 6px;
+        -webkit-border-bottom-left-radius: 6px;
+        -moz-border-radius-topleft: 6px;
+        -moz-border-radius-bottomleft: 6px;
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+      }
+
+      &.right {
+        -webkit-border-top-right-radius: 6px;
+        -webkit-border-bottom-right-radius: 6px;
+        -moz-border-radius-topright: 6px;
+        -moz-border-radius-bottomright: 6px;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+        &:not(.won) {
+          border-left: solid 0.6px #c9c9c933;
+        }
+      }
+
+      &.active {
+        background: #40ee3a;
+        .memory-players_card_image_holder img {
+          border: solid 3px #0d1138;
+
+          opacity: 1;
+          filter: alpha(opacity=100); /* For IE8 and earlier */
+        }
+
+        .memory-playsers_card_name {
+          color: #0d1138;
+        }
+        * {
+          color: #0d1138 !important;
+        }
+      }
+
+      .memory-players_card_image_holder {
+        padding: 15px;
+        margin-bottom: 12px;
+        img {
+          border: solid 3px #333;
+          display: inline-block;
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          -moz-border-radius: 50%;
+          -webkit-border-radius: 50%;
+
+          opacity: 0.33;
+          filter: alpha(opacity=33); /* For IE8 and earlier */
+
+          @media screen and (max-width: 450px) {
+            width: 75px;
+            height: 75px;
+          }
+        }
+      }
+      .memory-playsers_card_name {
+        color: #333;
+        margin: 0 !important;
+        font-size: 18px;
+        @media screen and (max-width: 450px) {
+          font-size: 14.1px !important;
+        }
+      }
+      * {
+        color: #333 !important;
+      }
+    }
+  }
+
+  // Handler
+  .memory-handler {
+    @include bg-tr-medium;
+    -webkit-border-bottom-right-radius: 50%;
+    -webkit-border-bottom-left-radius: 50%;
+    -moz-border-radius-bottomright: 50%;
+    -moz-border-radius-bottomleft: 50%;
+    border-bottom-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    padding: 9px 12px 12px;
+    display: inline-block;
+  }
+
+  .memory-confirmer {
+    @include bg-tr-medium;
+    -webkit-border-bottom-right-radius: 33px;
+    -webkit-border-bottom-left-radius: 33px;
+    -moz-border-radius-bottomright: 33px;
+    -moz-border-radius-bottomleft: 33px;
+    border-bottom-right-radius: 33px;
+    border-bottom-left-radius: 33px;
+
+    padding: 9px 12px 12px;
+    display: inline-block;
+    position: relative;
+    top: -1px;
+
+    .do {
+      margin-right: 12px !important;
+      &:last-child,
+      &.no-margin {
+        margin-right: 0 !important;
+      }
+    }
+  }
+
+  .memory-buttons {
+    margin-top: 15px;
+    // border: solid 3px blue !important;
+  }
+}
