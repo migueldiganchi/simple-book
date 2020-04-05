@@ -37,7 +37,7 @@ function PublicationList(props) {
     } else if (!(props.disableItems || props.isEditing || props.isRemoving)) {
       return (
         <div className="pa-5 mt-5">
-          <div className="mt-5 pt-5 text-muted">
+          <div className="mt-5 pt-5 text-secondary">
             <b>Nothing here</b>
           </div>
         </div>

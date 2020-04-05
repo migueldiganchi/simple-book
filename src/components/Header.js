@@ -125,7 +125,12 @@ class Header extends React.Component {
                 to="/"
                 activeClassName={isHomedisabled ? "" : "text-underline"}
               >
-                <span>{this.props.title}</span>
+                <span>
+                  <i className="fas fa-cannabis" />
+                  &nbsp;
+                  &nbsp;
+                  {this.props.title}
+                </span>
               </NavLink>
             )}
           </h5>
