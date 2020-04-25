@@ -195,13 +195,6 @@ class Auth extends React.Component {
             </div>
 
             <div className="keypad">
-              <button
-                type="button"
-                className="do do-circular"
-                onClick={this.onClear}
-              >
-                <i className="fas fa-eraser" />
-              </button>
               <button type="submit" className="do do-primary">
                 <i className="fas fa-arrow-right" />
                 Connect
