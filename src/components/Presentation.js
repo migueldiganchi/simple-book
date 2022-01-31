@@ -7,8 +7,8 @@ function Presentation() {
       <div className="text-center logo-holder">
         <i className="fas fa-cannabis" />
       </div>
-      <p className="text-box">
-        <h5>Welcome to your own green <b>social network</b></h5>
+      <p className="mt-4 mb-5">
+        <h5 className="dark-text">Welcome to your own green <b>social network</b></h5>
       </p>
       <NavLink to="/auth" className="do do-primary">
         <i className="fas fa-plug" />

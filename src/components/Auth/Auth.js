@@ -130,7 +130,7 @@ class Auth extends React.Component {
     let formTitle = (
       <div>
         <h4 className="mb-4">
-          <b>Authentication</b>
+          <b className="dark-text">Authentication</b>
         </h4>
       </div>
     );

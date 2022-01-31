@@ -5,13 +5,24 @@ html {
   padding: 0;
   margin: 0;
   background-color: #586f56;
+  // dcffd9
   * {
     font-family: "Nunito", sans-serif;
   }
 }
 
+.dark-text {
+  color: #586f56;
+}
+
+.flat-text {
+  box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
 .App {
-  background: #8ba189; /* fallback for old browsers */
+  background: #dcffd9; /* fallback for old browsers */
   text-align: center;
   padding-bottom: 30px;
 
@@ -258,7 +269,7 @@ html {
       margin: 0 0 6px !important;
       &.disabled {
         border: solid 2px #3f463e !important;
-        background-color: #8ba189;
+        background-color: #dcffd9;
         opacity: 1;
         color: #3f463e !important;
         text-shadow: none;
