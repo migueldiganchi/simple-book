@@ -3,24 +3,24 @@ import { withRouter, NavLink, matchPath } from "react-router-dom";
 
 class Header extends React.Component {
   state = {
-    closeConfirmation: false
+    closeConfirmation: false,
   };
 
   proposeLogout = () => {
     this.setState({
-      closeConfirmation: true
+      closeConfirmation: true,
     });
   };
 
   declineLogout = () => {
     this.setState({
-      closeConfirmation: false
+      closeConfirmation: false,
     });
   };
 
   doLogout = () => {
     this.setState({
-      closeConfirmation: false
+      closeConfirmation: false,
     });
     this.props.onLogout();
   };
@@ -29,7 +29,7 @@ class Header extends React.Component {
     const isAuthdisabled = !!matchPath(this.props.location.pathname, "/auth");
     const isHomedisabled = !!matchPath(this.props.location.pathname, {
       path: "/",
-      exact: true
+      exact: true,
     });
 
     return (
@@ -64,7 +64,7 @@ class Header extends React.Component {
                 }
               >
                 <i className="fas fa-plug" />
-              </NavLink>
+              </NavLink>,
             ]
           ) : !this.state.closeConfirmation ? (
             [
@@ -82,7 +82,7 @@ class Header extends React.Component {
                 className="do do-danger do-circular float-left responsive responsive-mobile "
               >
                 <i className="fas fa-power-off" />
-              </a>
+              </a>,
             ]
           ) : (
             <div className="App-closer-confirmer">
@@ -114,7 +114,7 @@ class Header extends React.Component {
               </a>
             </div>
           )}
-          <h5 className="App-title-text mt-1">
+          <h5 className="App-title-text mt-1 d-flex align-items-center">
             {this.state.closeConfirmation ? (
               <span>
                 <b className="responsive responsive-desktop">Are you sure?</b>
@@ -125,12 +125,9 @@ class Header extends React.Component {
                 to="/"
                 activeClassName={isHomedisabled ? "" : "text-underline"}
               >
-                <span>
-                  <i className="fas fa-cannabis" />
-                  &nbsp;
-                  &nbsp;
-                  {this.props.title}
-                </span>
+                <i className="fas fa-cannabis mx-3" Style="font-size: 15px; position: relative; bottom: 3px;" />
+                <span>{this.props.title}</span>
+                <i className="fas fa-cannabis mx-3" Style="font-size: 15px; position: relative; bottom: 3px;" />
               </NavLink>
             )}
           </h5>

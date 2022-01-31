@@ -136,7 +136,7 @@ class Auth extends React.Component {
     );
 
     return (
-      <div className="auth">
+      <div className="auth my-5">
         {formTitle}
         <form
           action="/auth"
@@ -194,7 +194,7 @@ class Auth extends React.Component {
               />
             </div>
 
-            <div className="keypad">
+            <div className="keypad mt-5">
               <button type="submit" className="do do-primary">
                 <i className="fas fa-arrow-right" />
                 Connect

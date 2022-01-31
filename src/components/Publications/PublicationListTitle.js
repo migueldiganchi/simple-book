@@ -2,7 +2,7 @@ import React from "react";
 
 function PublicationListTitle(props) {
   return (
-    <div className="keypad board-panel-keypad text-center">
+    <div className="keypad board-panel-keypad text-center mt-5">
       <div className={props.featured ? "text text-featured" : "text"}>
         <span>{props.title}</span>
         {props.results ? <small>{props.results} results</small> : null}
