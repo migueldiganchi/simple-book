@@ -129,14 +129,21 @@ class Auth extends React.Component {
   render() {
     let formTitle = (
       <div>
-        <h4 className="mb-4 mt-5">
+        <h4 className="mb-4 mt-2">
           <b>Authentication</b>
         </h4>
       </div>
     );
 
+    let icon = (
+      <div className="text-center logo-holder">
+        <i className="fas fa-smile-wink" />
+      </div>
+    );
+
     return (
       <div className="auth">
+        {icon}
         {formTitle}
         <form
           action="/auth"
