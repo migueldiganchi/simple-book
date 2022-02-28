@@ -277,16 +277,16 @@ html {
   }
 
   .App-presentation {
-    margin-bottom: 24px;
     padding: 0 15px 33px;
     .text-box {
       padding: 12px;
       margin-bottom: 21px;
       font-size: 15px;
     }
-    .logo-holder {
-      font-size: 69px;
-    }
+  }
+
+  .logo-holder {
+    font-size: 69px;
   }
 
   .App-searcher {
@@ -625,6 +625,10 @@ form {
       font-size: 12px;
     }
   }
+}
+
+.d-none {
+  display: none !important;
 }
 
 .responsive {

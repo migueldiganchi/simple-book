@@ -19,27 +19,27 @@ class PublicationManager extends React.Component {
     scopeFilter: null,
     scopeFilterTypes: {
       FRIENDS: 1,
-      PUBLIC: 2
-    }
+      PUBLIC: 2,
+    },
   };
 
   componentDidMount() {
     this.getPublications(this.state.termFilter, this.state.scopeFilter);
   }
 
-  goFirstPage = e => {
+  goFirstPage = (e) => {
     e.preventDefault();
   };
 
-  goPreviousPage = e => {
+  goPreviousPage = (e) => {
     e.preventDefault();
   };
 
-  goNextPage = e => {
+  goNextPage = (e) => {
     e.preventDefault();
   };
 
-  goLastPage = e => {
+  goLastPage = (e) => {
     e.preventDefault();
   };
 
@@ -48,7 +48,7 @@ class PublicationManager extends React.Component {
     setTimeout(() => {
       axios
         .get("/publications.json")
-        .then(response => {
+        .then((response) => {
           this.props.onStopWait();
           let object = null;
           let objects = response.data;
@@ -58,13 +58,13 @@ class PublicationManager extends React.Component {
             object = objects[key];
             publications.push({
               id: key,
-              ...object
+              ...object,
             });
           }
 
           this.filterPublications(publications, term, scope);
         })
-        .catch(error => {
+        .catch((error) => {
           this.props.onStopWait();
         });
     }, 1100);
@@ -78,29 +78,29 @@ class PublicationManager extends React.Component {
     if (term) {
       currentTermFilter = term;
       results = [
-        ...results.filter(publication => {
+        ...results.filter((publication) => {
           return publication.body.toLowerCase().includes(term.toLowerCase());
-        })
+        }),
       ];
     }
 
     if (scope) {
       currentScopeFilter = scope;
       results = [
-        ...results.filter(publication => {
+        ...results.filter((publication) => {
           return publication.scope === scope;
-        })
+        }),
       ];
     }
 
     this.setState({
       publications: results,
       scopeFilter: currentScopeFilter,
-      termFilter: currentTermFilter
+      termFilter: currentTermFilter,
     });
   }
 
-  createPublication = publication => {
+  createPublication = (publication) => {
     if (!this.props.isAuthenticated()) {
       this.props.onNotify("Please authenticate", "info");
       return;
@@ -110,8 +110,8 @@ class PublicationManager extends React.Component {
       newPublication: {
         id: null,
         body: "",
-        scope: null
-      }
+        scope: null,
+      },
     });
 
     if (this.props.onCreatePublication) {
@@ -127,24 +127,24 @@ class PublicationManager extends React.Component {
 
     this.setState({
       newGame: {
-        id: null
-      }
+        id: null,
+      },
     });
   };
 
-  editPublication = publication => {
+  editPublication = (publication) => {
     this.setState({
-      editingPublication: publication
+      editingPublication: publication,
     });
   };
 
-  startRemoving = publication => {
+  startRemoving = (publication) => {
     this.setState({
-      removingPublication: publication
+      removingPublication: publication,
     });
   };
 
-  removePublication = publication => {
+  removePublication = (publication) => {
     let url = `/publications/${publication.id}.json`;
 
     this.props.onWait("Removing publication...");
@@ -158,7 +158,7 @@ class PublicationManager extends React.Component {
           this.props.onNotify("Successfuly removed", "info");
         }, 300);
       })
-      .catch(error => {
+      .catch((error) => {
         this.props.onStopWait();
         this.cancelRemoving();
         this.props.onNotify("Oops! Something went wrong :(", "error");
@@ -167,7 +167,7 @@ class PublicationManager extends React.Component {
 
   cancelRemoving = () => {
     this.setState({
-      removingPublication: null
+      removingPublication: null,
     });
   };
 
@@ -181,12 +181,12 @@ class PublicationManager extends React.Component {
       console.log("players", players);
       this.cancelMemory();
     });
-  }
+  };
 
   cancelPublicationForm = () => {
     this.setState({
       newPublication: null,
-      editingPublication: null
+      editingPublication: null,
     });
     if (this.props.onCancelPublicationForm) {
       this.props.onCancelPublicationForm();
@@ -195,13 +195,13 @@ class PublicationManager extends React.Component {
 
   cancelMemory = () => {
     this.setState({
-      newGame: null
+      newGame: null,
     });
   };
 
   clearScopeFilter = () => {
     this.setState({
-      scopeFilter: null
+      scopeFilter: null,
     });
     setTimeout(() => {
       this.getPublications(this.state.termFilter, null);
@@ -210,7 +210,7 @@ class PublicationManager extends React.Component {
 
   clearTermFilter = () => {
     this.setState({
-      termFilter: null
+      termFilter: null,
     });
     setTimeout(() => {
       this.getPublications(null, this.state.scopeFilter);
@@ -218,6 +218,7 @@ class PublicationManager extends React.Component {
   };
 
   render() {
+    let icon = null;
     let searcher = null;
     let workingTitle = null;
     let publicationListTitle = null;
@@ -244,8 +245,14 @@ class PublicationManager extends React.Component {
       }
     }
 
+    icon = (
+      <div className="text-center logo-holder">
+        <i className="fas fa-smile-wink" />
+      </div>
+    );
+
     searcher = (
-      <div className="mb-2">
+      <div className="mb-2 py-3">
         <Searcher
           appliedTerm={this.state.termFilter}
           disabled={
@@ -297,7 +304,7 @@ class PublicationManager extends React.Component {
 
     return (
       <div className="pb-4">
-        {!this.props.isAuthenticated() ? <Presentation /> : null}
+        {!this.props.isAuthenticated() ? <Presentation /> : icon }
         {searcher}
         {publicationListTitle}
         <PublicationList

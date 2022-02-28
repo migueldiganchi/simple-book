@@ -2,7 +2,7 @@ import React from "react";
 
 function PublicationListTitle(props) {
   return (
-    <div className="keypad board-panel-keypad text-center">
+    <div className="keypad board-panel-keypad text-center mt-2 mb-4">
       <div className={props.featured ? "text text-featured" : "text"}>
         <span>{props.title}</span>
         {props.results ? <small>{props.results} results</small> : null}
@@ -21,36 +21,36 @@ function PublicationListTitle(props) {
         >
           <a
             disabled={props.disabled}
-            className={"do do-primary responsive responsive-desktop"}
+            className={"do do-primary no-margin"}
             onClick={props.onCreatePublication}
           >
             <i className="fas fa-keyboard" />
             Publication
           </a>
-          <a
+          {/* <a
             disabled={props.disabled}
-            className={"do do-primary do-circular responsive responsive-mobile"}
+            className={"do do-primary do-circular responsive responsive-mobile no-margin"}
             onClick={props.onCreatePublication}
           >
             <i className="fas fa-keyboard" />
-          </a>
+          </a> */}
 
-          <a
+          {/* <a
             disabled={props.disabled}
             className={"do do-primary responsive responsive-desktop no-margin"}
             onClick={props.onCreateGame}
           >
             <i className="fas fa-trophy" />
             Game
-          </a>
+          </a> */}
 
-          <a
+          {/* <a
             disabled={props.disabled}
             className={"do do-circular do-primary responsive responsive-mobile no-margin "}
             onClick={props.onCreateGame}
           >
             <i className="fas fa-trophy" />
-          </a>
+          </a> */}
         </div>
       ) : null}
     </div>

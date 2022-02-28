@@ -79,7 +79,7 @@ class Auth extends React.Component {
     this.props.onWait("Authenticating...");
     // setTimeout(() => {
     axiosAuth
-      .post("/verifyPassword?key=AIzaSyAXRS3ijUJ0HhgC12cSeqe41WnDEcoN6-w", {
+      .post("/verifyPassword?key=AIzaSyCKZvBLYnLeoN3CMx0QlbFWRC8XOsbKHeA", {
         email: this.state.email,
         password: this.state.password,
         returnSecureToken: true
@@ -129,7 +129,7 @@ class Auth extends React.Component {
   render() {
     let formTitle = (
       <div>
-        <h4 className="mb-4">
+        <h4 className="mb-4 mt-5">
           <b>Authentication</b>
         </h4>
       </div>
