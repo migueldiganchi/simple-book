@@ -4,14 +4,40 @@ body,
 html {
   padding: 0;
   margin: 0;
-  background-color: #2b3252;
+  background: #0f0c29; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #24243e,
+    #302b63,
+    #0f0c29
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #24243e,
+    #302b63,
+    #0f0c29
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   * {
     font-family: "Nunito", sans-serif;
   }
 }
 
 .App {
-  background: #2b3252; /* fallback for old browsers */
+  background: #0f0c29; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #24243e,
+    #302b63,
+    #0f0c29
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #24243e,
+    #302b63,
+    #0f0c29
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   text-align: center;
   padding-bottom: 30px;
 
@@ -293,7 +319,8 @@ html {
     @include border-radius(9px);
     @include box-shadow(1px, 1px, 1px, #111);
     position: relative;
-    background-color: #444b69;
+    background-color: #4a458569;
+
     padding: 9px;
 
     &.searching:not(.disabled) {
@@ -302,12 +329,12 @@ html {
     form {
       @include transition(box-shadow, 0.3s, ease);
       @include border-radius(9px);
-      background-color: #2b3252;
+      background-color: #302b63;
       position: relative;
       padding: 12px 15px !important;
       input[type="text"] {
         font-size: 15px;
-        background-color: #2b3252;
+        background-color: #302b63;
         color: #40ee3a;
         padding-left: 33px;
       }
@@ -566,11 +593,11 @@ form {
   .field {
     @include border-radius(9px);
     @include transition(background-color, 0.3s, ease);
-    background-color: #586083;
+    background-color: #fff;
     &.error {
       background-color: #ef5455;
     }
-    padding: 6px;
+    padding: 3px;
     margin-bottom: 12px;
     &:last-child {
       margin-bottom: 0;
@@ -580,7 +607,7 @@ form {
     textarea,
     select {
       @include border-radius(6px);
-      background-color: #2b3252;
+      background-color: #302b63;
       color: #fff;
       padding: 6px 9px;
       -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -689,7 +716,8 @@ form {
   text-align: left;
   color: #fff;
   padding: 3px;
-  background-color: #444b69;
+  background-color: #302b63;
+  border: solid 1px #fff;
   position: relative;
 
   &.removing {
@@ -705,8 +733,7 @@ form {
   }
 
   p {
-    margin-left: 39px !important;
-    margin-right: 9px !important;
+    margin: 0 9px !important;
   }
 
   .icon {

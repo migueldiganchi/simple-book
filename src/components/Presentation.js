@@ -8,7 +8,7 @@ function Presentation() {
         <i className="fas fa-smile-wink" />
       </div>
       <p className="text-box">
-        <b>Free people news</b>
+        <b>Creazy publications</b>
       </p>
       <NavLink to="/auth" className="do do-primary">
         <i className="fas fa-plug" />

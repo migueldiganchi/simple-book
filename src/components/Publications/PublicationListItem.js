@@ -1,25 +1,25 @@
 import React from "react";
 
 function PublicationListItem(props) {
-  const startRemovingHandler = e => {
+  const startRemovingHandler = (e) => {
     e.stopPropagation();
     e.preventDefault();
     props.onStartRemoving(props.publication);
   };
 
-  const confirmRemoving = e => {
+  const confirmRemoving = (e) => {
     e.stopPropagation();
     e.preventDefault();
     props.onConfirmRemoving(props.publication);
   };
 
-  const cancelRemoving = e => {
+  const cancelRemoving = (e) => {
     e.stopPropagation();
     e.preventDefault();
     props.onCancelRemoving(props.publication);
   };
 
-  const editHander = e => {
+  const editHander = (e) => {
     e.stopPropagation();
     e.preventDefault();
     props.onEdit(props.publication);
@@ -36,11 +36,12 @@ function PublicationListItem(props) {
         <h4>Are you sure?</h4>
       </div>
     );
+
     keypad = (
       <div>
         <div className="keypad fixed responsive responsive-desktop">
           <button type="button" className="do" onClick={cancelRemoving}>
-            <i className="fas fa-ban" />
+            <i className="fas fa-arrow-left" />
             Cancel
           </button>
           <a className="do do-danger" onClick={confirmRemoving}>
@@ -87,11 +88,11 @@ function PublicationListItem(props) {
       </p>
       <small>{props.publication.date_time}</small>
       {keypad}
-      {props.publication.scope === 1 ? (
+      {/* {props.publication.scope === 1 ? (
         <i className="icon fas fa-users icon-friends" />
       ) : (
         <i className="icon fas fa-lock-open icon-public" />
-      )}
+      )} */}
     </div>
   );
 }

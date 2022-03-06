@@ -10,8 +10,8 @@ class PublicationForm extends Component {
     bodyValidationErrors: [],
     scopeTypes: {
       FRIENDS: 1,
-      PUBLIC: 2
-    }
+      PUBLIC: 2,
+    },
   };
 
   componentDidMount() {
@@ -22,16 +22,16 @@ class PublicationForm extends Component {
         this.props.publication && this.props.publication.scope
           ? this.props.publication.scope
           : this.state.scopeTypes.FRIENDS,
-      bodyClassName: "field"
+      bodyClassName: "field",
     });
   }
 
-  onSubmitPublication = e => {
+  onSubmitPublication = (e) => {
     e.preventDefault();
     let publication = {
       id: this.props.publication.id,
       body: this.state.body,
-      scope: this.state.scope
+      scope: this.state.scope,
     };
     if (!this.isValid(publication)) {
       return;
@@ -44,7 +44,7 @@ class PublicationForm extends Component {
     }
   };
 
-  savePublication = publication => {
+  savePublication = (publication) => {
     let isNewPublication = !publication.id;
     let method = isNewPublication ? axios.post : axios.put;
     let url = isNewPublication
@@ -70,23 +70,23 @@ class PublicationForm extends Component {
           }
         }, 300);
       })
-      .catch(error => {
+      .catch((error) => {
         this.props.onNotify("Oops! Something went wrong", "error");
       });
   };
 
-  isValid = publication => {
+  isValid = (publication) => {
     let error = false;
     let bodyErrors = [];
 
     if (publication.body === "") {
       bodyErrors.push({
-        message: "Body is required"
+        message: "Body is required",
       });
       this.setState({ bodyClassName: "field error" });
     } else if (publication.body.length < 6) {
       bodyErrors.push({
-        message: "Too short (min: 6)"
+        message: "Too short (min: 6)",
       });
       this.setState({ bodyClassName: "field error" });
     } else {
@@ -94,7 +94,7 @@ class PublicationForm extends Component {
     }
 
     this.setState({
-      bodyValidationErrors: bodyErrors
+      bodyValidationErrors: bodyErrors,
     });
 
     error = bodyErrors.length > 0;
@@ -106,20 +106,20 @@ class PublicationForm extends Component {
     return !error;
   };
 
-  typingBody = e => {
+  typingBody = (e) => {
     this.setState({ body: e.target.value });
   };
 
-  onEnterPress = e => {
+  onEnterPress = (e) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
       this.onSubmitPublication(e);
     }
   };
 
-  setScope = scope => {
+  setScope = (scope) => {
     this.setState({
-      scope: scope
+      scope: scope,
     });
   };
 
@@ -158,8 +158,8 @@ class PublicationForm extends Component {
             <Validation validationList={this.state.bodyValidationErrors} />
           </div>
 
-          <div className="clearfix">
-            <div className="keypad keypad-inline-block responsive responsive-desktop float-left">
+          <div className="clearfix text-center">
+            {/* <div className="keypad keypad-inline-block responsive responsive-desktop float-left">
               <button
                 type="button"
                 className={switcherFriendsClassName}
@@ -180,8 +180,8 @@ class PublicationForm extends Component {
                 <i className="fas fa-lock-open icon-public" />
                 Public
               </button>
-            </div>
-            <div className="keypad keypad-inline-block responsive responsive-mobile float-left">
+            </div> */}
+            {/* <div className="keypad keypad-inline-block responsive responsive-mobile">
               <button
                 type="button"
                 className={switcherFriendsClassName + " do-circular"}
@@ -200,15 +200,15 @@ class PublicationForm extends Component {
               >
                 <i className="fas fa-lock-open icon-public" />
               </button>
-            </div>
+            </div> */}
 
-            <div className="keypad keypad-inline-block responsive responsive-desktop float-right">
+            <div className="keypad keypad-inline-block responsive responsive-desktop">
               <button
                 type="button"
                 className="do"
                 onClick={this.props.onCancel}
               >
-                <i className="fas fa-ban" />
+                <i className="fas fa-arrow-left" />
                 Cancel
               </button>
               <button type="submit" className="do do-primary">
@@ -222,7 +222,7 @@ class PublicationForm extends Component {
                 className="do do-circular"
                 onClick={this.props.onCancel}
               >
-                <i className="fas fa-ban" />
+                <i className="fas fa-arrow-left" />
               </button>
               <button type="submit" className="do do-circular do-primary">
                 <i className="fas fas fa-check" />
